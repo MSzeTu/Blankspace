@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace BlankspaceGame
 {
     /// <summary>
-    /// This is IKE MCNUTT reporting for duty
+    /// This is Patrick Monaghan reporting for duty
     /// </summary>
     public class Game1 : Game
     {
