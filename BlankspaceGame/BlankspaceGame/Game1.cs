@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace BlankspaceGame
 {
     /// <summary>
-    /// This is the main type for your game.
+    /// This is IKE MCNUTT reporting for duty
     /// </summary>
     public class Game1 : Game
     {
