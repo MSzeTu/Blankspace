@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace BlankspaceGame
 {
     /// <summary>
-    /// This is the main type for your game.
+    /// Matthew Sze-Tu is here and ready to go!
     /// </summary>
     public class Game1 : Game
     {
