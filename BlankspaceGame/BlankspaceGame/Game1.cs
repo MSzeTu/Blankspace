@@ -8,7 +8,7 @@ namespace BlankspaceGame
     /// Hello I did the PE late my name is Will
     /// This is IKE MCNUTT reporting for duty
     /// Matthew Sze-Tu is here and ready to go!
-    /// This is Patrick Monaghan reporting for duty
+    /// This is Patrick Monaghan reporting for duty!
     /// </summary>
     public class Game1 : Game
     {
