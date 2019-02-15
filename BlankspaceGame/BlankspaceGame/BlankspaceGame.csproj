@@ -41,9 +41,19 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Objects\Actor.cs" />
+    <Compile Include="ManagerClasses\BackgroundManager.cs" />
+    <Compile Include="Objects\Enemy.cs" />
+    <Compile Include="ManagerClasses\EnemyManager.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\Pickup.cs" />
+    <Compile Include="Objects\Player.cs" />
+    <Compile Include="ManagerClasses\PlayerManager.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Objects\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
