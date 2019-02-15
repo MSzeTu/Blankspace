@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace BlankspaceGame
 {
-    class Enemy
+    class Enemy : Actor
     {
+        // Methods for spawning and despawning
+        public void Spawn()
+        {
+
+        }
+
+        public void Despawn()
+        {
+
+        }
     }
 }

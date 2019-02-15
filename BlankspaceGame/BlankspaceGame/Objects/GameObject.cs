@@ -20,6 +20,7 @@ namespace BlankspaceGame
         public Rectangle Position // Main rectangle object
         {
             get { return position; }
+            set { position = value; }
         }
         // Easy access for X and Y
         public int X
@@ -47,6 +48,13 @@ namespace BlankspaceGame
                 return true;
             }
             return false;
+        }
+
+        // Constructor
+        public GameObject(Rectangle rect, Texture2D text)
+        {
+            position = rect;
+            texture = text;
         }
     }
 }
