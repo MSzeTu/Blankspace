@@ -32,7 +32,10 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         GameState gState;
-        
+
+        Texture2D test;
+        ProjectileManager projectileManager;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +52,8 @@ namespace BlankspaceGame
         {
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
+            projectileManager = new ProjectileManager();
+
             base.Initialize();
         }
 
@@ -62,6 +67,28 @@ namespace BlankspaceGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            test = Content.Load<Texture2D>("Player/Ship");
+
+            projectileManager.AddProjectile(
+                           new Vector2(0, 1),
+                           1,
+                           new Rectangle(50, 100, 50, 50),
+                           test);
+            projectileManager.AddProjectile(
+                            new Vector2(0, 1),
+                            5,
+                            new Rectangle(100, 100, 50, 50),
+                            test);
+            projectileManager.AddProjectile(
+                            new Vector2(0, 1),
+                            10,
+                            new Rectangle(150, 100, 50, 50),
+                            test);
+            projectileManager.AddProjectile(
+                            new Vector2(0, 1),
+                            15,
+                            new Rectangle(200, 100, 50, 50),
+                            test);
         }
 
         /// <summary>
@@ -101,6 +128,8 @@ namespace BlankspaceGame
                 //Controls enemy and player movement, shifts to gameover screen if collision is detected
                 case GameState.Game:
                     {
+                        projectileManager.UpdateProjectiles();
+
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
@@ -131,6 +160,8 @@ namespace BlankspaceGame
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
             //Draws based on the current Gamestate
             switch (gState)
             {
@@ -140,6 +171,7 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
+                        projectileManager.DrawProjectiles(spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
@@ -147,6 +179,8 @@ namespace BlankspaceGame
                         break;
                     }
             }
+            spriteBatch.End();
+
             base.Draw(gameTime);
         }
 

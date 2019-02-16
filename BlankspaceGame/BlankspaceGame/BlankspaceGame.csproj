@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ManagerClasses\ProjectileManager.cs" />
     <Compile Include="Objects\Actor.cs" />
     <Compile Include="ManagerClasses\BackgroundManager.cs" />
     <Compile Include="Objects\Enemy.cs" />
@@ -78,5 +79,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\packages\MonoGame.Framework.MacOS.3.7.1.189\build\MonoGame.Framework.MacOS.targets" Condition="Exists('..\packages\MonoGame.Framework.MacOS.3.7.1.189\build\MonoGame.Framework.MacOS.targets')" />
 </Project>
