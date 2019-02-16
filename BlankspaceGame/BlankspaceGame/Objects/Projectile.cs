@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BlankspaceGame
 {
-    public class Projectile : GameObject
+    class Projectile : GameObject
     {
         // Velocity, speed and damage fields
         private Vector2 velocity;

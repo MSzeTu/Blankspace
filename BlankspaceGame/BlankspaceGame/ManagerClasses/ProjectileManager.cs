@@ -21,9 +21,9 @@ namespace BlankspaceGame.ManagerClasses
         /// Adds projectiles to the list of projectiles
         /// </summary>
         /// <param name="projectile">The projectile to add</param>
-        public void AddProjectile(Projectile projectile)
+        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text)
         {
-            projectiles.Add(projectile);
+            projectiles.Add(new Projectile(unitVelocity, speed, rect, text));
         }
 
         // Method to update projectils
