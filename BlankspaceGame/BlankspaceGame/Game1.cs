@@ -16,7 +16,7 @@ namespace BlankspaceGame
     /// This is Patrick Monaghan reporting for duty!
     /// Made project MAC compatable
     /// </summary>
-    /// 
+
     //Enum for determining current GameState
     public enum GameState
     {
