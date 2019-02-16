@@ -61,7 +61,7 @@ namespace BlankspaceGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = Content.Load<Texture2D>("Enemy/Enemy");
+            player = Content.Load<Texture2D>("Player/Ship");
             // TODO: use this.Content to load your game content here
         }
 
