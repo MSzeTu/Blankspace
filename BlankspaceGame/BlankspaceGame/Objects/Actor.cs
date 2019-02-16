@@ -27,9 +27,9 @@ namespace BlankspaceGame
         }
 
         // Constructor
-        public Actor (Rectangle rect, Texture2D text) : base(rect, text)
+        public Actor (Rectangle rect, Texture2D text, int hp) : base(rect, text)
         {
-
+            this.health = hp;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace BlankspaceGame
     class Player : Actor
     {
         // Constructor
-        public Player(Rectangle pos, Texture2D text):base(pos, text)
+        public Player(Rectangle pos, Texture2D text):base(pos, text, 10)
         {
 
         }
