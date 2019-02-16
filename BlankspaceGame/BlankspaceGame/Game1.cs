@@ -32,6 +32,7 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         GameState gState;
+        Texture2D player;
         
         public Game1()
         {
@@ -60,7 +61,7 @@ namespace BlankspaceGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            player = Content.Load<Texture2D>("Enemy/Enemy");
             // TODO: use this.Content to load your game content here
         }
 
