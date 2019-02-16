@@ -55,7 +55,6 @@
     <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\Weapon.cs" />
-    <Compile Include="ManagerClasses\ProjectileManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
