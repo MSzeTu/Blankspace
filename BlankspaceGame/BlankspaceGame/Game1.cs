@@ -14,6 +14,7 @@ namespace BlankspaceGame
     /// This is IKE MCNUTT reporting for duty
     /// Matthew Sze-Tu is here and ready to go!
     /// This is Patrick Monaghan reporting for duty!
+    /// Made project MAC compatable
     /// </summary>
     /// 
     //Enum for determining current GameState
