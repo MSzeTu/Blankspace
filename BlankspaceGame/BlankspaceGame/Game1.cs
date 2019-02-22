@@ -33,8 +33,8 @@ namespace BlankspaceGame
         KeyboardState pKbState;
         GameState gState;
         PlayerManager playerManager;
-        Texture2D test;
         Texture2D player;
+        Texture2D projectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
@@ -75,11 +75,10 @@ namespace BlankspaceGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            test = Content.Load<Texture2D>("Player/Ship");
             // TODO: use this.Content to load your game content here
-            test = Content.Load<Texture2D>("Player/Ship");
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
+            projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
             enemyManager.DebugEnemyTest();
@@ -119,12 +118,18 @@ namespace BlankspaceGame
                         pKbState = Keyboard.GetState();
                         break;
                     }
-                //Controls enemy and player movement, shifts to gameover screen if collision is detected
+                //Sets up enemies, players, and fires projectiles when space is pressed. 
                 case GameState.Game:
                     {
+                        kbState = Keyboard.GetState();
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies();
                         playerManager.MovePlayer();
+                        if (kbState.IsKeyDown(Keys.Space))
+                        {
+                            projectileManager.AddProjectile(new Vector2(0,-1), 10, new Rectangle(playerObject.X + 25, playerObject.Y, 10, 10), projectile);
+                        }
+                        pKbState = Keyboard.GetState();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.

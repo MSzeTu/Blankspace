@@ -20,23 +20,23 @@ namespace BlankspaceGame
             player = initPlayer;
         }
 
-        //Moves the player using wasd
+        //Moves the player using wasd, prevents moving off screen
         public void MovePlayer()
         {
             kbState = Keyboard.GetState();
-            if (kbState.IsKeyDown(Keys.W))
+            if (kbState.IsKeyDown(Keys.W) && player.Y>=0)
             {
                 player.Y -= 6; 
             }
-            if (kbState.IsKeyDown(Keys.S))
+            if (kbState.IsKeyDown(Keys.S) && player.Y<=850)
             {
                 player.Y += 6;
             }
-            if (kbState.IsKeyDown(Keys.A))
+            if (kbState.IsKeyDown(Keys.A) && player.X>=0)
             {
                 player.X -= 6;
             }
-            if (kbState.IsKeyDown(Keys.D))
+            if (kbState.IsKeyDown(Keys.D) && player.X<=550)
             {
                 player.X += 6;
             }
