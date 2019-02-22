@@ -32,14 +32,20 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         GameState gState;
-
+        PlayerManager playerManager;
         Texture2D test;
+        Texture2D player;
         ProjectileManager projectileManager;
+        EnemyManager enemyManager;
+        Player playerObject;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -53,8 +59,12 @@ namespace BlankspaceGame
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
             projectileManager = new ProjectileManager();
-
+            enemyManager = new EnemyManager();
+            projectileManager = new ProjectileManager();           
+            playerObject = new Player(new Rectangle(300, 850, 50, 50), player);
+            playerManager = new PlayerManager(playerObject);
             base.Initialize();
+            
         }
 
         /// <summary>
@@ -68,27 +78,11 @@ namespace BlankspaceGame
             test = Content.Load<Texture2D>("Player/Ship");
             // TODO: use this.Content to load your game content here
             test = Content.Load<Texture2D>("Player/Ship");
-
-            projectileManager.AddProjectile(
-                           new Vector2(0, 1),
-                           1,
-                           new Rectangle(50, 100, 50, 50),
-                           test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            5,
-                            new Rectangle(100, 100, 50, 50),
-                            test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            10,
-                            new Rectangle(150, 100, 50, 50),
-                            test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            15,
-                            new Rectangle(200, 100, 50, 50),
-                            test);
+            player = Content.Load<Texture2D>("Player/Ship");
+            playerObject.SetTexture(player);
+            // Loads enemy content into manager
+            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
+            enemyManager.DebugEnemyTest();
         }
 
         /// <summary>
@@ -129,7 +123,8 @@ namespace BlankspaceGame
                 case GameState.Game:
                     {
                         projectileManager.UpdateProjectiles();
-
+                        enemyManager.UpdateEnemies();
+                        playerManager.MovePlayer();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
@@ -171,7 +166,9 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
+                        playerObject.Draw(spriteBatch);
                         projectileManager.DrawProjectiles(spriteBatch);
+                        enemyManager.DrawEnemies(spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
