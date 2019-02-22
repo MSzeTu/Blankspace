@@ -26,7 +26,19 @@ namespace BlankspaceGame
             kbState = Keyboard.GetState();
             if (kbState.IsKeyDown(Keys.W))
             {
-                player.X += 6; 
+                player.Y -= 6; 
+            }
+            if (kbState.IsKeyDown(Keys.S))
+            {
+                player.Y += 6;
+            }
+            if (kbState.IsKeyDown(Keys.A))
+            {
+                player.X -= 6;
+            }
+            if (kbState.IsKeyDown(Keys.D))
+            {
+                player.X += 6;
             }
             pKbState = Keyboard.GetState();
         }

@@ -124,6 +124,7 @@ namespace BlankspaceGame
                     {
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies();
+                        playerManager.MovePlayer();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
