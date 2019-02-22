@@ -34,6 +34,13 @@ namespace BlankspaceGame
             set { position.Y = value; }
         }
 
+        // Constructor
+        public GameObject(Rectangle rect, Texture2D text)
+        {
+            position = rect;
+            texture = text;
+        }
+
         // Draw method, virtual so that children can override it if needed (ie player)
         public virtual void Draw(SpriteBatch sb)
         {
@@ -50,11 +57,12 @@ namespace BlankspaceGame
             return false;
         }
 
-        // Constructor
-        public GameObject(Rectangle rect, Texture2D text)
+        //Sends the texture to prevent null errors when drawing
+        public void SetTexture(Texture2D tex)
         {
-            position = rect;
-            texture = text;
+            texture = tex;
         }
+
+
     }
 }

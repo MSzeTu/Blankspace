@@ -10,20 +10,25 @@ namespace BlankspaceGame
 {
     class PlayerManager
     {
-        Texture2D player;
-        Rectangle playerRec;
-
-        //Initializes player position and texture
-        public void AddPlayer(Texture2D playerTex, Rectangle playerPos)
+        //Keyboard objects to handle key presses
+        KeyboardState kbState;
+        KeyboardState pKbState;
+        Player player;
+        //Constructor
+        public PlayerManager(Player initPlayer)
         {
-            player = playerTex;
-            playerRec = playerPos;
+            player = initPlayer;
         }
 
-        //Draws the player at their initial position
-        public void Draw(SpriteBatch sb)
-        {           
-            sb.Draw(player, playerRec, Color.White);
+        //Moves the player using wasd
+        public void MovePlayer()
+        {
+            kbState = Keyboard.GetState();
+            if (kbState.IsKeyDown(Keys.W))
+            {
+                player.X += 6; 
+            }
+            pKbState = Keyboard.GetState();
         }
     }
 }
