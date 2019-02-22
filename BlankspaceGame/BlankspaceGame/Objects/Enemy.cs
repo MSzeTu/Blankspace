@@ -13,7 +13,7 @@ namespace BlankspaceGame
     {
         // Fields
         // Info for determining direction
-        private int direction;
+        private Vector2 unitVelocity;
         private int speed;
 
         // Methods for spawning and despawning
@@ -27,9 +27,20 @@ namespace BlankspaceGame
 
         }
 
-        public Enemy(Rectangle rect, Texture2D text, int hp) : base(rect, text, hp)
+        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn) : base(rect, text, hp)
         {
+            unitVelocity = unitVelIn;
+            speed = spdIn;
+            unitVelocity.Normalize();
+        }
 
+        // Move method for moving in target direction
+        public void Move()
+        {
+            Vector2 dir = unitVelocity * speed;
+
+            X += (int)dir.X;
+            Y += (int)dir.Y;
         }
     }
 }

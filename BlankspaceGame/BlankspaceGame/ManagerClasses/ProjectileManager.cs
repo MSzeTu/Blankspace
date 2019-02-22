@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BlankspaceGame.ManagerClasses
+namespace BlankspaceGame
 {
     public class ProjectileManager
     {
@@ -37,6 +37,21 @@ namespace BlankspaceGame.ManagerClasses
                 {
                     // Call their move method and maybe test collisions or somthin
                     projectile.Move();
+                }
+            }
+        }
+
+        // Draw for the projectiles
+        public void DrawProjectiles(SpriteBatch sb)
+        {
+            // Test if the list is empty
+            if (!(projectiles.Count < 0))
+            {
+                // Loop through the projectiles
+                foreach (Projectile projectile in projectiles)
+                {
+                    // Call their move method and maybe test collisions or somthin
+                    projectile.Draw(sb);
                 }
             }
         }
