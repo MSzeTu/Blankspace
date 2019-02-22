@@ -37,6 +37,7 @@ namespace BlankspaceGame
         Texture2D player;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
+        Player playerObject;
 
         public Game1()
         {
@@ -58,8 +59,10 @@ namespace BlankspaceGame
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
             projectileManager = new ProjectileManager();
-            playerManager = new PlayerManager();
             enemyManager = new EnemyManager();
+            projectileManager = new ProjectileManager();           
+            playerObject = new Player(new Rectangle(300, 850, 50, 50), player);
+            playerManager = new PlayerManager(playerObject);
             base.Initialize();
             
         }
@@ -76,6 +79,7 @@ namespace BlankspaceGame
             // TODO: use this.Content to load your game content here
             test = Content.Load<Texture2D>("Player/Ship");
             player = Content.Load<Texture2D>("Player/Ship");
+            playerObject.SetTexture(player);
             playerManager.AddPlayer(player, new Rectangle(300,850,50, 50));
 
             // Loads enemy content into manager
@@ -163,7 +167,7 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        playerManager.Draw(spriteBatch);
+                        playerObject.Draw(spriteBatch);
                         projectileManager.DrawProjectiles(spriteBatch);
                         enemyManager.DrawEnemies(spriteBatch);
                         break;
