@@ -16,12 +16,7 @@ namespace BlankspaceGame
         private Vector2 unitVelocity;
         private int speed;
 
-        // Methods for spawning and despawning
-        public void Spawn()
-        {
-
-        }
-
+        // Despawns if the enemies get too far from the player
         public void Despawn()
         {
 

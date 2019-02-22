@@ -36,6 +36,7 @@ namespace BlankspaceGame
         Texture2D test;
         Texture2D player;
         ProjectileManager projectileManager;
+        EnemyManager enemyManager;
 
         public Game1()
         {
@@ -58,6 +59,7 @@ namespace BlankspaceGame
             gState = GameState.Menu;
             projectileManager = new ProjectileManager();
             playerManager = new PlayerManager();
+            enemyManager = new EnemyManager();
             base.Initialize();
             
         }
@@ -75,26 +77,10 @@ namespace BlankspaceGame
             test = Content.Load<Texture2D>("Player/Ship");
             player = Content.Load<Texture2D>("Player/Ship");
             playerManager.AddPlayer(player, new Rectangle(300,850,50, 50));
-            projectileManager.AddProjectile(
-                           new Vector2(0, 1),
-                           1,
-                           new Rectangle(50, 100, 50, 50),
-                           test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            5,
-                            new Rectangle(100, 100, 50, 50),
-                            test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            10,
-                            new Rectangle(150, 100, 50, 50),
-                            test);
-            projectileManager.AddProjectile(
-                            new Vector2(0, 1),
-                            15,
-                            new Rectangle(200, 100, 50, 50),
-                            test);
+
+            // Loads enemy content into manager
+            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
+            enemyManager.DebugEnemyTest();
         }
 
         /// <summary>
@@ -134,7 +120,8 @@ namespace BlankspaceGame
                 //Controls enemy and player movement, shifts to gameover screen if collision is detected
                 case GameState.Game:
                     {
-                        projectileManager.UpdateProjectiles();                        
+                        projectileManager.UpdateProjectiles();
+                        enemyManager.UpdateEnemies();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
@@ -178,6 +165,7 @@ namespace BlankspaceGame
                     {
                         playerManager.Draw(spriteBatch);
                         projectileManager.DrawProjectiles(spriteBatch);
+                        enemyManager.DrawEnemies(spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
