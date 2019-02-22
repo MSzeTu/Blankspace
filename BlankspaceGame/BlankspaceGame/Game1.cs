@@ -80,8 +80,6 @@ namespace BlankspaceGame
             test = Content.Load<Texture2D>("Player/Ship");
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
-            playerManager.AddPlayer(player, new Rectangle(300,850,50, 50));
-
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
             enemyManager.DebugEnemyTest();
