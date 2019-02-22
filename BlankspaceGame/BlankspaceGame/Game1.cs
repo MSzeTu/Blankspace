@@ -32,14 +32,18 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         GameState gState;
-
+        PlayerManager playerManager;
         Texture2D test;
+        Texture2D player;
         ProjectileManager projectileManager;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -53,8 +57,9 @@ namespace BlankspaceGame
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
             projectileManager = new ProjectileManager();
-
+            playerManager = new PlayerManager();
             base.Initialize();
+            
         }
 
         /// <summary>
@@ -68,7 +73,8 @@ namespace BlankspaceGame
 
             // TODO: use this.Content to load your game content here
             test = Content.Load<Texture2D>("Player/Ship");
-
+            player = Content.Load<Texture2D>("Player/Ship");
+            playerManager.AddPlayer(player, new Rectangle(300,850,50, 50));
             projectileManager.AddProjectile(
                            new Vector2(0, 1),
                            1,
@@ -128,8 +134,7 @@ namespace BlankspaceGame
                 //Controls enemy and player movement, shifts to gameover screen if collision is detected
                 case GameState.Game:
                     {
-                        projectileManager.UpdateProjectiles();
-
+                        projectileManager.UpdateProjectiles();                        
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
@@ -171,6 +176,7 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
+                        playerManager.Draw(spriteBatch);
                         projectileManager.DrawProjectiles(spriteBatch);
                         break;
                     }
