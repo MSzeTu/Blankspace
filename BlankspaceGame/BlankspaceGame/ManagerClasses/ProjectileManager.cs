@@ -10,6 +10,14 @@ namespace BlankspaceGame
     {
         // List of projectiles
         private List<Projectile> projectiles;
+        public List<Projectile> Projectiles
+        {
+            get
+            {
+                return projectiles;
+            }
+        }
+
         public ProjectileManager()
         {
             // Initialize the list of projectiles

@@ -37,5 +37,18 @@ namespace BlankspaceGame
             X += (int)dir.X;
             Y += (int)dir.Y;
         }
+
+        public int CheckBulletCollision(List<Projectile> projectiles)
+        {
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                if (projectiles[i].Colliding(this))
+                {
+                    Health -= 1;
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 }

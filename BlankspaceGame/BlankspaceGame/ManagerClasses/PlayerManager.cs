@@ -14,10 +14,15 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         Player player;
+        // Variables
+        private int cooldown;
+        private int currentCD;
         //Constructor
         public PlayerManager(Player initPlayer)
         {
             player = initPlayer;
+            cooldown = 5;
+            currentCD = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -41,6 +46,21 @@ namespace BlankspaceGame
                 player.X += 6;
             }
             pKbState = Keyboard.GetState();
+        }
+
+        // Weapon firing code
+        public bool CheckFireWeapon(KeyboardState kbState)
+        {
+            if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
+            {
+                currentCD = cooldown;
+                return true;
+            }
+            if (currentCD > 0)
+            {
+                currentCD -= 1;
+            }
+            return false;
         }
     }
 }

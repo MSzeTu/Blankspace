@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 namespace BlankspaceGame
 {
     // Base object for anything which appears on the screen (Anything with a texture and a position)
-    class GameObject
+    public class GameObject
     {
         // Fields
         private Rectangle position;

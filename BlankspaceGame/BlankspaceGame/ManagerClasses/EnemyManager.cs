@@ -43,11 +43,33 @@ namespace BlankspaceGame
         }
 
         // Called in update to move all enemies at the same time
-        public void UpdateEnemies()
+        public void UpdateEnemies(List<Projectile> projectiles)
         {
+            // Moves the enemies
             foreach (Enemy i in enemies)
             {
                 i.Move();
+            }
+            // Checks for health and deletes ones with no health
+            for (int i = enemies.Count - 1; i > 0; i--)
+            {
+                if (enemies[i].Health <= 0)
+                {
+                    enemies.RemoveAt(i);
+                }
+            }
+            // Checks if enemies are colliding with bullets
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                if (enemies[i].CheckBulletCollision(projectiles) != -1)
+                {
+                    enemies[i].Health -= 1;
+                }
+
+                if (enemies[i].Health <= 0)
+                {
+                    enemies.RemoveAt(i);
+                }
             }
         }
 
