@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BlankspaceGame
 {
-    class Enemy : Actor
+    public class Enemy : Actor
     {
         // Fields
         // Info for determining direction

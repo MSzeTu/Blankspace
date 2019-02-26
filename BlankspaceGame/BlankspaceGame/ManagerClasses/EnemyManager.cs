@@ -13,6 +13,13 @@ namespace BlankspaceGame
     {
         // List of enemies
         private List<Enemy> enemies;
+        public List<Enemy> Enemies
+        {
+            get
+            {
+                return enemies;
+            }
+        }
 
         // Sprites
         Texture2D defEnemy;
@@ -49,6 +56,15 @@ namespace BlankspaceGame
             foreach (Enemy i in enemies)
             {
                 i.Move();
+                // If damage tick is not 0, decrement and set colors
+                if (i.DamageTick > 0)
+                {
+                    i.DamageTick -= 1;
+                    i.Color = Color.Red;
+                } else
+                {
+                    i.Color = Color.White;
+                }
             }
             // Checks for health and deletes ones with no health
             for (int i = enemies.Count - 1; i > 0; i--)
@@ -64,11 +80,7 @@ namespace BlankspaceGame
                 if (enemies[i].CheckBulletCollision(projectiles) != -1)
                 {
                     enemies[i].Health -= 1;
-                }
-
-                if (enemies[i].Health <= 0)
-                {
-                    enemies.RemoveAt(i);
+                    enemies[i].DamageTick = 1;
                 }
             }
         }
@@ -85,10 +97,10 @@ namespace BlankspaceGame
         // DEBUG test enemy spawns
         public void DebugEnemyTest()
         {
-            AddEnemy(new Rectangle(50, 200, 48, 40), defEnemy, 10, 5);
-            AddEnemy(new Rectangle(100, 200, 48, 40), defEnemy, 10, 5);
-            AddEnemy(new Rectangle(50, 300, 48, 40), defEnemy, 10, 5);
-            AddEnemy(new Rectangle(100, 300, 48, 40), defEnemy, 10, 5);
+            AddEnemy(new Rectangle(300, 200, 48, 40), defEnemy, 10, 2);
+            AddEnemy(new Rectangle(100, 200, 48, 40), defEnemy, 10, 2);
+            AddEnemy(new Rectangle(50, 300, 48, 40), defEnemy, 10, 2);
+            AddEnemy(new Rectangle(100, 300, 48, 40), defEnemy, 10, 2);
         }
     }
 }

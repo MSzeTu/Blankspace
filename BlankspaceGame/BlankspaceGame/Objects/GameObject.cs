@@ -13,8 +13,8 @@ namespace BlankspaceGame
     public class GameObject
     {
         // Fields
-        private Rectangle position;
-        private Texture2D texture;
+        protected Rectangle position;
+        protected Texture2D texture;
 
         // Accessors
         public Rectangle Position // Main rectangle object
@@ -32,6 +32,12 @@ namespace BlankspaceGame
         {
             get { return position.Y; }
             set { position.Y = value; }
+        }
+
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set { texture = value; }
         }
 
         // Constructor

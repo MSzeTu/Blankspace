@@ -9,16 +9,32 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BlankspaceGame
 {
-    class Actor : GameObject
+    public class Actor : GameObject
     {
         // Fields
         private int health;
+        private Color color;
+        private int damageTick;
 
         // Accessor for HP
         public int Health
         {
             get { return health; }
             set { health = value; }
+        }
+
+        // Accessor for color
+        public Color Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
+
+        // Accessor for damageTick
+        public int DamageTick
+        {
+            get { return damageTick; }
+            set { damageTick = value; }
         }
 
         public void Damage(int damageVal)
@@ -30,6 +46,12 @@ namespace BlankspaceGame
         public Actor (Rectangle rect, Texture2D text, int hp) : base(rect, text)
         {
             this.health = hp;
+            color = Color.White;
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, position, color);
         }
     }
 }

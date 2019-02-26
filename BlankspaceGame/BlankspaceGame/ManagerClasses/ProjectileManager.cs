@@ -48,6 +48,21 @@ namespace BlankspaceGame
             }
         }
 
+        // Checks if projectiles are colliding with an enemy, deletes them if so
+        public void CheckForProjectileDestroying(List<Enemy> enemies)
+        {
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                foreach (Enemy e in enemies)
+                {
+                    if (e.Colliding(projectiles[i]))
+                    {
+                        projectiles.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
         // Draw for the projectiles
         public void DrawProjectiles(SpriteBatch sb)
         {

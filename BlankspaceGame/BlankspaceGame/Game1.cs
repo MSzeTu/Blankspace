@@ -129,6 +129,7 @@ namespace BlankspaceGame
                         {
                             projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 19, playerObject.Y, 10, 10), projectile);
                         }
+                        projectileManager.CheckForProjectileDestroying(enemyManager.Enemies);
                         pKbState = Keyboard.GetState();
                         break;
                     }
