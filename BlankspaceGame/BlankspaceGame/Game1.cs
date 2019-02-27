@@ -39,6 +39,7 @@ namespace BlankspaceGame
         EnemyManager enemyManager;
         Player playerObject;
         private SpriteFont arial12;// spritefont
+        private SpriteFont arial24;// spritefont
 
         public Game1()
         {
@@ -85,6 +86,7 @@ namespace BlankspaceGame
             enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
+            arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
         }
 
         /// <summary>
@@ -172,6 +174,16 @@ namespace BlankspaceGame
                 case GameState.Menu:
                     {
                         GraphicsDevice.Clear(Color.Navy);
+                        spriteBatch.DrawString(arial12, "BLANKSPACE", new Vector2(248, 150), Color.White);
+                        spriteBatch.DrawString(arial12, "Menu", new Vector2(282, 200), Color.White);// menu screen 
+                        spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 275), Color.White);// game play instructions
+                        spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 300), Color.White);
+                        spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 325), Color.White);
+                        //spriteBatch.DrawString(arial12, "screen Width " + GraphicsDevice.Viewport.Width, new Vector2(200, 250), Color.White);
+                        //spriteBatch.DrawString(arial12, "Each Level will have more Bubbles", new Vector2(300, 275), Color.White);
+                        //spriteBatch.DrawString(arial12, "But you will have Less Time for each Level", new Vector2(275, 300), Color.White);
+                        spriteBatch.DrawString(arial12, "Press enter to Play", new Vector2(234, 400), Color.White);// continue to gam instructions
+                        //spriteBatch.DrawString(arial12, "", new Vector2(350, 100), Color.White);
                         break;
                     }
                 case GameState.Game:
