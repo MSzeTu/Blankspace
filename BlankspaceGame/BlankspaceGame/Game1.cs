@@ -164,13 +164,12 @@ namespace BlankspaceGame
                     {
                         kbState = Keyboard.GetState();
                         projectileManager.UpdateProjectiles();
-                        enemyManager.UpdateEnemies(projectileManager.Projectiles);
+                        enemyManager.UpdateEnemies(projectileManager);
                         playerManager.MovePlayer();
                         if (playerManager.CheckFireWeapon(kbState))
                         {
                             projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 19, playerObject.Y, 10, 10), projectile);
                         }
-                        projectileManager.CheckForProjectileDestroying(enemyManager.Enemies);
                         pKbState = Keyboard.GetState();
                         break;
                     }

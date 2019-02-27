@@ -50,7 +50,7 @@ namespace BlankspaceGame
         }
 
         // Called in update to move all enemies at the same time
-        public void UpdateEnemies(List<Projectile> projectiles)
+        public void UpdateEnemies(ProjectileManager pm)
         {
             // Moves the enemies
             foreach (Enemy i in enemies)
@@ -67,7 +67,7 @@ namespace BlankspaceGame
                 }
             }
             // Checks for health and deletes ones with no health
-            for (int i = enemies.Count - 1; i > 0; i--)
+            for (int i = enemies.Count - 1; i >= 0; i--)
             {
                 if (enemies[i].Health <= 0)
                 {
@@ -77,10 +77,14 @@ namespace BlankspaceGame
             // Checks if enemies are colliding with bullets
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                if (enemies[i].CheckBulletCollision(projectiles) != -1)
+                // Index which tracks which bullet is colliding
+                int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
+                if (collidedIndex != -1)
                 {
                     enemies[i].Health -= 1;
                     enemies[i].DamageTick = 1;
+                    // Removes bullet which hit enemy
+                    pm.RemoveProjAt(collidedIndex);
                 }
             }
         }
