@@ -165,6 +165,7 @@ namespace BlankspaceGame
                         kbState = Keyboard.GetState();
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies(projectileManager);
+                        enemyManager.DebugEnemyRespawn();
                         playerManager.MovePlayer();
                         if (playerManager.CheckFireWeapon(kbState))
                         {
