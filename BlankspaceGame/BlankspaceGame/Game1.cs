@@ -38,6 +38,7 @@ namespace BlankspaceGame
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
+        private SpriteFont arial12;// spritefont
 
         public Game1()
         {
@@ -82,6 +83,8 @@ namespace BlankspaceGame
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
             enemyManager.DebugEnemyTest();
+            //loads spritefont
+            arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
         }
 
         /// <summary>
@@ -168,6 +171,7 @@ namespace BlankspaceGame
             {
                 case GameState.Menu:
                     {
+                        GraphicsDevice.Clear(Color.Navy);
                         break;
                     }
                 case GameState.Game:
@@ -175,10 +179,12 @@ namespace BlankspaceGame
                         playerObject.Draw(spriteBatch);
                         projectileManager.DrawProjectiles(spriteBatch);
                         enemyManager.DrawEnemies(spriteBatch);
+                        GraphicsDevice.Clear(Color.DarkBlue);
                         break;
                     }
                 case GameState.GameOver:
                     {
+                        GraphicsDevice.Clear(Color.DarkSlateBlue);
                         break;
                     }
             }
