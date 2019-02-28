@@ -16,5 +16,12 @@ namespace BlankspaceTool
         {
             InitializeComponent();
         }
+
+        public void ClickCreate(object sender, EventArgs e)
+        {
+            WavesEditor we = new WavesEditor((int)wavesCountUpDown.Value);
+
+            we.ShowDialog();
+        }
     }
 }
