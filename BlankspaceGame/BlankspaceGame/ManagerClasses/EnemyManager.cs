@@ -75,7 +75,7 @@ namespace BlankspaceGame
                 }
             }
             // Checks if enemies are colliding with bullets
-            for (int i = enemies.Count - 1; i >= 0; i--)
+            for (int i = enemies.Count-1; i >= 0; i--)
             {
                 if (enemies[i].CheckBulletCollision(projectiles) != -1)
                 {
