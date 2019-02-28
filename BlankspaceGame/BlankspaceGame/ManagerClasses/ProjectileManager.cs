@@ -34,9 +34,9 @@ namespace BlankspaceGame
         /// Adds projectiles to the list of projectiles
         /// </summary>
         /// <param name="projectile">The projectile to add</param>
-        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text)
+        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, Boolean playerShot)
         {
-            projectiles.Add(new Projectile(unitVelocity, speed, rect, text));
+            projectiles.Add(new Projectile(unitVelocity, speed, rect, text, playerShot));
         }
 
         // Method to update projectils

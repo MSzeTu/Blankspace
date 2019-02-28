@@ -59,6 +59,7 @@ namespace BlankspaceGame
                 // If damage tick is not 0, decrement and set colors
                 if (i.DamageTick > 0)
                 {
+                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), defEnemy, false);
                     i.DamageTick -= 1;
                     i.Color = Color.Red;
                 } else
@@ -71,10 +72,10 @@ namespace BlankspaceGame
             {
                 // Index which tracks which bullet is colliding
                 int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
-                if (collidedIndex != -1)
+                if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == true)
                 {
                     enemies[i].Health -= 1;
-                    enemies[i].DamageTick = 1;
+                    enemies[i].DamageTick = 1;                   
                     // Removes bullet which hit enemy
                     pm.RemoveProjAt(collidedIndex);
                 }
@@ -84,6 +85,16 @@ namespace BlankspaceGame
             {
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
                 {
+                    for (int k = -1; k <= 1; k ++)
+                    {
+                        for (int p = -1; p <= 1; p++)
+                        {
+                            if (p != 0 || k != 0)
+                            {
+                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), defEnemy, false);
+                            }                           
+                        }                       
+                    }
                     enemies.RemoveAt(i);
                 }
             }

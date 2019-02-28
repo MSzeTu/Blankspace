@@ -42,13 +42,13 @@ namespace BlankspaceGame
             Y += (int)dir.Y;
         }
 
+        //Checks if bullets have hit enemy
         public int CheckBulletCollision(List<Projectile> projectiles)
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
                 if (projectiles[i].Colliding(this))
                 {
-                    Health -= 1;
                     return i;
                 }
             }

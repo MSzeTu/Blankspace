@@ -14,6 +14,14 @@ namespace BlankspaceGame
         private Vector2 velocity;
         private int speed;
         private int damage;
+        private bool playerShot;
+        public bool PlayerShot
+        {
+            get
+            {
+                return playerShot;
+            }
+        }
 
         /// <summary>
         /// Creates the projectile, this requires a direction, speed, and the gameobject components.
@@ -22,10 +30,11 @@ namespace BlankspaceGame
         /// <param name="speed">The speed the projectile is moving at.</param>
         /// <param name="rect">GameObject rectangle.</param>
         /// <param name="text">The projectiles texture.</param>
-        public Projectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text) : base(rect, text)
+        public Projectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, bool playPro) : base(rect, text)
         {
             this.velocity = unitVelocity;
             this.speed = speed;
+            playerShot = playPro;
         }
 
         /// <summary>
