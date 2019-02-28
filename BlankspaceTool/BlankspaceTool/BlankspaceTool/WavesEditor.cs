@@ -10,12 +10,19 @@ using System.Windows.Forms;
 
 namespace BlankspaceTool
 {
+    enum Tools
+    {
+        Space,
+        Enemy
+    }
+
     public partial class WavesEditor : Form
     {
         private List<Wave> waves;
 
         private int waveIndex;
         private int maxWaves;
+        private Tools equipedTool;
 
         public WavesEditor(int wavesCount)
         {
@@ -24,6 +31,7 @@ namespace BlankspaceTool
             waves = new List<Wave>();
             waveIndex = 0;
             maxWaves = wavesCount;
+            totalWavesLabel.Text = "Total Waves: " + maxWaves;
 
             InitializeWaves(wavesCount);
         }
@@ -69,8 +77,9 @@ namespace BlankspaceTool
                 }
             }
 
-            // Change the name
+            // Change the names
             waveGroupBox.Text = "Wave " + (waveIndex + 1);
+            CurrentWaveLabel.Text = "Current Wave: " + (waveIndex + 1);
         }
 
         private void NextWaveButton_Click(object sender, EventArgs e)
@@ -100,7 +109,32 @@ namespace BlankspaceTool
             int x = int.Parse(point.Split(',')[0]);
             int y = int.Parse(point.Split(',')[1]);
 
-            waves[waveIndex].Objects[x, y].BackColor = Color.Wheat;
+            if (equipedTool == Tools.Space)
+            {
+                waves[waveIndex].Objects[x, y].BackColor = Color.LightGray;
+                waves[waveIndex].SetTile(x, y, TileType.Space);
+            }
+            if(equipedTool == Tools.Enemy)
+            {
+                waves[waveIndex].Objects[x, y].BackColor = Color.Red;
+                waves[waveIndex].SetTile(x, y, TileType.Enemy);
+            }
+        }
+
+        private void ClickTool(object sender, EventArgs e)
+        {
+            Color toolColor = ((Button)sender).BackColor;
+
+            if (toolColor == Color.Red)
+            {
+                equipedTool = Tools.Enemy;
+            }
+            if(toolColor == Color.LightGray)
+            {
+                equipedTool = Tools.Space;
+            }
+
+            equipedToolPictureBox.BackColor = toolColor;
         }
     }
 }
