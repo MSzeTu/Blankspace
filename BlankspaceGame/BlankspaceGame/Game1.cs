@@ -35,6 +35,7 @@ namespace BlankspaceGame
         PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
+        Texture2D playerProjectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
@@ -81,6 +82,7 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
+            playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
             enemyManager.DebugEnemyTest();
@@ -170,7 +172,8 @@ namespace BlankspaceGame
                         playerManager.UpdatePlayer(projectileManager);
                         if (playerManager.CheckFireWeapon(kbState))
                         {
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 19, playerObject.Y, 10, 10), projectile,true);
+                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
+                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
                         }
                         if (playerObject.Health <= 0)
                         {
