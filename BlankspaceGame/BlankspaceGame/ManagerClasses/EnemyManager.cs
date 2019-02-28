@@ -50,7 +50,7 @@ namespace BlankspaceGame
         }
 
         // Called in update to move all enemies at the same time
-        public void UpdateEnemies(List<Projectile> projectiles)
+        public void UpdateEnemies(ProjectileManager pm)
         {
             // Moves the enemies
             foreach (Enemy i in enemies)
@@ -66,21 +66,25 @@ namespace BlankspaceGame
                     i.Color = Color.White;
                 }
             }
-            // Checks for health and deletes ones with no health
-            for (int i = enemies.Count - 1; i > 0; i--)
-            {
-                if (enemies[i].Health <= 0)
-                {
-                    enemies.RemoveAt(i);
-                }
-            }
             // Checks if enemies are colliding with bullets
-            for (int i = enemies.Count-1; i >= 0; i--)
+            for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                if (enemies[i].CheckBulletCollision(projectiles) != -1)
+                // Index which tracks which bullet is colliding
+                int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
+                if (collidedIndex != -1)
                 {
                     enemies[i].Health -= 1;
                     enemies[i].DamageTick = 1;
+                    // Removes bullet which hit enemy
+                    pm.RemoveProjAt(collidedIndex);
+                }
+            }
+            // Checks for health and deletes ones with no health
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
+                {
+                    enemies.RemoveAt(i);
                 }
             }
         }
@@ -101,6 +105,16 @@ namespace BlankspaceGame
             AddEnemy(new Rectangle(100, 200, 48, 40), defEnemy, 10, 2);
             AddEnemy(new Rectangle(50, 300, 48, 40), defEnemy, 10, 2);
             AddEnemy(new Rectangle(100, 300, 48, 40), defEnemy, 10, 2);
+        }
+
+        // DEBUG auto enemy spawn
+        public void DebugEnemyRespawn()
+        {
+            if (enemies.Count < 4)
+            {
+                Random rand = new Random();
+                AddEnemy(new Rectangle(rand.Next(0, 600), 100, 48, 40), defEnemy, 10, 2);
+            }
         }
     }
 }

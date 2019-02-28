@@ -51,7 +51,7 @@ namespace BlankspaceGame
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, position, color);
+                sb.Draw(texture, position, color);
         }
     }
 }

@@ -17,9 +17,13 @@ namespace BlankspaceGame
         private int speed;
 
         // Despawns if the enemies get too far from the player
-        public void Despawn()
+        public bool CheckDespawn()
         {
-
+            if (Y > 900)
+            {
+                return true;
+            }
+            return false;
         }
 
         public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn) : base(rect, text, hp)
