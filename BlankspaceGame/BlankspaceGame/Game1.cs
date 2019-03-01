@@ -108,20 +108,20 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(25, 875), Color.White);// add Ammo Type var
+                        spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White);// add Ammo Type var
                         spriteBatch.DrawString(arial12, "Level: ", new Vector2(280, 875), Color.White);// add Current Level var
                         spriteBatch.DrawString(arial12, "Health: "+playerObject.Health, new Vector2(525, 875), Color.White);// add Health var
                         break;
                     }
                 case GameState.GameOver:
                     {
-                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(248, 175), Color.White);// Game over screen
-                        spriteBatch.DrawString(arial12, "You've been WhIPed", new Vector2(282, 315), Color.White);// funny? 
+                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(250, 175), Color.White);// Game over screen
+                        spriteBatch.DrawString(arial12, "You have been WhIPed!", new Vector2(221, 275), Color.White);// funny? 
                         // last game stats
-                        spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(225, 350), Color.White);// add current level var
-                        spriteBatch.DrawString(arial12, "Your Final Score was: ", new Vector2(221, 375), Color.White);// add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: ", new Vector2(224, 400), Color.White);// add High Score var
-                        spriteBatch.DrawString(arial12, "Press enter to retun to Main menu", new Vector2(234, 500), Color.White);// continue to menu instructions
+                        spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White);// add current level var\
+                        spriteBatch.DrawString(arial12, "Your Final Score: ", new Vector2(235, 375), Color.White);// add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: ", new Vector2(235, 400), Color.White);// add High Score var
+                        spriteBatch.DrawString(arial12, "Press enter to retun to Main menu", new Vector2(185, 500), Color.White);// continue to menu instructions
                         break;
                     }
             }
