@@ -44,14 +44,11 @@ namespace BlankspaceGame
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
-        private SpriteFont arial12; // spritefont
-        private SpriteFont arial24; // spritefont //appears to be the same size, need real diffrent size
         SoundEffect proSound;
         SoundEffect explosionSound;
         private SpriteFont arial18;// spritefont
         Texture2D BackDrop;
         Rectangle backLoc;
-        private SpriteFont arial18; // spritefont
         Weapon wep;
 
 
@@ -280,7 +277,10 @@ namespace BlankspaceGame
         {
             playerObject.Health = 3; // player health reset for new game
             projectileManager.Clear();
-
+            playerObject.X = 300;
+            playerObject.Y = 850;
+            enemyManager.Enemies.Clear();
+            enemyManager.DebugEnemyRespawn();
             // Creates weapon and loads content
             wep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
             wep.LoadTextures(this);
