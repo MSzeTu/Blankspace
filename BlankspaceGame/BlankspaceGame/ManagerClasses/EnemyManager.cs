@@ -72,22 +72,6 @@ namespace BlankspaceGame
             // Main loop for checking all enemies
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                // Checks for health and deletes ones with no health
-                if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
-                {
-                    for (int k = -1; k <= 1; k ++)
-                    {
-                        for (int p = -1; p <= 1; p++)
-                        {
-                            if (p != 0 || k != 0)
-                            {
-                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false);
-                            }                           
-                        }                       
-                    }
-                    enemies.RemoveAt(i);
-                }
-
                 // Hurting enemies if they are hit by a bullet
                 // Index which tracks which bullet is colliding
                 int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
@@ -97,6 +81,21 @@ namespace BlankspaceGame
                     enemies[i].DamageTick = 1;
                     // Removes bullet which hit enemy
                     pm.RemoveProjAt(collidedIndex);
+                }
+                // Checks for health and deletes ones with no health
+                if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
+                {
+                    for (int k = -1; k <= 1; k++)
+                    {
+                        for (int p = -1; p <= 1; p++)
+                        {
+                            if (p != 0 || k != 0)
+                            {
+                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false);
+                            }
+                        }
+                    }
+                    enemies.RemoveAt(i);
                 }
             }
         }
