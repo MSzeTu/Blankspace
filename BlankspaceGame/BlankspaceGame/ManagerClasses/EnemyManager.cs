@@ -23,7 +23,7 @@ namespace BlankspaceGame
 
         // Sprites
         Texture2D defEnemy;
-
+        Texture2D projectiles;
         // Constructor
         public EnemyManager()
         {
@@ -31,9 +31,11 @@ namespace BlankspaceGame
         }
 
         // Loads enemy sprites to the manager
-        public void LoadDefaultEnemy(Texture2D tex)
+        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile)
         {
             defEnemy = tex;
+            projectiles = projectile;
+
         }
 
         // For adding an enemy to the list
@@ -59,7 +61,7 @@ namespace BlankspaceGame
                 // If damage tick is not 0, decrement and set colors
                 if (i.DamageTick > 0)
                 {
-                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), defEnemy, false);
+                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false);
                     i.DamageTick -= 1;
                     i.Color = Color.Red;
                 } else
@@ -67,33 +69,31 @@ namespace BlankspaceGame
                     i.Color = Color.White;
                 }
             }
-            // Checks if enemies are colliding with bullets
+            // Main loop for checking all enemies
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
+                // Hurting enemies if they are hit by a bullet
                 // Index which tracks which bullet is colliding
                 int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
                 if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == true)
                 {
                     enemies[i].Health -= 1;
-                    enemies[i].DamageTick = 1;                   
+                    enemies[i].DamageTick = 1;
                     // Removes bullet which hit enemy
                     pm.RemoveProjAt(collidedIndex);
                 }
-            }
-            // Checks for health and deletes ones with no health
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
+                // Checks for health and deletes ones with no health
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
                 {
-                    for (int k = -1; k <= 1; k ++)
+                    for (int k = -1; k <= 1; k++)
                     {
                         for (int p = -1; p <= 1; p++)
                         {
                             if (p != 0 || k != 0)
                             {
-                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), defEnemy, false);
-                            }                           
-                        }                       
+                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false);
+                            }
+                        }
                     }
                     enemies.RemoveAt(i);
                 }
@@ -124,7 +124,7 @@ namespace BlankspaceGame
             if (enemies.Count < 4)
             {
                 Random rand = new Random();
-                AddEnemy(new Rectangle(rand.Next(0, 600), 100, 48, 40), defEnemy, 10, 2);
+                AddEnemy(new Rectangle(rand.Next(0, 560), 100, 48, 40), defEnemy, 10, 2);
             }
         }
     }
