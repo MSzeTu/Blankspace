@@ -17,6 +17,7 @@ namespace BlankspaceGame
         Player player;
         // Variables
         private int cooldown;
+        private int iFrame;
         private int currentCD;
         //Constructor
         public PlayerManager(Player initPlayer)
@@ -58,9 +59,17 @@ namespace BlankspaceGame
             int collidedIndex = CheckBulletCollision(pm.Projectiles);
             if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false)
             {
+                pm.Projectiles.RemoveAt(collidedIndex);
+                player.Damage(1);
+                player.DamageTick = 1;                
+                player.HitSound.Play();
+            }
+            int collidedIndexE = CheckEnemyCollision(em.Enemies);
+            if (collidedIndexE != -1)
+            {
+                em.Enemies.RemoveAt(collidedIndexE);
                 player.Damage(1);
                 player.DamageTick = 1;
-                pm.Projectiles.RemoveAt(collidedIndex);
                 player.HitSound.Play();
             }
             pKbState = Keyboard.GetState();
@@ -93,6 +102,19 @@ namespace BlankspaceGame
                         return i;
                     }
                 }
+            }
+            return -1;
+        }
+
+        //Lowers players health by 1 when colliding with enemy
+        public int CheckEnemyCollision(List<Enemy> enemies)
+        {
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {               
+                    if (enemies[i].Colliding(player))
+                    {
+                        return i;
+                    }               
             }
             return -1;
         }

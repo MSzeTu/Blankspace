@@ -24,8 +24,8 @@ namespace BlankspaceGame
         // Sprites and sounds
         Texture2D defEnemy;
         Texture2D projectiles;
-        SoundEffect hitSound;
-        SoundEffect shootSound;
+        SoundEffect hitEnemy;
+        SoundEffect enemyShoots;
         // Constructor
         public EnemyManager()
         {
@@ -37,7 +37,8 @@ namespace BlankspaceGame
         {
             defEnemy = tex;
             projectiles = projectile;
-
+            hitEnemy = hit;
+            enemyShoots = shoot;
         }
 
         // For adding an enemy to the list
@@ -66,6 +67,7 @@ namespace BlankspaceGame
                     pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false);
                     i.DamageTick -= 1;
                     i.Color = Color.Red;
+                    hitEnemy.Play();
                 } else
                 {
                     i.Color = Color.White;
