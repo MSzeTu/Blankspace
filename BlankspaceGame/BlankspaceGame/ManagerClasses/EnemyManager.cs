@@ -23,7 +23,7 @@ namespace BlankspaceGame
 
         // Sprites
         Texture2D defEnemy;
-
+        Texture2D projectiles;
         // Constructor
         public EnemyManager()
         {
@@ -31,9 +31,11 @@ namespace BlankspaceGame
         }
 
         // Loads enemy sprites to the manager
-        public void LoadDefaultEnemy(Texture2D tex)
+        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile)
         {
             defEnemy = tex;
+            projectiles = projectile;
+
         }
 
         // For adding an enemy to the list
@@ -59,7 +61,7 @@ namespace BlankspaceGame
                 // If damage tick is not 0, decrement and set colors
                 if (i.DamageTick > 0)
                 {
-                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), defEnemy, false);
+                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false);
                     i.DamageTick -= 1;
                     i.Color = Color.Red;
                 } else
@@ -91,7 +93,7 @@ namespace BlankspaceGame
                         {
                             if (p != 0 || k != 0)
                             {
-                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), defEnemy, false);
+                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false);
                             }                           
                         }                       
                     }
@@ -124,7 +126,7 @@ namespace BlankspaceGame
             if (enemies.Count < 4)
             {
                 Random rand = new Random();
-                AddEnemy(new Rectangle(rand.Next(0, 600), 100, 48, 40), defEnemy, 10, 2);
+                AddEnemy(new Rectangle(rand.Next(0, 560), 100, 48, 40), defEnemy, 10, 2);
             }
         }
     }

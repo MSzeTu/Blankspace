@@ -84,7 +84,7 @@ namespace BlankspaceGame
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             // Loads enemy content into manager
-            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
+            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile);
             enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
