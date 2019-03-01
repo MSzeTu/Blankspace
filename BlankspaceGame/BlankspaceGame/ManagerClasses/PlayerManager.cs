@@ -26,9 +26,18 @@ namespace BlankspaceGame
         }
 
         //Moves the player using wasd, prevents moving off screen
-        public void MovePlayer()
+        public void UpdatePlayer(ProjectileManager pm)
         {
             kbState = Keyboard.GetState();
+            if (player.DamageTick > 0)
+            {
+                player.DamageTick -= 1;
+                player.Color = Color.Red;
+            }
+            else
+            {
+                player.Color = Color.White;
+            }
             if (kbState.IsKeyDown(Keys.W) && player.Y>=0)
             {
                 player.Y -= 6; 
@@ -44,6 +53,13 @@ namespace BlankspaceGame
             if (kbState.IsKeyDown(Keys.D) && player.X<=550)
             {
                 player.X += 6;
+            }
+            int collidedIndex = player.CheckBulletCollision(pm.Projectiles);
+            if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false)
+            {
+                player.Health -= 1;
+                player.DamageTick = 1;
+                pm.Projectiles.RemoveAt(collidedIndex);
             }
             pKbState = Keyboard.GetState();
         }

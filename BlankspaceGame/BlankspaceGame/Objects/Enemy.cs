@@ -17,9 +17,13 @@ namespace BlankspaceGame
         private int speed;
 
         // Despawns if the enemies get too far from the player
-        public void Despawn()
+        public bool CheckDespawn()
         {
-
+            if (Y > 900)
+            {
+                return true;
+            }
+            return false;
         }
 
         public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn) : base(rect, text, hp)
@@ -38,13 +42,13 @@ namespace BlankspaceGame
             Y += (int)dir.Y;
         }
 
+        //Checks if bullets have hit enemy
         public int CheckBulletCollision(List<Projectile> projectiles)
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
                 if (projectiles[i].Colliding(this))
                 {
-                    Health -= 1;
                     return i;
                 }
             }

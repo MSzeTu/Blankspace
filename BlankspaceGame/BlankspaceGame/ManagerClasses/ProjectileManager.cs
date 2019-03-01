@@ -24,13 +24,19 @@ namespace BlankspaceGame
             projectiles = new List<Projectile>();
         }
 
+        // Removes projectile at target position
+        public void RemoveProjAt(int index)
+        {
+            projectiles.RemoveAt(index);
+        }
+
         /// <summary>
         /// Adds projectiles to the list of projectiles
         /// </summary>
         /// <param name="projectile">The projectile to add</param>
-        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text)
+        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, Boolean playerShot)
         {
-            projectiles.Add(new Projectile(unitVelocity, speed, rect, text));
+            projectiles.Add(new Projectile(unitVelocity, speed, rect, text, playerShot));
         }
 
         // Method to update projectils
@@ -44,21 +50,6 @@ namespace BlankspaceGame
                 {
                     // Call their move method and maybe test collisions or somthin
                     projectile.Move();
-                }
-            }
-        }
-
-        // Checks if projectiles are colliding with an enemy, deletes them if so
-        public void CheckForProjectileDestroying(List<Enemy> enemies)
-        {
-            for (int i = 0; i < projectiles.Count; i++)
-            {
-                foreach (Enemy e in enemies)
-                {
-                    if (e.Colliding(projectiles[i-1]))
-                    {
-                        projectiles.RemoveAt(i);
-                    }
                 }
             }
         }

@@ -35,6 +35,7 @@ namespace BlankspaceGame
         PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
+        Texture2D playerProjectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
@@ -81,6 +82,7 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
+            playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"));
             enemyManager.DebugEnemyTest();
@@ -89,6 +91,7 @@ namespace BlankspaceGame
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
         }
 
+        //Draws all the gamescreen text to keep the draw method cleaner
         void textOnScreen()
         {
             switch (gState)
@@ -107,7 +110,7 @@ namespace BlankspaceGame
                     {
                         spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(25, 875), Color.White);// add Ammo Type var
                         spriteBatch.DrawString(arial12, "Level: ", new Vector2(280, 875), Color.White);// add Current Level var
-                        spriteBatch.DrawString(arial12, "Health: ", new Vector2(525, 875), Color.White);// add Health var
+                        spriteBatch.DrawString(arial12, "Health: "+playerObject.Health, new Vector2(525, 875), Color.White);// add Health var
                         break;
                     }
                 case GameState.GameOver:
@@ -164,13 +167,18 @@ namespace BlankspaceGame
                     {
                         kbState = Keyboard.GetState();
                         projectileManager.UpdateProjectiles();
-                        enemyManager.UpdateEnemies(projectileManager.Projectiles);
-                        playerManager.MovePlayer();
+                        enemyManager.UpdateEnemies(projectileManager);
+                        enemyManager.DebugEnemyRespawn();
+                        playerManager.UpdatePlayer(projectileManager);
                         if (playerManager.CheckFireWeapon(kbState))
                         {
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 19, playerObject.Y, 10, 10), projectile);
+                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
+                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
                         }
-                        projectileManager.CheckForProjectileDestroying(enemyManager.Enemies);
+                        if (playerObject.Health <= 0)
+                        {
+                            gState = GameState.GameOver;
+                        }
                         pKbState = Keyboard.GetState();
                         break;
                     }
@@ -215,7 +223,10 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        playerObject.Draw(spriteBatch);
+                        if(playerObject.Health != 0)
+                        {
+                            playerObject.Draw(spriteBatch);
+                        }                      
                         projectileManager.DrawProjectiles(spriteBatch);
                         enemyManager.DrawEnemies(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkBlue);
