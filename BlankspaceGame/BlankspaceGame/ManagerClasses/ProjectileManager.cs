@@ -51,11 +51,11 @@ namespace BlankspaceGame
         // Checks if projectiles are colliding with an enemy, deletes them if so
         public void CheckForProjectileDestroying(List<Enemy> enemies)
         {
-            for (int i = projectiles.Count - 1; i >= 0; i--)
+            for (int i = 0; i < projectiles.Count; i++)
             {
                 foreach (Enemy e in enemies)
                 {
-                    if (e.Colliding(projectiles[i]))
+                    if (e.Colliding(projectiles[i-1]))
                     {
                         projectiles.RemoveAt(i);
                     }
