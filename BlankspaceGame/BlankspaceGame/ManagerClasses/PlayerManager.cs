@@ -16,7 +16,6 @@ namespace BlankspaceGame
         KeyboardState pKbState;
         Player player;
         // Variables
-        private int cooldown;
         private int iFrame;
         private int currentCD;
         //Constructor
