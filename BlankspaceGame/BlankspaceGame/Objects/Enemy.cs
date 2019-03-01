@@ -89,7 +89,7 @@ namespace BlankspaceGame
         //Checks if bullets have hit enemy
         public int CheckBulletCollision(List<Projectile> projectiles)
         {
-            for (int i = projectiles.Count - 1; i >= 0; i--)
+            for (int i = 0; i < projectiles.Count; i++)
             {
                 if (projectiles[i].Colliding(this))
                 {
