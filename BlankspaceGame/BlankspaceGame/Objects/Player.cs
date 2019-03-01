@@ -41,22 +41,6 @@ namespace BlankspaceGame
         public Player(Rectangle pos, Texture2D text):base(pos, text, 10) // Passes 10 to hp
         {
 
-        }
-
-        //Lowers players health by 1 when shot
-        public int CheckBulletCollision(List<Projectile> projectiles)
-        {
-            for (int i = projectiles.Count - 1; i >= 0; i--)
-            {
-                if (projectiles[i].PlayerShot == false)
-                {
-                    if (projectiles[i].Colliding(this))
-                    {
-                        return i;
-                    }
-                }
-            }
-            return -1;
-        }
+        }              
     }
 }

@@ -16,18 +16,17 @@ namespace BlankspaceGame
         KeyboardState pKbState;
         Player player;
         // Variables
-        private int cooldown;
+        private int iFrame;
         private int currentCD;
         //Constructor
         public PlayerManager(Player initPlayer)
         {
             player = initPlayer;
-            cooldown = 5;
             currentCD = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
-        public void UpdatePlayer(ProjectileManager pm)
+        public void UpdatePlayer(ProjectileManager pm, EnemyManager em)
         {
             kbState = Keyboard.GetState();
             if (player.DamageTick > 0)
@@ -55,23 +54,31 @@ namespace BlankspaceGame
             {
                 player.X += 6;
             }
-            int collidedIndex = player.CheckBulletCollision(pm.Projectiles);
+            int collidedIndex = CheckBulletCollision(pm.Projectiles);
             if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false)
             {
-                player.Health -= 1;
-                player.DamageTick = 1;
                 pm.Projectiles.RemoveAt(collidedIndex);
+                player.Damage(1);
+                player.DamageTick = 1;                
+                player.HitSound.Play();
+            }
+            int collidedIndexE = CheckEnemyCollision(em.Enemies);
+            if (collidedIndexE != -1)
+            {
+                em.Enemies.RemoveAt(collidedIndexE);
+                player.Damage(1);
+                player.DamageTick = 1;
                 player.HitSound.Play();
             }
             pKbState = Keyboard.GetState();
         }
 
         // Weapon firing code
-        public bool CheckFireWeapon(KeyboardState kbState)
+        public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
         {
             if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
             {
-                currentCD = cooldown;
+                currentCD = wep.GetCooldown();
                 return true;
             }
             if (currentCD > 0)
@@ -79,6 +86,35 @@ namespace BlankspaceGame
                 currentCD -= 1;
             }
             return false;
+        }
+
+        //Lowers players health by 1 when shot
+        public int CheckBulletCollision(List<Projectile> projectiles)
+        {
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                if (projectiles[i].PlayerShot == false)
+                {
+                    if (projectiles[i].Colliding(player))
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        //Lowers players health by 1 when colliding with enemy
+        public int CheckEnemyCollision(List<Enemy> enemies)
+        {
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {               
+                    if (enemies[i].Colliding(player))
+                    {
+                        return i;
+                    }               
+            }
+            return -1;
         }
 
         //Loads Player Sound Effects

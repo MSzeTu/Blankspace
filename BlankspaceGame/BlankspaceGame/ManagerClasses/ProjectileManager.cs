@@ -68,5 +68,11 @@ namespace BlankspaceGame
                 }
             }
         }
+
+        // Clears the projectile list
+        public void Clear()
+        {
+            projectiles.Clear();
+        }
     }
 }

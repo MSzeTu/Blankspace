@@ -39,17 +39,20 @@ namespace BlankspaceGame
         PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
-        Texture2D playerProjectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
+        private SpriteFont arial12; // spritefont
+        private SpriteFont arial24; // spritefont //appears to be the same size, need real diffrent size
         SoundEffect proSound;
         SoundEffect explosionSound;
         private SpriteFont arial18;// spritefont
         Texture2D BackDrop;
         Rectangle backLoc;
+        private SpriteFont arial18; // spritefont
+        Weapon wep;
 
 
         public Game1()
@@ -95,14 +98,13 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
-            playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
             explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
             playerManager.LoadSound(proSound, explosionSound);
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
-            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile, proSound , proSound);
+            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound , proSound);
             enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
@@ -198,11 +200,10 @@ namespace BlankspaceGame
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies(projectileManager);
                         enemyManager.DebugEnemyRespawn();
-                        playerManager.UpdatePlayer(projectileManager);
-                        if (playerManager.CheckFireWeapon(kbState))
+                        playerManager.UpdatePlayer(projectileManager, enemyManager);
+                        if (playerManager.CheckFireWeapon(kbState, wep))
                         {
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
+                            wep.Fire(projectileManager, playerObject.X, playerObject.Y);
                             playerObject.ShootSound.Play();
                         }
                         if (playerObject.Health <= 0)
@@ -277,7 +278,12 @@ namespace BlankspaceGame
 
         protected void GameReset()
         {
-            playerObject.Health = 3;// player health reset for new game
+            playerObject.Health = 3; // player health reset for new game
+            projectileManager.Clear();
+
+            // Creates weapon and loads content
+            wep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
+            wep.LoadTextures(this);
         }
 
 
