@@ -44,10 +44,12 @@ namespace BlankspaceGame
         EnemyManager enemyManager;
         Player playerObject;
         private SpriteFont arial12;// spritefont
-        private SpriteFont arial24;// spritefont //appears to be the same size, need real diffrent size
+        private SpriteFont arial24;// spritefont
         SoundEffect proSound;
         SoundEffect explosionSound;
         private SpriteFont arial18;// spritefont
+        Texture2D BackDrop;
+        Rectangle backLoc;
 
 
         public Game1()
@@ -74,6 +76,9 @@ namespace BlankspaceGame
             projectileManager = new ProjectileManager();           
             playerObject = new Player(new Rectangle(300, 850, 50, 50), player);
             playerManager = new PlayerManager(playerObject);
+
+            backLoc = new Rectangle(0, 0, 600, 1250);
+
             base.Initialize();
             
         }
@@ -103,6 +108,8 @@ namespace BlankspaceGame
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
             arial18 = Content.Load<SpriteFont>("Fonts/arial18");// load sprite font
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
+            //load Images
+            BackDrop = Content.Load<Texture2D>("Images/BackSpace");
         }
 
         //Draws all the gamescreen text to keep the draw method cleaner
@@ -246,7 +253,8 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        if(playerObject.Health != 0)
+                        spriteBatch.Draw(BackDrop, backLoc, Color.White);
+                        if (playerObject.Health != 0)
                         {
                             playerObject.Draw(spriteBatch);
                         }                      
