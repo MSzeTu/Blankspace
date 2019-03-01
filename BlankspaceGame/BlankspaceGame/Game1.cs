@@ -35,7 +35,6 @@ namespace BlankspaceGame
         PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
-        Texture2D playerProjectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
@@ -82,7 +81,6 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
-            playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile);
             enemyManager.DebugEnemyTest();
