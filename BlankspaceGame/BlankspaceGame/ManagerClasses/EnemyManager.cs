@@ -7,6 +7,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Handles enemy movement and interactions
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     class EnemyManager

@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Handles projectile list and interactions
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     public class ProjectileManager

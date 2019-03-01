@@ -7,7 +7,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Contains player object and fields
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     class Player : Actor

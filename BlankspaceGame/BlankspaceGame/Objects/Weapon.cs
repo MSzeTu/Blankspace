@@ -5,7 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Handles weapon types for procederely generated weapons
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     // Defines firetype of the weapon

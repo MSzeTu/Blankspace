@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Parent class for objects
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     public class Actor : GameObject

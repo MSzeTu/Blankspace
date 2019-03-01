@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: parent class for game objects
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     // Base object for anything which appears on the screen (Anything with a texture and a position)

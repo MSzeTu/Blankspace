@@ -8,7 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Main Method
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     /// <summary>
