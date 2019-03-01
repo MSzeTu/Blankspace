@@ -190,7 +190,7 @@ namespace BlankspaceGame
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies(projectileManager);
                         enemyManager.DebugEnemyRespawn();
-                        playerManager.UpdatePlayer(projectileManager);
+                        playerManager.UpdatePlayer(projectileManager, enemyManager);
                         if (playerManager.CheckFireWeapon(kbState, wep))
                         {
                             wep.Fire(projectileManager, playerObject.X, playerObject.Y);
