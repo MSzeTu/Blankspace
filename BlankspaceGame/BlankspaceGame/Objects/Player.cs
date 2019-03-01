@@ -14,7 +14,6 @@ namespace BlankspaceGame
         // Constructor
         public Player(Rectangle pos, Texture2D text):base(pos, text, 10) // Passes 10 to hp
         {
-            Health = 3;
         }
 
         //Lowers players health by 1 when shot
