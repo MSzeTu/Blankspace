@@ -69,22 +69,10 @@ namespace BlankspaceGame
                     i.Color = Color.White;
                 }
             }
-            // Checks if enemies are colliding with bullets
+            // Main loop for checking all enemies
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                // Index which tracks which bullet is colliding
-                int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
-                if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == true)
-                {
-                    enemies[i].Health -= 1;
-                    enemies[i].DamageTick = 1;                   
-                    // Removes bullet which hit enemy
-                    pm.RemoveProjAt(collidedIndex);
-                }
-            }
-            // Checks for health and deletes ones with no health
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
+                // Checks for health and deletes ones with no health
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
                 {
                     for (int k = -1; k <= 1; k ++)
@@ -98,6 +86,17 @@ namespace BlankspaceGame
                         }                       
                     }
                     enemies.RemoveAt(i);
+                }
+
+                // Hurting enemies if they are hit by a bullet
+                // Index which tracks which bullet is colliding
+                int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
+                if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == true)
+                {
+                    enemies[i].Health -= 1;
+                    enemies[i].DamageTick = 1;
+                    // Removes bullet which hit enemy
+                    pm.RemoveProjAt(collidedIndex);
                 }
             }
         }
