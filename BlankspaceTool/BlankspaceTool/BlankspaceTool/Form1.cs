@@ -23,5 +23,24 @@ namespace BlankspaceTool
 
             we.ShowDialog();
         }
+
+        public void ClickLoad(object sender, EventArgs e)
+        {
+            // Get the file path
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Filter = "Wave | *.wave";
+
+            dialog.ShowDialog();
+
+            if (dialog.FileName != "")
+            {
+                WavesEditor we = new WavesEditor(dialog.FileName);
+                we.ShowDialog();
+            } else
+            {
+                MessageBox.Show("You forgot to give me a path!", "Load Error");
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BlankspaceTool
 {
@@ -24,14 +25,20 @@ namespace BlankspaceTool
         private int maxWaves;
         private Tools equipedTool;
 
+        public WavesEditor(string path)
+        {
+            InitializeComponent();
+
+            waves = new List<Wave>();
+
+            Load(path);
+        }
         public WavesEditor(int wavesCount)
         {
             InitializeComponent();
 
             waves = new List<Wave>();
             waveIndex = 0;
-            maxWaves = wavesCount;
-            totalWavesLabel.Text = "Total Waves: " + maxWaves;
 
             InitializeWaves(wavesCount);
         }
@@ -59,6 +66,9 @@ namespace BlankspaceTool
                     }
                 }
 
+                maxWaves = wavesCount;
+                totalWavesLabel.Text = "Total Waves: " + maxWaves;
+
                 // Add the wave to the list of waves
                 waves.Add(new Wave(objects));
             }
@@ -80,6 +90,9 @@ namespace BlankspaceTool
             // Change the names
             waveGroupBox.Text = "Wave " + (waveIndex + 1);
             CurrentWaveLabel.Text = "Current Wave: " + (waveIndex + 1);
+
+            // Set the delay time per wave
+            delayUpDown.Value = (decimal)waves[waveIndex].Delay;
         }
 
         private void NextWaveButton_Click(object sender, EventArgs e)
@@ -135,6 +148,125 @@ namespace BlankspaceTool
             }
 
             equipedToolPictureBox.BackColor = toolColor;
+        }
+
+        private void UpdatedWaveDelay(object sender, EventArgs e)
+        {
+            // Get the time from the delay box
+            int time = (int)delayUpDown.Value;
+
+            // Set the delay in the wave
+            waves[waveIndex].SetDelay(time);
+        }
+
+        private void ClickSave(object sender, EventArgs e)
+        {
+            // Get the file path
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.Filter = "Wave | *.wave";
+
+            dialog.ShowDialog();
+
+            Save(dialog.FileName);
+        }
+
+        private void ClickLoad(object sender, EventArgs e)
+        {
+            // Get the file path
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Filter = "Wave | *.wave";
+
+            dialog.ShowDialog();
+
+            Load(dialog.FileName);
+        }
+
+        private void Save(string path)
+        {
+            if (path != "")
+            {
+                // Open a file stream for saving bianary
+                Stream stream = File.OpenWrite(path);
+                BinaryWriter bw = new BinaryWriter(stream);
+
+                // Save the number of waves
+                // Then save the width and height of each wave
+                // Then save each wave
+                // In each wave save the delay
+                // Then the tile type
+
+                bw.Write(maxWaves);
+                bw.Write(5);
+                bw.Write(5);
+
+                foreach (Wave wave in waves)
+                {
+                    bw.Write(wave.Delay);
+                    for (int x = 0; x < 5; x++)
+                    {
+                        for (int y = 0; y < 5; y++)
+                        {
+                            bw.Write((int)wave.TileTypes[x, y]);
+                        }
+                    }
+                }
+
+                bw.Close();
+
+                MessageBox.Show("Saved Sucessfully!", "Results");
+            } else
+            {
+                MessageBox.Show("I need a path!", "Save Error");
+            }
+        }
+
+        private void Load(string path)
+        {
+            if(path != "")
+            {
+                Stream read = File.OpenRead(path);
+                BinaryReader br = new BinaryReader(read);
+
+                // first read the number of waves
+                // Second read the width and height
+                // third read the waves
+                int wavesCount = br.ReadInt32();
+                int width = br.ReadInt32();
+                int height = br.ReadInt32();
+
+                if(waves.Count > 0)
+                {
+                    waves.Clear();
+                }
+
+                InitializeWaves(wavesCount);
+
+                for (int i = 0; i < wavesCount; i++)
+                {
+                    waves[i].SetDelay(br.ReadInt32());
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            waves[i].SetTile(x, y, (TileType)br.ReadInt32());
+                        }
+                    }
+                }
+
+                waveIndex = 0;
+                LoadWave();
+
+                br.Close();
+
+                MessageBox.Show("Loaded Sucessfully!", "Results");
+            } else
+            {
+                MessageBox.Show("You forgot to give me a path!", "Load Error");
+                InitializeWaves(1);
+            }
         }
     }
 }

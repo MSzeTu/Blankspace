@@ -191,7 +191,7 @@ namespace BlankspaceGame
                         enemyManager.UpdateEnemies(projectileManager);
                         enemyManager.DebugEnemyRespawn();
                         playerManager.UpdatePlayer(projectileManager, enemyManager);
-                        if (playerManager.CheckFireWeapon(kbState))
+                        if (playerManager.CheckFireWeapon(kbState, wep))
                         {
                             wep.Fire(projectileManager, playerObject.X, playerObject.Y);
                             playerObject.ShootSound.Play();
@@ -268,9 +268,10 @@ namespace BlankspaceGame
         protected void GameReset()
         {
             playerObject.Health = 3; // player health reset for new game
+            projectileManager.Clear();
 
             // Creates weapon and loads content
-            wep = new Weapon(Firetype.Dual, Firerate.Normal, Firecolor.Red);
+            wep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
             wep.LoadTextures(this);
         }
 

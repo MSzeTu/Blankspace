@@ -23,7 +23,6 @@ namespace BlankspaceGame
         public PlayerManager(Player initPlayer)
         {
             player = initPlayer;
-            cooldown = 5;
             currentCD = 0;
         }
 
@@ -76,11 +75,11 @@ namespace BlankspaceGame
         }
 
         // Weapon firing code
-        public bool CheckFireWeapon(KeyboardState kbState)
+        public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
         {
             if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
             {
-                currentCD = cooldown;
+                currentCD = wep.GetCooldown();
                 return true;
             }
             if (currentCD > 0)
