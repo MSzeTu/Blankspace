@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 namespace BlankspaceGame
 {
     class PlayerManager
@@ -60,6 +61,7 @@ namespace BlankspaceGame
                 player.Health -= 1;
                 player.DamageTick = 1;
                 pm.Projectiles.RemoveAt(collidedIndex);
+                player.HitSound.Play();
             }
             pKbState = Keyboard.GetState();
         }
@@ -77,6 +79,13 @@ namespace BlankspaceGame
                 currentCD -= 1;
             }
             return false;
+        }
+
+        //Loads Player Sound Effects
+        public void LoadSound(SoundEffect shoot, SoundEffect hit)
+        {
+            player.HitSound = hit;
+            player.ShootSound = shoot;
         }
     }
 }

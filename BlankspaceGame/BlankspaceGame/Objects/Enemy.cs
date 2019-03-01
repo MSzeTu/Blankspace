@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace BlankspaceGame
 {
@@ -15,6 +16,40 @@ namespace BlankspaceGame
         // Info for determining direction
         private Vector2 unitVelocity;
         private int speed;
+
+        //Sprites and sound
+        SoundEffect hitSound;
+        SoundEffect shootSound;
+        Texture2D defEnemy;
+        Texture2D projectiles;
+        public SoundEffect HitSound
+        {
+            get
+            {
+                return hitSound;
+            }
+        }
+        public SoundEffect ShootSound
+        {
+            get
+            {
+                return shootSound;
+            }
+        }
+        public Texture2D DefEnemy
+        {
+            get
+            {
+                return DefEnemy;
+            }
+        }
+        public Texture2D Projectiles
+        {
+            get
+            {
+                return Projectiles;
+            }
+        }
 
         // Despawns if the enemies get too far from the player
         public bool CheckDespawn()
@@ -31,6 +66,15 @@ namespace BlankspaceGame
             unitVelocity = unitVelIn;
             speed = spdIn;
             unitVelocity.Normalize();
+        }
+
+        // Loads enemy sprites and sounds
+        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
+        {
+            defEnemy = tex;
+            projectiles = projectile;
+            hitSound = hit;
+            shootSound = shoot;
         }
 
         // Move method for moving in target direction
