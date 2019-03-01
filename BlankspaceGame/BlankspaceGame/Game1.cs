@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +28,10 @@ namespace BlankspaceGame
     }
     public class Game1 : Game
     {
+        Boolean isPlaying = false;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Song song;
         //Keyboard objects to handle key presses
         KeyboardState kbState;
         KeyboardState pKbState;
@@ -40,8 +44,11 @@ namespace BlankspaceGame
         EnemyManager enemyManager;
         Player playerObject;
         private SpriteFont arial12;// spritefont
+        private SpriteFont arial24;// spritefont //appears to be the same size, need real diffrent size
+        SoundEffect proSound;
+        SoundEffect explosionSound;
         private SpriteFont arial18;// spritefont
-        private SpriteFont arial24;// spritefont
+
 
         public Game1()
         {
@@ -78,14 +85,19 @@ namespace BlankspaceGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);          
             // TODO: use this.Content to load your game content here
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
+            proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
+            explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
+            playerManager.LoadSound(proSound, explosionSound);
+            //Background music
+            song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
-            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile);
+            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile, proSound , proSound);
             enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
@@ -148,7 +160,7 @@ namespace BlankspaceGame
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                Exit();          
 
             // TODO: Add your update logic here
             //Switch Statement to control screen based on current gamestate
@@ -168,8 +180,14 @@ namespace BlankspaceGame
                     }
                 //Sets up enemies, players, and fires projectiles when space is pressed. 
                 case GameState.Game:
-                    {
+                    {                       
                         kbState = Keyboard.GetState();
+                        if (isPlaying == false)
+                        {
+                            MediaPlayer.Play(song);
+                            MediaPlayer.IsRepeating = true;
+                            isPlaying = true;
+                        }                       
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies(projectileManager);
                         enemyManager.DebugEnemyRespawn();
@@ -178,6 +196,7 @@ namespace BlankspaceGame
                         {
                             projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
                             projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
+                            playerObject.ShootSound.Play();
                         }
                         if (playerObject.Health <= 0)
                         {
