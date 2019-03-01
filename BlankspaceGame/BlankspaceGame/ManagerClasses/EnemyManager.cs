@@ -79,7 +79,7 @@ namespace BlankspaceGame
                 int collidedIndex = enemies[i].CheckBulletCollision(pm.Projectiles);
                 if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == true)
                 {
-                    enemies[i].Health -= 1;
+                    enemies[i].Damage(1);
                     enemies[i].DamageTick = 1;
                     // Removes bullet which hit enemy
                     pm.RemoveProjAt(collidedIndex);

@@ -27,7 +27,7 @@ namespace BlankspaceGame
         }
 
         //Moves the player using wasd, prevents moving off screen
-        public void UpdatePlayer(ProjectileManager pm)
+        public void UpdatePlayer(ProjectileManager pm, EnemyManager em)
         {
             kbState = Keyboard.GetState();
             if (player.DamageTick > 0)
@@ -55,10 +55,10 @@ namespace BlankspaceGame
             {
                 player.X += 6;
             }
-            int collidedIndex = player.CheckBulletCollision(pm.Projectiles);
+            int collidedIndex = CheckBulletCollision(pm.Projectiles);
             if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false)
             {
-                player.Health -= 1;
+                player.Damage(1);
                 player.DamageTick = 1;
                 pm.Projectiles.RemoveAt(collidedIndex);
                 player.HitSound.Play();
@@ -79,6 +79,22 @@ namespace BlankspaceGame
                 currentCD -= 1;
             }
             return false;
+        }
+
+        //Lowers players health by 1 when shot
+        public int CheckBulletCollision(List<Projectile> projectiles)
+        {
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                if (projectiles[i].PlayerShot == false)
+                {
+                    if (projectiles[i].Colliding(player))
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
         }
 
         //Loads Player Sound Effects

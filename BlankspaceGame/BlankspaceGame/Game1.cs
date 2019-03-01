@@ -186,7 +186,7 @@ namespace BlankspaceGame
                         projectileManager.UpdateProjectiles();
                         enemyManager.UpdateEnemies(projectileManager);
                         enemyManager.DebugEnemyRespawn();
-                        playerManager.UpdatePlayer(projectileManager);
+                        playerManager.UpdatePlayer(projectileManager, enemyManager);
                         if (playerManager.CheckFireWeapon(kbState))
                         {
                             projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
