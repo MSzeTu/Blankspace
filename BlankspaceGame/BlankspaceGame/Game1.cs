@@ -39,14 +39,16 @@ namespace BlankspaceGame
         PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
-        Texture2D playerProjectile;
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
-        private SpriteFont arial12;// spritefont
-        private SpriteFont arial24;// spritefont //appears to be the same size, need real diffrent size
+        private SpriteFont arial12; // spritefont
+        private SpriteFont arial24; // spritefont //appears to be the same size, need real diffrent size
         SoundEffect proSound;
         SoundEffect explosionSound;
+        private SpriteFont arial18; // spritefont
+        Weapon wep;
+
 
         public Game1()
         {
@@ -88,7 +90,6 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
-            playerProjectile = Content.Load<Texture2D>("Projectiles/redlaser");
             proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
             explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
             playerManager.LoadSound(proSound, explosionSound);
@@ -99,6 +100,7 @@ namespace BlankspaceGame
             enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
+            arial18 = Content.Load<SpriteFont>("Fonts/arial18");// load sprite font
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
         }
 
@@ -109,30 +111,31 @@ namespace BlankspaceGame
             {
                 case GameState.Menu:
                     {
-                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(248, 175), Color.White);// <Problem> arial24 is same size as arial12
-                        spriteBatch.DrawString(arial12, "Menu", new Vector2(282, 315), Color.White);// menu screen 
+                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);// <Problem> arial24 is same size as arial12
+                        spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White);// menu screen 
                         spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White);// game play instructions
                         spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
                         spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 400), Color.White);
-                        spriteBatch.DrawString(arial12, "Press enter to Play", new Vector2(234, 500), Color.White);// continue to game instructions
+                        spriteBatch.DrawString(arial18, "Press enter to Play", new Vector2(203, 500), Color.White);// continue to game instructions
                         break;
                     }
                 case GameState.Game:
                     {
+                        spriteBatch.DrawString(arial12, "Health: "+playerObject.Health, new Vector2(10, 855), Color.White);// add Health var
                         spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White);// add Ammo Type var
-                        spriteBatch.DrawString(arial12, "Level: ", new Vector2(280, 875), Color.White);// add Current Level var
-                        spriteBatch.DrawString(arial12, "Health: "+playerObject.Health, new Vector2(525, 875), Color.White);// add Health var
+                        spriteBatch.DrawString(arial12, "Level: ", new Vector2(525, 855), Color.White);// add Current Level var
+                        spriteBatch.DrawString(arial12, "Score: ", new Vector2(525, 875), Color.White);// add Current Score var
                         break;
                     }
                 case GameState.GameOver:
                     {
-                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(250, 175), Color.White);// Game over screen
-                        spriteBatch.DrawString(arial12, "You have been WhIPed!", new Vector2(221, 275), Color.White);// funny? 
+                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(200, 175), Color.White);// Game over screen
+                        spriteBatch.DrawString(arial18, "You have been WhIPed!", new Vector2(170, 275), Color.White);// funny? 
                         // last game stats
                         spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White);// add current level var\
                         spriteBatch.DrawString(arial12, "Your Final Score: ", new Vector2(235, 375), Color.White);// add total score var
                         spriteBatch.DrawString(arial12, "The HighScore is: ", new Vector2(235, 400), Color.White);// add High Score var
-                        spriteBatch.DrawString(arial12, "Press enter to retun to Main menu", new Vector2(185, 500), Color.White);// continue to menu instructions
+                        spriteBatch.DrawString(arial18, "Press enter to retun to Main menu", new Vector2(122, 500), Color.White);// continue to menu instructions
                         break;
                     }
             }
@@ -168,6 +171,7 @@ namespace BlankspaceGame
                         kbState = Keyboard.GetState();
                         if (SingleKeyPress(Keys.Enter) == true)
                         {
+                            GameReset();// player stats reset for new game
                             gState = GameState.Game;
                         }
                         pKbState = Keyboard.GetState();
@@ -189,8 +193,7 @@ namespace BlankspaceGame
                         playerManager.UpdatePlayer(projectileManager, enemyManager);
                         if (playerManager.CheckFireWeapon(kbState))
                         {
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
+                            wep.Fire(projectileManager, playerObject.X, playerObject.Y);
                             playerObject.ShootSound.Play();
                         }
                         if (playerObject.Health <= 0)
@@ -247,7 +250,7 @@ namespace BlankspaceGame
                         }                      
                         projectileManager.DrawProjectiles(spriteBatch);
                         enemyManager.DrawEnemies(spriteBatch);
-                        GraphicsDevice.Clear(Color.DarkBlue);
+                        GraphicsDevice.Clear(Color.DarkSlateGray);
                         textOnScreen(); // helper method to clean up Draw method
                         break;
                     }
@@ -261,6 +264,16 @@ namespace BlankspaceGame
 
             base.Draw(gameTime);
         }
+
+        protected void GameReset()
+        {
+            playerObject.Health = 3; // player health reset for new game
+
+            // Creates weapon and loads content
+            wep = new Weapon(Firetype.Dual, Firerate.Normal, Firecolor.Red);
+            wep.LoadTextures(this);
+        }
+
 
         //Checks if a key is being pressed one time
         protected Boolean SingleKeyPress(Keys key)
