@@ -42,11 +42,12 @@ namespace BlankspaceGame
         ProjectileManager projectileManager;
         EnemyManager enemyManager;
         Player playerObject;
-        private SpriteFont arial12;// spritefont
-        private SpriteFont arial24;// spritefont //appears to be the same size, need real diffrent size
+        private SpriteFont arial12; // spritefont
+        private SpriteFont arial24; // spritefont //appears to be the same size, need real diffrent size
         SoundEffect proSound;
         SoundEffect explosionSound;
-        private SpriteFont arial18;// spritefont
+        private SpriteFont arial18; // spritefont
+        Weapon wep;
 
 
         public Game1()
@@ -192,8 +193,7 @@ namespace BlankspaceGame
                         playerManager.UpdatePlayer(projectileManager);
                         if (playerManager.CheckFireWeapon(kbState))
                         {
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 14, playerObject.Y, 10, 20), playerProjectile, true);
-                            projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(playerObject.X + 24, playerObject.Y, 10, 20), playerProjectile, true);
+                            wep.Fire(projectileManager, playerObject.X, playerObject.Y);
                             playerObject.ShootSound.Play();
                         }
                         if (playerObject.Health <= 0)
@@ -267,7 +267,11 @@ namespace BlankspaceGame
 
         protected void GameReset()
         {
-            playerObject.Health = 3;// player health reset for new game
+            playerObject.Health = 3; // player health reset for new game
+
+            // Creates weapon and loads content
+            wep = new Weapon(Firetype.Dual, Firerate.Normal, Firecolor.Red);
+            wep.LoadTextures(this);
         }
 
 
