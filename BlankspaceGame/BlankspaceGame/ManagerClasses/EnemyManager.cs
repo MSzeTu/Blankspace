@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using Microsoft.Xna.Framework.Audio;
 namespace BlankspaceGame
 {
     class EnemyManager
@@ -21,9 +21,11 @@ namespace BlankspaceGame
             }
         }
 
-        // Sprites
+        // Sprites and sounds
         Texture2D defEnemy;
         Texture2D projectiles;
+        SoundEffect hitSound;
+        SoundEffect shootSound;
         // Constructor
         public EnemyManager()
         {
@@ -31,7 +33,7 @@ namespace BlankspaceGame
         }
 
         // Loads enemy sprites to the manager
-        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile)
+        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
         {
             defEnemy = tex;
             projectiles = projectile;
