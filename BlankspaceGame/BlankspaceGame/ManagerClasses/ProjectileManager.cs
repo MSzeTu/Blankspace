@@ -55,6 +55,7 @@ namespace BlankspaceGame
                 {
                     // Call their move method and maybe test collisions or somthin
                     projectile.Move();
+                    projectile.UpdateVars();
                 }
             }
         }

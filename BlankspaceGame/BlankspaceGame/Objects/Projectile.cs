@@ -17,6 +17,7 @@ namespace BlankspaceGame
     {
         // Velocity, speed and damage fields
         private Vector2 direction;
+        private Vector2 accPosition;
         private int speed;
         private int damage;
         private bool playerShot;
@@ -26,6 +27,18 @@ namespace BlankspaceGame
             {
                 return playerShot;
             }
+        }
+
+        // Vector position overrides
+        public float X
+        {
+            get { return accPosition.X; }
+            set { accPosition.X = value; }
+        }
+        public float Y
+        {
+            get { return accPosition.Y; }
+            set { accPosition.Y = value; }
         }
 
         /// <summary>
@@ -40,6 +53,8 @@ namespace BlankspaceGame
             this.direction = dir;
             this.direction.Normalize();
             this.speed = speed;
+            accPosition.X = rect.X;
+            accPosition.Y = rect.Y;
             playerShot = playPro;
         }
 
@@ -53,9 +68,15 @@ namespace BlankspaceGame
             Vector2 velocity = direction * speed;
 
             // Move the object in the direction.
-            X += (int)velocity.X;
-            Y += (int)velocity.Y;
+            accPosition.X += velocity.X;
+            accPosition.Y += velocity.Y;
 
+        }
+
+        public void UpdateVars()
+        {
+            position.X = (int)X;
+            position.Y = (int)Y;
         }
     }
 }
