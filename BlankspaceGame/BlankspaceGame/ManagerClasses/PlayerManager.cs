@@ -94,6 +94,38 @@ namespace BlankspaceGame
             return false;
         }
 
+        //Checks if player is trying to switch weapon 
+        public bool CheckSwitchWeapon()
+        {
+            kbState = Keyboard.GetState();
+            if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3))
+            {
+                return true;
+            }
+            pKbState = Keyboard.GetState();
+            return false;
+        }
+        //Changes weapon type by pressing 1 2 or 3
+        public Weapon SwitchWeapon()
+        {
+            Weapon returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
+            kbState = Keyboard.GetState();
+            if (kbState.IsKeyDown(Keys.D1))
+            {
+                returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);               
+            }
+            if (kbState.IsKeyDown(Keys.D2))
+            {
+                returnWep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);
+            }
+            if (kbState.IsKeyDown(Keys.D3))
+            {
+                returnWep = new Weapon(Firetype.Beam, Firerate.Fast, Firecolor.Red);
+            }
+            pKbState = Keyboard.GetState();
+            return returnWep;
+        }
+
         //Lowers players health by 1 when shot
         public int CheckBulletCollision(List<Projectile> projectiles)
         {

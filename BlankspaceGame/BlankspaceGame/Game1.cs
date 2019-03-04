@@ -127,8 +127,9 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White);// menu screen 
                         spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White);// game play instructions
                         spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
-                        spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 400), Color.White);
-                        spriteBatch.DrawString(arial18, "Press enter to Play", new Vector2(203, 500), Color.White);// continue to game instructions
+                        spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
+                        spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
+                        spriteBatch.DrawString(arial18, "Press enter to Play", new Vector2(203, 525), Color.White);// continue to game instructions
                         break;
                     }
                 case GameState.Game:
@@ -212,6 +213,11 @@ namespace BlankspaceGame
                         {
                             gState = GameState.GameOver;
                         }
+                        if (playerManager.CheckSwitchWeapon())
+                        {
+                            wep = playerManager.SwitchWeapon();
+                            wep.LoadTextures(this);
+                        }                       
                         pKbState = Keyboard.GetState();
                         break;
                     }

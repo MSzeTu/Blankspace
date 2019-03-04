@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 /*Name: Blank Space
  * Class: IGME106
  * Author: WIP
@@ -112,7 +113,7 @@ namespace BlankspaceGame
 
             return cd;
         }
-
+        
         // Loads the textures into the object
         public void LoadTextures(Game1 game)
         {
