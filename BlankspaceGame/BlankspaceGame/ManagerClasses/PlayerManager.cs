@@ -29,6 +29,7 @@ namespace BlankspaceGame
         {
             player = initPlayer;
             currentCD = 0;
+            iFrame = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -39,6 +40,11 @@ namespace BlankspaceGame
             {
                 player.DamageTick -= 1;
                 player.Color = Color.Red;
+            }
+            else if (iFrame > 0)
+            {
+                iFrame -= 1;
+                player.Color = Color.Green;
             }
             else
             {
@@ -60,20 +66,24 @@ namespace BlankspaceGame
             {
                 player.X += 6;
             }
+            // Removes health for colliding with projectiles
             int collidedIndex = CheckBulletCollision(pm.Projectiles);
-            if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false)
+            if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
             {
                 pm.Projectiles.RemoveAt(collidedIndex);
                 player.Damage(1);
-                player.DamageTick = 1;                
+                player.DamageTick = 1;
+                iFrame = 20;
                 player.HitSound.Play();
             }
+            // Removes health for colliding with enemies
             int collidedIndexE = CheckEnemyCollision(em.Enemies);
-            if (collidedIndexE != -1)
+            if (collidedIndexE != -1 && iFrame == 0)
             {
                 em.Enemies.RemoveAt(collidedIndexE);
                 player.Damage(1);
                 player.DamageTick = 1;
+                iFrame = 5;
                 player.HitSound.Play();
             }
             pKbState = Keyboard.GetState();
