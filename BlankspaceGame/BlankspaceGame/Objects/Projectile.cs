@@ -16,7 +16,8 @@ namespace BlankspaceGame
     public class Projectile : GameObject
     {
         // Velocity, speed and damage fields
-        private Vector2 velocity;
+        private Vector2 direction;
+        private Vector2 accPosition;
         private int speed;
         private int damage;
         private bool playerShot;
@@ -28,17 +29,32 @@ namespace BlankspaceGame
             }
         }
 
+        // Vector position overrides
+        public float X
+        {
+            get { return accPosition.X; }
+            set { accPosition.X = value; }
+        }
+        public float Y
+        {
+            get { return accPosition.Y; }
+            set { accPosition.Y = value; }
+        }
+
         /// <summary>
         /// Creates the projectile, this requires a direction, speed, and the gameobject components.
         /// </summary>
-        /// <param name="unitVelocity">The direction the projectile is moving in.</param>
+        /// <param name="direction">The direction the projectile is moving in.</param>
         /// <param name="speed">The speed the projectile is moving at.</param>
         /// <param name="rect">GameObject rectangle.</param>
         /// <param name="text">The projectiles texture.</param>
-        public Projectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, bool playPro) : base(rect, text)
+        public Projectile(Vector2 dir, int speed, Rectangle rect, Texture2D text, bool playPro) : base(rect, text)
         {
-            this.velocity = unitVelocity;
+            this.direction = dir;
+            this.direction.Normalize();
             this.speed = speed;
+            accPosition.X = rect.X;
+            accPosition.Y = rect.Y;
             playerShot = playPro;
         }
 
@@ -47,17 +63,20 @@ namespace BlankspaceGame
         /// </summary>
         public void Move()
         {
-            // Normalize the velocity to ensure it moves at the desired speed.
-            velocity.Normalize();
-             
             // Multiply the normalized velocity with
             // the speed to ensure the object is moving at the desired rate.
-            Vector2 dir = velocity * speed;
+            Vector2 velocity = direction * speed;
 
             // Move the object in the direction.
-            X += (int)dir.X;
-            Y += (int)dir.Y;
+            accPosition.X += velocity.X;
+            accPosition.Y += velocity.Y;
 
+        }
+
+        public void UpdateVars()
+        {
+            position.X = (int)X;
+            position.Y = (int)Y;
         }
     }
 }

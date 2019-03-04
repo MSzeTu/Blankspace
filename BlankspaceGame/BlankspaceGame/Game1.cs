@@ -287,7 +287,7 @@ namespace BlankspaceGame
             enemyManager.Enemies.Clear();
             enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
-            wep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
+            wep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);
             wep.LoadTextures(this);
         }
 

@@ -65,7 +65,11 @@ namespace BlankspaceGame
                     projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 24, y, 10, 20), dual, true);
                     break;
                 case Firetype.Shotgun:
-
+                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(-0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(-0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
                     break;
                 case Firetype.Beam:
 
@@ -85,7 +89,7 @@ namespace BlankspaceGame
                     cd = 10;
                     break;
                 case Firetype.Shotgun:
-                    cd = 30;
+                    cd = 40;
                     break;
                 case Firetype.Beam:
                     cd = 60;
