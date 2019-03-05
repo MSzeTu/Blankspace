@@ -59,6 +59,7 @@ namespace BlankspaceGame
         // Fire method, called when space is pressed and will create bullets according to the components
         public void Fire(ProjectileManager projectileManager, int x, int y)
         {
+            // Creates projectiles based on current firetype
             switch (this.type)
             {
                 case Firetype.Dual:
