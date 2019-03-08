@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Input;
  */
 namespace BlankspaceGame
 {
-    class Player : Actor
+    public class Player : Actor
     {
         //Sets up players sound effects
         SoundEffect hitSound;
