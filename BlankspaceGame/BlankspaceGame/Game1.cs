@@ -229,6 +229,8 @@ namespace BlankspaceGame
                 //Moves back to menu if button is pressed, or restarts if chosen.
                 case GameState.GameOver:
                     {
+                        wm.ReloadWaves();
+
                         kbState = Keyboard.GetState();
                         if (SingleKeyPress(Keys.Enter) == true)
                         {

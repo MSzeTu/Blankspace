@@ -33,6 +33,8 @@ namespace BlankspaceGame
             waves = new List<Wave>(); 
             this.eManager = eManager;
 
+            currentWave = 0;
+            currentTime = 0;
             LoadWaves(path);
         }
 
@@ -41,16 +43,21 @@ namespace BlankspaceGame
         {
             currentTime += (1f / 60f);
 
-            if (currentWave < waveCount)
+            if (currentTime >= waves[currentWave].Delay)
             {
-                if (currentTime >= waves[currentWave].Delay)
+                waves[currentWave].SpawnEnemys();
+                currentTime = 0;
+
+                if (currentWave < waveCount - 1)
                 {
-                    waves[currentWave].SpawnEnemys();
-                    currentTime = 0;
                     currentWave++;
+                } else
+                {
+                    currentWave = 0;
                 }
             }
         }
+        
 
         /// <summary>
         /// Loads in the wave from a given path
@@ -86,6 +93,12 @@ namespace BlankspaceGame
             }
 
             br.Close();
+        }
+
+        public void ReloadWaves()
+        {
+            currentTime = 0;
+            currentWave = 0;
         }
     }
 }
