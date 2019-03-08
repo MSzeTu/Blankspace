@@ -32,6 +32,9 @@ namespace BlankspaceGame
         Texture2D projectiles;
         SoundEffect hitEnemy;
         SoundEffect enemyShoots;
+
+        public Texture2D DefEnemy { get { return defEnemy; } }
+
         // Constructor
         public EnemyManager()
         {
@@ -70,7 +73,7 @@ namespace BlankspaceGame
                 // If damage tick is not 0, decrement and set colors
                 if (i.DamageTick > 0)
                 {
-                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 25, i.Y, 10, 10), projectiles, false);
+                    pm.AddProjectile(new Vector2(0, 1), 10, new Rectangle(i.X + 25, i.Y, 10, 10), projectiles, false, false);
                     i.DamageTick -= 1;
                     i.Color = Color.Red;
                     hitEnemy.Play();
@@ -90,7 +93,10 @@ namespace BlankspaceGame
                     enemies[i].Damage(1);
                     enemies[i].DamageTick = 1;
                     // Removes bullet which hit enemy
-                    pm.RemoveProjAt(collidedIndex);
+                    if (pm.Projectiles[collidedIndex].Beam == false)
+                    {
+                        pm.RemoveProjAt(collidedIndex);
+                    }
                 }
                 // Checks for health and deletes ones with no health
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
@@ -101,7 +107,7 @@ namespace BlankspaceGame
                         {
                             if (p != 0 || k != 0)
                             {
-                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false);
+                                pm.AddProjectile(new Vector2(k, p), 10, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);
                             }
                         }
                     }
@@ -120,22 +126,22 @@ namespace BlankspaceGame
         }
 
         // DEBUG test enemy spawns
-        public void DebugEnemyTest()
-        {
-            AddEnemy(new Rectangle(300, 200, 58, 50), defEnemy, 5, 2);
-            AddEnemy(new Rectangle(100, 200, 58, 50), defEnemy, 5, 2);
-            AddEnemy(new Rectangle(50, 300, 58, 50), defEnemy, 5, 2);
-            AddEnemy(new Rectangle(100, 300, 58, 50), defEnemy, 5, 2);
-        }
+        //public void DebugEnemyTest()
+        //{
+        //    AddEnemy(new Rectangle(300, 200, 48, 40), defEnemy, 10, 2);
+        //    AddEnemy(new Rectangle(100, 200, 48, 40), defEnemy, 10, 2);
+        //    AddEnemy(new Rectangle(50, 300, 48, 40), defEnemy, 10, 2);
+        //    AddEnemy(new Rectangle(100, 300, 48, 40), defEnemy, 10, 2);
+        //}
 
         // DEBUG auto enemy spawn
-        public void DebugEnemyRespawn()
-        {
-            if (enemies.Count < 4)
-            {
-                Random rand = new Random();
-                AddEnemy(new Rectangle(rand.Next(0, 560), 100, 58, 50), defEnemy, 5, 2);
-            }
-        }
+        //public void DebugEnemyRespawn()
+        //{
+        //    if (enemies.Count < 4)
+        //    {
+        //        Random rand = new Random();
+        //        AddEnemy(new Rectangle(rand.Next(0, 560), 100, 48, 40), defEnemy, 10, 2);
+        //    }
+        //}
     }
 }

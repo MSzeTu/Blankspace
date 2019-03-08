@@ -39,13 +39,13 @@ namespace BlankspaceGame
         /// Adds projectiles to the list of projectiles
         /// </summary>
         /// <param name="projectile">The projectile to add</param>
-        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, Boolean playerShot)
+        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, bool playerShot, bool beam)
         {
-            projectiles.Add(new Projectile(unitVelocity, speed, rect, text, playerShot));
+            projectiles.Add(new Projectile(unitVelocity, speed, rect, text, playerShot, beam));
         }
 
         // Method to update projectils
-        public void UpdateProjectiles()
+        public void UpdateProjectiles(int x, int y)
         {
             // Test if the list is empty
             if(!(projectiles.Count < 0))
@@ -54,8 +54,17 @@ namespace BlankspaceGame
                 foreach (Projectile projectile in projectiles)
                 {
                     // Call their move method and maybe test collisions or somthin
-                    projectile.Move();
+                    projectile.Move(x, y);
                     projectile.UpdateVars();
+                }
+
+                for (int i = projectiles.Count - 1; i >= 0; i--)
+                {
+                    // Check if beam lifetime is too long and delete
+                    if (projectiles[i].Lifetime > 5 && projectiles[i].Beam == true)
+                    {
+                        projectiles.RemoveAt(i);
+                    }
                 }
             }
         }

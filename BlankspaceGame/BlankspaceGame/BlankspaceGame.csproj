@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ManagerClasses\ProjectileManager.cs" />
+    <Compile Include="ManagerClasses\WaveManager.cs" />
     <Compile Include="Objects\Actor.cs" />
     <Compile Include="ManagerClasses\BackgroundManager.cs" />
     <Compile Include="Objects\Enemy.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Objects\Pickup.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="ManagerClasses\PlayerManager.cs" />
+    <Compile Include="Objects\Wave.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

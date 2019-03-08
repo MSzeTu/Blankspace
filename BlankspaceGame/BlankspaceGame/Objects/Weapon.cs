@@ -63,18 +63,18 @@ namespace BlankspaceGame
             switch (this.type)
             {
                 case Firetype.Dual:
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 14, y, 10, 20), dual, true);
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 24, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 14, y, 10, 20), dual, true, false);
+                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 24, y, 10, 20), dual, true, false);
                     break;
                 case Firetype.Shotgun:
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
-                    projectileManager.AddProjectile(new Vector2(0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
-                    projectileManager.AddProjectile(new Vector2(0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
-                    projectileManager.AddProjectile(new Vector2(-0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
-                    projectileManager.AddProjectile(new Vector2(-0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true);
+                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    projectileManager.AddProjectile(new Vector2(0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    projectileManager.AddProjectile(new Vector2(0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    projectileManager.AddProjectile(new Vector2(-0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    projectileManager.AddProjectile(new Vector2(-0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
                     break;
                 case Firetype.Beam:
-
+                    projectileManager.AddProjectile(new Vector2(0, 1), 0, new Rectangle(x - 25, y - 1500, 100, 1500), beam, true, true);
                     break;
             }
         }
@@ -119,6 +119,7 @@ namespace BlankspaceGame
         public void LoadTextures(Game1 game)
         {
             dual = game.Content.Load<Texture2D>("Projectiles/redlaser");
+            beam = game.Content.Load<Texture2D>("Projectiles/beam");
         }
     }
 }

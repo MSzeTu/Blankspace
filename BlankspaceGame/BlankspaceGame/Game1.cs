@@ -55,6 +55,7 @@ namespace BlankspaceGame
         Texture2D BackDrop;
         Rectangle backLoc;
         Weapon wep;
+        WaveManager wm;
 
 
         public Game1()
@@ -84,6 +85,8 @@ namespace BlankspaceGame
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 
+            wm = new WaveManager(".\\Content\\Levels\\bad.wave", enemyManager);
+
             base.Initialize();
             
         }
@@ -107,7 +110,7 @@ namespace BlankspaceGame
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
             enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound , proSound);
-            enemyManager.DebugEnemyTest();
+            //enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
             arial18 = Content.Load<SpriteFont>("Fonts/arial18");// load sprite font
@@ -192,7 +195,9 @@ namespace BlankspaceGame
                     }
                 //Sets up enemies, players, and fires projectiles when space is pressed. 
                 case GameState.Game:
-                    {                       
+                    {
+                        wm.WaveUpdate();
+
                         kbState = Keyboard.GetState();
                         if (isPlaying == false)
                         {
@@ -200,9 +205,9 @@ namespace BlankspaceGame
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
                         }                       
-                        projectileManager.UpdateProjectiles();
+                        projectileManager.UpdateProjectiles(playerObject.X, playerObject.Y);
                         enemyManager.UpdateEnemies(projectileManager);
-                        enemyManager.DebugEnemyRespawn();
+                        //enemyManager.DebugEnemyRespawn();
                         playerManager.UpdatePlayer(projectileManager, enemyManager);
                         if (playerManager.CheckFireWeapon(kbState, wep))
                         {
@@ -291,7 +296,7 @@ namespace BlankspaceGame
             playerObject.X = 300;
             playerObject.Y = 850;
             enemyManager.Enemies.Clear();
-            enemyManager.DebugEnemyTest();
+            //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
             wep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);
             wep.LoadTextures(this);

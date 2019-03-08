@@ -24,6 +24,15 @@ namespace BlankspaceGame
         // Variables
         private int iFrame;
         private int currentCD;
+
+        public int X
+        {
+            get { return player.X; }
+        }
+        public int Y
+        {
+            get { return player.Y; }
+        }
         //Constructor
         public PlayerManager(Player initPlayer)
         {
