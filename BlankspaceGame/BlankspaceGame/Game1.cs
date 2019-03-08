@@ -205,7 +205,7 @@ namespace BlankspaceGame
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
                         }                       
-                        projectileManager.UpdateProjectiles();
+                        projectileManager.UpdateProjectiles(playerObject.X, playerObject.Y);
                         enemyManager.UpdateEnemies(projectileManager);
                         //enemyManager.DebugEnemyRespawn();
                         playerManager.UpdatePlayer(projectileManager, enemyManager);

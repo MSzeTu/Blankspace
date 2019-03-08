@@ -21,12 +21,25 @@ namespace BlankspaceGame
         private int speed;
         private int damage;
         private bool playerShot;
+        private bool beam;
+        private int lifetime;
+
         public bool PlayerShot
         {
             get
             {
                 return playerShot;
             }
+        }
+
+        public bool Beam
+        {
+            get { return beam; }
+        }
+
+        public int Lifetime
+        {
+            get { return lifetime; }
         }
 
         // Vector position overrides
@@ -48,7 +61,7 @@ namespace BlankspaceGame
         /// <param name="speed">The speed the projectile is moving at.</param>
         /// <param name="rect">GameObject rectangle.</param>
         /// <param name="text">The projectiles texture.</param>
-        public Projectile(Vector2 dir, int speed, Rectangle rect, Texture2D text, bool playPro) : base(rect, text)
+        public Projectile(Vector2 dir, int speed, Rectangle rect, Texture2D text, bool playPro, bool beamBool) : base(rect, text)
         {
             this.direction = dir;
             this.direction.Normalize();
@@ -56,21 +69,31 @@ namespace BlankspaceGame
             accPosition.X = rect.X;
             accPosition.Y = rect.Y;
             playerShot = playPro;
+            beam = beamBool;
+            lifetime = 0;
         }
 
         /// <summary>
         /// Moves the projectile.
         /// </summary>
-        public void Move()
+        public void Move(int x, int y)
         {
-            // Multiply the normalized velocity with
-            // the speed to ensure the object is moving at the desired rate.
-            Vector2 velocity = direction * speed;
+            if (beam == false)
+            {
+                // Multiply the normalized velocity with
+                // the speed to ensure the object is moving at the desired rate.
+                Vector2 velocity = direction * speed;
 
-            // Move the object in the direction.
-            accPosition.X += velocity.X;
-            accPosition.Y += velocity.Y;
-
+                // Move the object in the direction.
+                accPosition.X += velocity.X;
+                accPosition.Y += velocity.Y;
+            }
+            if (beam == true)
+            {
+                accPosition.X = x - 25;
+                accPosition.Y = y - 1500;
+            }
+            lifetime += 1;
         }
 
         public void UpdateVars()
