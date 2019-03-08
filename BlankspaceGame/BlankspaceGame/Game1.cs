@@ -79,7 +79,7 @@ namespace BlankspaceGame
             projectileManager = new ProjectileManager();
             enemyManager = new EnemyManager();
             projectileManager = new ProjectileManager();           
-            playerObject = new Player(new Rectangle(300, 850, 50, 50), player);
+            playerObject = new Player(new Rectangle(300, 850, 55, 55), player);
             playerManager = new PlayerManager(playerObject);
 
             backLoc = new Rectangle(0, 0, 600, 1250);
