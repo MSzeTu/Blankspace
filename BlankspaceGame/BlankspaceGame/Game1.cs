@@ -41,11 +41,8 @@ namespace BlankspaceGame
         KeyboardState kbState;
         KeyboardState pKbState;
         GameState gState;
-        PlayerManager playerManager;
         Texture2D player;
         Texture2D projectile;
-        ProjectileManager projectileManager;
-        EnemyManager enemyManager;
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
@@ -55,13 +52,13 @@ namespace BlankspaceGame
         Texture2D BackDrop;
         Rectangle backLoc;
         Weapon wep;
-        WaveManager wm;
 
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.PreferredBackBufferWidth = 600;
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
@@ -77,18 +74,18 @@ namespace BlankspaceGame
         {
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
-            projectileManager = new ProjectileManager();
-            enemyManager = new EnemyManager();
-            projectileManager = new ProjectileManager();           
             playerObject = new Player(new Rectangle(300, 850, 55, 55), player);
-            playerManager = new PlayerManager(playerObject);
+
+            // Initializes the manager classes
+            EnemyManager.Initialize();
+            PlayerManager.Initialize(playerObject);
+            ProjectileManager.Initialize();
+            WaveManager.Initialize(".\\Content\\Levels\\bad.wave");
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 
-            wm = new WaveManager(".\\Content\\Levels\\bad.wave", enemyManager);
-
             base.Initialize();
-            
+
         }
 
         /// <summary>
@@ -98,25 +95,25 @@ namespace BlankspaceGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);          
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
             explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
-            playerManager.LoadSound(proSound, explosionSound);
+            PlayerManager.LoadSound(proSound, explosionSound);
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
-            enemyManager.LoadDefaultEnemy(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound , proSound);
+            EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound, proSound);
             //enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
             arial18 = Content.Load<SpriteFont>("Fonts/arial18");// load sprite font
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
             //load Images
-            BackDrop = Content.Load<Texture2D>("Images/BackSpace");
+            BackDrop = Content.Load<Texture2D>("Images/pixilSpace");
         }
 
         //Draws all the gamescreen text to keep the draw method cleaner
@@ -137,7 +134,7 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        spriteBatch.DrawString(arial12, "Health: "+playerObject.Health, new Vector2(10, 855), Color.White);// add Health var
+                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White);// add Health var
                         spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White);// add Ammo Type var
                         spriteBatch.DrawString(arial12, "Level: ", new Vector2(525, 855), Color.White);// add Current Level var
                         spriteBatch.DrawString(arial12, "Score: ", new Vector2(525, 875), Color.White);// add Current Score var
@@ -175,7 +172,7 @@ namespace BlankspaceGame
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();          
+                Exit();
 
             // TODO: Add your update logic here
             //Switch Statement to control screen based on current gamestate
@@ -196,7 +193,7 @@ namespace BlankspaceGame
                 //Sets up enemies, players, and fires projectiles when space is pressed. 
                 case GameState.Game:
                     {
-                        wm.WaveUpdate();
+                        WaveManager.WaveUpdate();
 
                         kbState = Keyboard.GetState();
                         if (isPlaying == false)
@@ -204,32 +201,32 @@ namespace BlankspaceGame
                             MediaPlayer.Play(song);
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
-                        }                       
-                        projectileManager.UpdateProjectiles(playerObject.X, playerObject.Y);
-                        enemyManager.UpdateEnemies(projectileManager);
+                        }
+                        ProjectileManager.UpdateProjectiles();
+                        EnemyManager.UpdateEnemies();
                         //enemyManager.DebugEnemyRespawn();
-                        playerManager.UpdatePlayer(projectileManager, enemyManager);
-                        if (playerManager.CheckFireWeapon(kbState, wep))
+                        PlayerManager.UpdatePlayer();
+                        if (PlayerManager.CheckFireWeapon(kbState, wep))
                         {
-                            wep.Fire(projectileManager, playerObject.X, playerObject.Y);
+                            wep.Fire();
                             playerObject.ShootSound.Play();
                         }
                         if (playerObject.Health <= 0)
                         {
                             gState = GameState.GameOver;
                         }
-                        if (playerManager.CheckSwitchWeapon())
+                        if (PlayerManager.CheckSwitchWeapon())
                         {
-                            wep = playerManager.SwitchWeapon();
+                            wep = PlayerManager.SwitchWeapon();
                             wep.LoadTextures(this);
-                        }                       
+                        }
                         pKbState = Keyboard.GetState();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
                 case GameState.GameOver:
                     {
-                        wm.ReloadWaves();
+                        WaveManager.ReloadWaves();
 
                         kbState = Keyboard.GetState();
                         if (SingleKeyPress(Keys.Enter) == true)
@@ -273,9 +270,9 @@ namespace BlankspaceGame
                         if (playerObject.Health != 0)
                         {
                             playerObject.Draw(spriteBatch);
-                        }                      
-                        projectileManager.DrawProjectiles(spriteBatch);
-                        enemyManager.DrawEnemies(spriteBatch);
+                        }
+                        ProjectileManager.DrawProjectiles(spriteBatch);
+                        EnemyManager.DrawEnemies(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkSlateGray);
                         textOnScreen(); // helper method to clean up Draw method
                         break;
@@ -294,10 +291,10 @@ namespace BlankspaceGame
         protected void GameReset()
         {
             playerObject.Health = 3; // player health reset for new game
-            projectileManager.Clear();
+            ProjectileManager.Clear();
             playerObject.X = 300;
             playerObject.Y = 850;
-            enemyManager.Enemies.Clear();
+            EnemyManager.Enemies.Clear();
             //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
             wep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);

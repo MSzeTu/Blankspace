@@ -11,11 +11,11 @@ using Microsoft.Xna.Framework.Graphics;
  */
 namespace BlankspaceGame
 {
-    public class ProjectileManager
+    static public class ProjectileManager
     {
         // List of projectiles
-        private List<Projectile> projectiles;
-        public List<Projectile> Projectiles
+        static private List<Projectile> projectiles;
+        static public List<Projectile> Projectiles
         {
             get
             {
@@ -23,14 +23,14 @@ namespace BlankspaceGame
             }
         }
 
-        public ProjectileManager()
+        static public void Initialize()
         {
             // Initialize the list of projectiles
             projectiles = new List<Projectile>();
         }
 
         // Removes projectile at target position
-        public void RemoveProjAt(int index)
+        public static void RemoveProjAt(int index)
         {
             projectiles.RemoveAt(index);
         }
@@ -39,22 +39,22 @@ namespace BlankspaceGame
         /// Adds projectiles to the list of projectiles
         /// </summary>
         /// <param name="projectile">The projectile to add</param>
-        public void AddProjectile(Vector2 unitVelocity, int speed, Rectangle rect, Texture2D text, bool playerShot, bool beam)
+        public static void AddProjectile(Vector2 unitVelocity, int speed, int dmg, Rectangle rect, Texture2D text, bool playerShot, bool beam)
         {
-            projectiles.Add(new Projectile(unitVelocity, speed, rect, text, playerShot, beam));
+            projectiles.Add(new Projectile(unitVelocity, speed, dmg, rect, text, playerShot, beam));
         }
 
         // Method to update projectils
-        public void UpdateProjectiles(int x, int y)
+        public static void UpdateProjectiles()
         {
             // Test if the list is empty
-            if(!(projectiles.Count < 0))
+            if (!(projectiles.Count < 0))
             {
                 // Loop through the projectiles
                 foreach (Projectile projectile in projectiles)
                 {
                     // Call their move method and maybe test collisions or somthin
-                    projectile.Move(x, y);
+                    projectile.Move();
                     projectile.UpdateVars();
                 }
 
@@ -70,7 +70,7 @@ namespace BlankspaceGame
         }
 
         // Draw for the projectiles
-        public void DrawProjectiles(SpriteBatch sb)
+        public static void DrawProjectiles(SpriteBatch sb)
         {
             // Test if the list is empty
             if (!(projectiles.Count < 0))
@@ -85,7 +85,7 @@ namespace BlankspaceGame
         }
 
         // Clears the projectile list
-        public void Clear()
+        public static void Clear()
         {
             projectiles.Clear();
         }

@@ -57,24 +57,28 @@ namespace BlankspaceGame
         }
 
         // Fire method, called when space is pressed and will create bullets according to the components
-        public void Fire(ProjectileManager projectileManager, int x, int y)
+        public void Fire()
         {
+            // Sets the x and y to player position
+            int x = PlayerManager.X;
+            int y = PlayerManager.Y;
+
             // Creates projectiles based on current firetype
             switch (this.type)
             {
                 case Firetype.Dual:
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 14, y, 10, 20), dual, true, false);
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 24, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 14, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 24, y, 10, 20), dual, true, false);
                     break;
                 case Firetype.Shotgun:
-                    projectileManager.AddProjectile(new Vector2(0, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
-                    projectileManager.AddProjectile(new Vector2(0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
-                    projectileManager.AddProjectile(new Vector2(0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
-                    projectileManager.AddProjectile(new Vector2(-0.1f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
-                    projectileManager.AddProjectile(new Vector2(-0.2f, -1), 10, new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0.1f, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0.2f, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(-0.1f, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(-0.2f, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);
                     break;
                 case Firetype.Beam:
-                    projectileManager.AddProjectile(new Vector2(0, 1), 0, new Rectangle(x - 25, y - 1500, 100, 1500), beam, true, true);
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 25, y - 1500, 100, 1500), beam, true, true);
                     break;
             }
         }
@@ -94,7 +98,7 @@ namespace BlankspaceGame
                     cd = 40;
                     break;
                 case Firetype.Beam:
-                    cd = 60;
+                    cd = 120;
                     break;
             }
 
@@ -114,7 +118,42 @@ namespace BlankspaceGame
 
             return cd;
         }
-        
+
+        // Returns the damage of the weapon
+        public int GetDamage()
+        {
+            int dmg = 0;
+            // Base damage of each weapontype
+            switch (this.type)
+            {
+                case Firetype.Dual:
+                    dmg = 2;
+                    break;
+                case Firetype.Shotgun:
+                    dmg = 4;
+                    break;
+                case Firetype.Beam:
+                    dmg = 2;
+                    break;
+            }
+
+            // Cooldown modifiers for the damage
+            switch (this.rate)
+            {
+                case Firerate.Fast:
+                    dmg /= 2;
+                    break;
+                case Firerate.Normal:
+                    //dmg = dmg;
+                    break;
+                case Firerate.Slow:
+                    dmg *= 2;
+                    break;
+            }
+
+            return dmg;
+        }
+
         // Loads the textures into the object
         public void LoadTextures(Game1 game)
         {

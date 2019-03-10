@@ -12,15 +12,13 @@ namespace BlankspaceGame
     {
         private TileType[,] tiles;
         private int delay;
-        private EnemyManager eManager;
 
         public int Delay { get { return delay; } }
 
-        public Wave (int delay, int width, int height, EnemyManager enemyManager)
+        public Wave(int delay, int width, int height)
         {
             this.delay = delay;
             tiles = new TileType[width, height];
-            this.eManager = enemyManager;
         }
 
         public void SetType(TileType type, int x, int y)
@@ -39,12 +37,13 @@ namespace BlankspaceGame
                     switch (tiles[x, y])
                     {
                         case TileType.Enemy:
-                            eManager.AddEnemy
+                            EnemyManager.AddEnemy
                                 (
                                 new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
-                                eManager.DefEnemy,
+                                EnemyManager.DefEnemy,
                                 5,
-                                3
+                                3,
+                                EnemyType.Basic
                                 );
                             break;
                     }

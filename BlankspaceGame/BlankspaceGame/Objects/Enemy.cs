@@ -15,12 +15,23 @@ using Microsoft.Xna.Framework.Audio;
  */
 namespace BlankspaceGame
 {
+    public enum EnemyType
+    {
+        Basic,
+        Shotgun,
+        Tank,
+        MovingBasic,
+        MovingShotgun,
+        Boss
+    }
     public class Enemy : Actor
     {
         // Fields
         // Info for determining direction
         private Vector2 unitVelocity;
         private int speed;
+        private int cooldown;
+        private EnemyType type;
 
         //Sprites and sound
         SoundEffect hitSound;
@@ -66,11 +77,13 @@ namespace BlankspaceGame
             return false;
         }
 
-        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn) : base(rect, text, hp)
+        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, EnemyType type) : base(rect, text, hp)
         {
             unitVelocity = unitVelIn;
             speed = spdIn;
             unitVelocity.Normalize();
+            this.type = type;
+            cooldown = 0;
         }
 
         // Loads enemy sprites and sounds
@@ -92,16 +105,42 @@ namespace BlankspaceGame
         }
 
         //Checks if bullets have hit enemy
-        public int CheckBulletCollision(List<Projectile> projectiles)
+        public int CheckBulletCollision()
         {
-            for (int i = 0; i < projectiles.Count; i++)
+            for (int i = 0; i < ProjectileManager.Projectiles.Count; i++)
             {
-                if (projectiles[i].Colliding(this))
+                if (ProjectileManager.Projectiles[i].Colliding(this))
                 {
                     return i;
                 }
             }
             return -1;
+        }
+
+        // Returns an int that determines the attack, will add code here for alternate enemy attacks
+        public int CheckForAttack(Random rand)
+        {
+            // Decrements cooldown if it is nonzero
+            if (cooldown > 0)
+            {
+                cooldown -= 1;
+                return 0;
+            }
+            int value = rand.Next(0, 101);
+            // Checks the type of enemy and then rolls to see if it will attack or not
+            // Different enemies have different chances to attack and some have multiple attacks
+            switch (this.type)
+            {
+                case EnemyType.Basic:
+                    if (value > 90)
+                    {
+                        return 1;
+                    }
+                    cooldown = 30;
+                    return 0;
+                default:
+                    return 0;
+            }
         }
     }
 }

@@ -7,31 +7,29 @@ using System.IO;
 
 namespace BlankspaceGame
 {
-    
+
     public enum TileType
     {
         Space,
         Enemy
     }
 
-    class WaveManager
+    static class WaveManager
     {
         // Wave data
-        private int waveCount;
-        private int width, height;
-        private EnemyManager eManager;
+        private static int waveCount;
+        private static int width, height;
 
         // List for the waves
-        public List<Wave> waves;
+        public static List<Wave> waves;
 
         // Timing
-        private float currentTime;
-        private int currentWave;
+        private static float currentTime;
+        private static int currentWave;
 
-        public WaveManager(string path, EnemyManager eManager)
+        public static void Initialize(string path)
         {
-            waves = new List<Wave>(); 
-            this.eManager = eManager;
+            waves = new List<Wave>();
 
             currentWave = 0;
             currentTime = 0;
@@ -39,7 +37,7 @@ namespace BlankspaceGame
         }
 
         // Updates the wave and delay
-        public void WaveUpdate()
+        public static void WaveUpdate()
         {
             currentTime += (1f / 60f);
 
@@ -51,19 +49,20 @@ namespace BlankspaceGame
                 if (currentWave < waveCount - 1)
                 {
                     currentWave++;
-                } else
+                }
+                else
                 {
                     currentWave = 0;
                 }
             }
         }
-        
+
 
         /// <summary>
         /// Loads in the wave from a given path
         /// </summary>
         /// <param name="path">The directory to the wave in question</param>
-        public void LoadWaves(string path)
+        public static void LoadWaves(string path)
         {
             // Open the bianary reader
             Stream reader = File.OpenRead(path);
@@ -79,7 +78,7 @@ namespace BlankspaceGame
             {
                 // Read the delay and add a base wave
                 int delay = br.ReadInt32();
-                waves.Add(new Wave(delay,width, height, eManager));
+                waves.Add(new Wave(delay, width, height));
 
                 // Load in each tile
                 for (int x = 0; x < width; x++)
@@ -95,7 +94,7 @@ namespace BlankspaceGame
             br.Close();
         }
 
-        public void ReloadWaves()
+        public static void ReloadWaves()
         {
             currentTime = 0;
             currentWave = 0;

@@ -15,26 +15,26 @@ using Microsoft.Xna.Framework.Audio;
  */
 namespace BlankspaceGame
 {
-    class PlayerManager
+    static class PlayerManager
     {
         //Keyboard objects to handle key presses
-        KeyboardState kbState;
-        KeyboardState pKbState;
-        Player player;
+        static KeyboardState kbState;
+        static KeyboardState pKbState;
+        static Player player;
         // Variables
-        private int iFrame;
-        private int currentCD;
+        static private int iFrame;
+        static private int currentCD;
 
-        public int X
+        static public int X
         {
             get { return player.X; }
         }
-        public int Y
+        static public int Y
         {
             get { return player.Y; }
         }
         //Constructor
-        public PlayerManager(Player initPlayer)
+        static public void Initialize(Player initPlayer)
         {
             player = initPlayer;
             currentCD = 0;
@@ -42,7 +42,7 @@ namespace BlankspaceGame
         }
 
         //Moves the player using wasd, prevents moving off screen
-        public void UpdatePlayer(ProjectileManager pm, EnemyManager em)
+        static public void UpdatePlayer()
         {
             kbState = Keyboard.GetState();
             if (player.DamageTick > 0)
@@ -59,37 +59,37 @@ namespace BlankspaceGame
             {
                 player.Color = Color.White;
             }
-            if (kbState.IsKeyDown(Keys.W) && player.Y>=0)
+            if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
             {
-                player.Y -= 6; 
+                player.Y -= 6;
             }
-            if (kbState.IsKeyDown(Keys.S) && player.Y<=850)
+            if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
             {
                 player.Y += 6;
             }
-            if (kbState.IsKeyDown(Keys.A) && player.X>=0)
+            if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
             {
                 player.X -= 6;
             }
-            if (kbState.IsKeyDown(Keys.D) && player.X<=550)
+            if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
             {
                 player.X += 6;
             }
             // Removes health for colliding with projectiles
-            int collidedIndex = CheckBulletCollision(pm.Projectiles);
-            if (collidedIndex != -1 && pm.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
+            int collidedIndex = CheckBulletCollision(ProjectileManager.Projectiles);
+            if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
             {
-                pm.Projectiles.RemoveAt(collidedIndex);
-                player.Damage(1);
+                ProjectileManager.Projectiles.RemoveAt(collidedIndex);
+                player.Damage(ProjectileManager.Projectiles[collidedIndex].Damage);
                 player.DamageTick = 1;
                 iFrame = 20;
                 player.HitSound.Play();
             }
             // Removes health for colliding with enemies
-            int collidedIndexE = CheckEnemyCollision(em.Enemies);
+            int collidedIndexE = CheckEnemyCollision();
             if (collidedIndexE != -1 && iFrame == 0)
             {
-                em.Enemies.RemoveAt(collidedIndexE);
+                EnemyManager.Enemies.RemoveAt(collidedIndexE);
                 player.Damage(1);
                 player.DamageTick = 1;
                 iFrame = 5;
@@ -99,7 +99,7 @@ namespace BlankspaceGame
         }
 
         // Weapon firing code
-        public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
+        static public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
         {
             if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
             {
@@ -114,7 +114,7 @@ namespace BlankspaceGame
         }
 
         //Checks if player is trying to switch weapon 
-        public bool CheckSwitchWeapon()
+        static public bool CheckSwitchWeapon()
         {
             kbState = Keyboard.GetState();
             if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3))
@@ -125,13 +125,13 @@ namespace BlankspaceGame
             return false;
         }
         //Changes weapon type by pressing 1 2 or 3
-        public Weapon SwitchWeapon()
+        static public Weapon SwitchWeapon()
         {
             Weapon returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
             kbState = Keyboard.GetState();
             if (kbState.IsKeyDown(Keys.D1))
             {
-                returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);               
+                returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
             }
             if (kbState.IsKeyDown(Keys.D2))
             {
@@ -146,7 +146,7 @@ namespace BlankspaceGame
         }
 
         //Lowers players health by 1 when shot
-        public int CheckBulletCollision(List<Projectile> projectiles)
+        static public int CheckBulletCollision(List<Projectile> projectiles)
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
@@ -162,20 +162,20 @@ namespace BlankspaceGame
         }
 
         //Lowers players health by 1 when colliding with enemy
-        public int CheckEnemyCollision(List<Enemy> enemies)
+        static public int CheckEnemyCollision()
         {
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {               
-                    if (enemies[i].Colliding(player))
-                    {
-                        return i;
-                    }               
+            for (int i = EnemyManager.Enemies.Count - 1; i >= 0; i--)
+            {
+                if (EnemyManager.Enemies[i].Colliding(player))
+                {
+                    return i;
+                }
             }
             return -1;
         }
 
         //Loads Player Sound Effects
-        public void LoadSound(SoundEffect shoot, SoundEffect hit)
+        static public void LoadSound(SoundEffect shoot, SoundEffect hit)
         {
             player.HitSound = hit;
             player.ShootSound = shoot;

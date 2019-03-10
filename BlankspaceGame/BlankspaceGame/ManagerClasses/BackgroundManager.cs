@@ -11,7 +11,7 @@ using System.Threading.Tasks;
  */
 namespace BlankspaceGame
 {
-    class BackgroundManager
+    static class BackgroundManager
     {
     }
 }

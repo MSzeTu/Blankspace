@@ -24,6 +24,10 @@ namespace BlankspaceGame
         private bool beam;
         private int lifetime;
 
+        public int Damage
+        {
+            get { return damage; }
+        }
         public bool PlayerShot
         {
             get
@@ -61,11 +65,12 @@ namespace BlankspaceGame
         /// <param name="speed">The speed the projectile is moving at.</param>
         /// <param name="rect">GameObject rectangle.</param>
         /// <param name="text">The projectiles texture.</param>
-        public Projectile(Vector2 dir, int speed, Rectangle rect, Texture2D text, bool playPro, bool beamBool) : base(rect, text)
+        public Projectile(Vector2 dir, int speed, int dmg, Rectangle rect, Texture2D text, bool playPro, bool beamBool) : base(rect, text)
         {
             this.direction = dir;
             this.direction.Normalize();
             this.speed = speed;
+            this.damage = dmg;
             accPosition.X = rect.X;
             accPosition.Y = rect.Y;
             playerShot = playPro;
@@ -76,7 +81,7 @@ namespace BlankspaceGame
         /// <summary>
         /// Moves the projectile.
         /// </summary>
-        public void Move(int x, int y)
+        public void Move()
         {
             if (beam == false)
             {
@@ -90,8 +95,8 @@ namespace BlankspaceGame
             }
             if (beam == true)
             {
-                accPosition.X = x - 25;
-                accPosition.Y = y - 1500;
+                accPosition.X = PlayerManager.X - 25;
+                accPosition.Y = PlayerManager.Y - 1500;
             }
             lifetime += 1;
         }
