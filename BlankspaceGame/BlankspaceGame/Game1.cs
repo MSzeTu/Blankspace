@@ -136,8 +136,8 @@ namespace BlankspaceGame
                     {
                         spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White);// add Health var
                         spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White);// add Ammo Type var
-                        spriteBatch.DrawString(arial12, "Level: ", new Vector2(525, 855), Color.White);// add Current Level var
-                        spriteBatch.DrawString(arial12, "Score: ", new Vector2(525, 875), Color.White);// add Current Score var
+                        spriteBatch.DrawString(arial12, "Level: ", new Vector2(515, 855), Color.White);// add Current Level var
+                        spriteBatch.DrawString(arial12, "Score: "+PlayerManager.Score, new Vector2(515, 875), Color.White);// add Current Score var
                         break;
                     }
                 case GameState.GameOver:
@@ -146,8 +146,8 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial18, "You have been WhIPed!", new Vector2(170, 275), Color.White);// funny? 
                         // last game stats
                         spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White);// add current level var\
-                        spriteBatch.DrawString(arial12, "Your Final Score: ", new Vector2(235, 375), Color.White);// add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: ", new Vector2(235, 400), Color.White);// add High Score var
+                        spriteBatch.DrawString(arial12, "Your Final Score: "+PlayerManager.Score, new Vector2(235, 375), Color.White);// add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: "+PlayerManager.HighScore, new Vector2(235, 400), Color.White);// add High Score var
                         spriteBatch.DrawString(arial18, "Press enter to retun to Main menu", new Vector2(122, 500), Color.White);// continue to menu instructions
                         break;
                     }
@@ -213,6 +213,7 @@ namespace BlankspaceGame
                         }
                         if (playerObject.Health <= 0)
                         {
+                            PlayerManager.SetHighScore();
                             gState = GameState.GameOver;
                         }
                         if (PlayerManager.CheckSwitchWeapon())
@@ -294,6 +295,7 @@ namespace BlankspaceGame
             ProjectileManager.Clear();
             playerObject.X = 300;
             playerObject.Y = 850;
+            PlayerManager.Score = 0;
             EnemyManager.Enemies.Clear();
             //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content

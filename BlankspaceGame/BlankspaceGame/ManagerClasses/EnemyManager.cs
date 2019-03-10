@@ -87,7 +87,7 @@ namespace BlankspaceGame
                 {
                     case 1:
                         // Fires one projectile at the player
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y+27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
                         break;
                     default:
                         // Do nothing
@@ -119,11 +119,12 @@ namespace BlankspaceGame
                         {
                             if (p != 0 || k != 0)
                             {
-                                ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);
+                                ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);                               
                             }
                         }
                     }
                     enemies.RemoveAt(i);
+                    PlayerManager.Score += 100;
                 }
             }
         }

@@ -24,7 +24,18 @@ namespace BlankspaceGame
         // Variables
         static private int iFrame;
         static private int currentCD;
+        static private int score;
+        static private int highScore;
 
+        static public int HighScore
+        {
+            get { return highScore;}
+        }
+        static public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
         static public int X
         {
             get { return player.X; }
@@ -39,6 +50,8 @@ namespace BlankspaceGame
             player = initPlayer;
             currentCD = 0;
             iFrame = 0;
+            score = 0;
+            highScore = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -179,6 +192,15 @@ namespace BlankspaceGame
         {
             player.HitSound = hit;
             player.ShootSound = shoot;
+        }
+
+        //Saves high score 
+        static public void SetHighScore()
+        {
+            if (score > highScore)
+            {
+                highScore = score;
+            }
         }
     }
 }
