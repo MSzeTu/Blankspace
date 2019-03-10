@@ -79,11 +79,11 @@ namespace BlankspaceGame
             int collidedIndex = CheckBulletCollision(ProjectileManager.Projectiles);
             if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
             {
-                ProjectileManager.Projectiles.RemoveAt(collidedIndex);
                 player.Damage(ProjectileManager.Projectiles[collidedIndex].Damage);
                 player.DamageTick = 1;
                 iFrame = 20;
                 player.HitSound.Play();
+                ProjectileManager.Projectiles.RemoveAt(collidedIndex);
             }
             // Removes health for colliding with enemies
             int collidedIndexE = CheckEnemyCollision();
