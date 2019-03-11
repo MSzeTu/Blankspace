@@ -103,6 +103,7 @@ namespace BlankspaceGame
             proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
             explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
             PlayerManager.LoadSound(proSound, explosionSound);
+            PlayerManager.LoadContent(this);
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
@@ -268,12 +269,9 @@ namespace BlankspaceGame
                 case GameState.Game:
                     {
                         spriteBatch.Draw(BackDrop, backLoc, Color.White);
-                        if (playerObject.Health != 0)
-                        {
-                            playerObject.Draw(spriteBatch);
-                        }
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
+                        PlayerManager.DrawPlayer(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkSlateGray);
                         textOnScreen(); // helper method to clean up Draw method
                         break;
@@ -286,6 +284,7 @@ namespace BlankspaceGame
                     }
             }
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 
@@ -296,6 +295,7 @@ namespace BlankspaceGame
             playerObject.X = 300;
             playerObject.Y = 850;
             PlayerManager.Score = 0;
+            PlayerManager.IFrame = 0;
             EnemyManager.Enemies.Clear();
             //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
@@ -305,7 +305,7 @@ namespace BlankspaceGame
 
 
         //Checks if a key is being pressed one time
-        protected Boolean SingleKeyPress(Keys key)
+        protected bool SingleKeyPress(Keys key)
         {
             if (pKbState.IsKeyDown(key) == false && kbState.IsKeyDown(key) == true)
             {

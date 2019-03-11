@@ -21,6 +21,7 @@ namespace BlankspaceGame
         static KeyboardState kbState;
         static KeyboardState pKbState;
         static Player player;
+        static Texture2D solidTexture;
         // Variables
         static private int iFrame;
         static private int currentCD;
@@ -43,6 +44,11 @@ namespace BlankspaceGame
         static public int Y
         {
             get { return player.Y; }
+        }
+        static public int IFrame
+        {
+            get { return iFrame; }
+            set { iFrame = value; }
         }
         //Constructor
         static public void Initialize(Player initPlayer)
@@ -89,7 +95,7 @@ namespace BlankspaceGame
                 player.X += 6;
             }
             // Removes health for colliding with projectiles
-            int collidedIndex = CheckBulletCollision(ProjectileManager.Projectiles);
+            int collidedIndex = CheckBulletCollision();
             if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
             {
                 player.Damage(ProjectileManager.Projectiles[collidedIndex].Damage);
@@ -109,6 +115,20 @@ namespace BlankspaceGame
                 player.HitSound.Play();
             }
             pKbState = Keyboard.GetState();
+        }
+
+        // Draw method for player and effects
+        public static void DrawPlayer(SpriteBatch sb)
+        {
+            if (player.Health > 0)
+            {
+                player.Draw(sb);
+            }
+            // Draws red overlay when damaged
+            if (iFrame > 0)
+            {
+                sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(50, 0, 0, iFrame * 4));
+            }
         }
 
         // Weapon firing code
@@ -159,13 +179,13 @@ namespace BlankspaceGame
         }
 
         //Lowers players health by 1 when shot
-        static public int CheckBulletCollision(List<Projectile> projectiles)
+        static public int CheckBulletCollision()
         {
-            for (int i = projectiles.Count - 1; i >= 0; i--)
+            for (int i = ProjectileManager.Projectiles.Count - 1; i >= 0; i--)
             {
-                if (projectiles[i].PlayerShot == false)
+                if (ProjectileManager.Projectiles[i].PlayerShot == false)
                 {
-                    if (projectiles[i].Colliding(player))
+                    if (ProjectileManager.Projectiles[i].Colliding(player))
                     {
                         return i;
                     }
@@ -192,6 +212,12 @@ namespace BlankspaceGame
         {
             player.HitSound = hit;
             player.ShootSound = shoot;
+        }
+
+        // Loads playermanager content
+        static public void LoadContent(Game game)
+        {
+            solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
         }
 
         //Saves high score 
