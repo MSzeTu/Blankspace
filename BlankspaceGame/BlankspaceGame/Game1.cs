@@ -153,7 +153,6 @@ namespace BlankspaceGame
                         break;
                     }
             }
-            spriteBatch.End();
         }
 
         /// <summary>
