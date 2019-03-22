@@ -14,7 +14,9 @@ namespace BlankspaceTool
     enum TileType
     {
         Space,
-        Enemy
+        Enemy,
+        Shotgun,
+        Tank
     }
 
     class Wave
@@ -46,7 +48,15 @@ namespace BlankspaceTool
             }
             if(type == TileType.Enemy)
             {
+                objects[x, y].BackColor = Color.Blue;
+            }
+            if (type == TileType.Shotgun)
+            {
                 objects[x, y].BackColor = Color.Red;
+            }
+            if (type == TileType.Tank)
+            {
+                objects[x, y].BackColor = Color.Green;
             }
         }
 

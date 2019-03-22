@@ -40,10 +40,21 @@ namespace BlankspaceGame
                             EnemyManager.AddEnemy
                                 (
                                 new Rectangle(x * 120 + 30, y * -100 - 100, 60, 60),
-                                EnemyManager.DefEnemy,
-                                5,
-                                3,
                                 EnemyType.Basic
+                                );
+                            break;
+                        case TileType.Shotgun:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Shotgun
+                                );
+                            break;
+                        case TileType.Tank:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Tank
                                 );
                             break;
                     }

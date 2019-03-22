@@ -11,7 +11,9 @@ namespace BlankspaceGame
     public enum TileType
     {
         Space,
-        Enemy
+        Enemy,
+        Shotgun,
+        Tank
     }
 
     static class WaveManager
