@@ -95,8 +95,8 @@ namespace BlankspaceGame
             }
             if (beam == true)
             {
-                accPosition.X = PlayerManager.X - 25;
-                accPosition.Y = PlayerManager.Y - 1500;
+                accPosition.X = PlayerManager.X;// - 25;
+                accPosition.Y = PlayerManager.Y - 1475;
             }
             lifetime += 1;
         }
