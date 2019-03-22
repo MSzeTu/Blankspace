@@ -167,11 +167,11 @@ namespace BlankspaceGame
                                 if (p != 0 || k != 0)
                                 {
                                     ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);
-                                    PickupManager.Drop(enemies[i]);
                                 }
                             }
                         }
                     }
+                    PickupManager.Drop(enemies[i]);
                     enemies.RemoveAt(i);
                     PlayerManager.Score += 100;
                 }

@@ -26,6 +26,7 @@ namespace BlankspaceGame
             ".\\Content\\Levels\\level2.wave",
             ".\\Content\\Levels\\level3.wave",
             ".\\Content\\Levels\\ouch.wave"
+
         };
 
         // Timing
