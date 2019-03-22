@@ -86,15 +86,6 @@ namespace BlankspaceGame
             cooldown = 0;
         }
 
-        // Loads enemy sprites and sounds
-        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
-        {
-            defEnemy = tex;
-            projectiles = projectile;
-            hitSound = hit;
-            shootSound = shoot;
-        }
-
         // Move method for moving in target direction
         public void Move()
         {

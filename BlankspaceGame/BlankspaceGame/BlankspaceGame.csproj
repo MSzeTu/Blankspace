@@ -50,6 +50,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Pickup.cs" />
+    <Compile Include="ManagerClasses\PickupManager.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="ManagerClasses\PlayerManager.cs" />
     <Compile Include="Objects\Wave.cs" />

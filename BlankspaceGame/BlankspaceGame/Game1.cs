@@ -80,6 +80,7 @@ namespace BlankspaceGame
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
             ProjectileManager.Initialize();
+            PickupManager.Intialize();
             WaveManager.Initialize(".\\Content\\Levels\\bad.wave");
 
             backLoc = new Rectangle(0, 0, 600, 1250);
@@ -108,7 +109,8 @@ namespace BlankspaceGame
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
             EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound, proSound);
-            //enemyManager.DebugEnemyTest();
+            //Loads Pickup content into manager
+            PickupManager.LoadTextures(this);
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
             arial18 = Content.Load<SpriteFont>("Fonts/arial18");// load sprite font
@@ -202,6 +204,7 @@ namespace BlankspaceGame
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
                         }
+                        PickupManager.UpdatePickup();
                         ProjectileManager.UpdateProjectiles();
                         EnemyManager.UpdateEnemies();
                         //enemyManager.DebugEnemyRespawn();
@@ -271,6 +274,7 @@ namespace BlankspaceGame
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
                         PlayerManager.DrawPlayer(spriteBatch);
+                        PickupManager.DrawPickups(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkSlateGray);
                         textOnScreen(); // helper method to clean up Draw method
                         break;
@@ -296,6 +300,7 @@ namespace BlankspaceGame
             PlayerManager.Score = 0;
             PlayerManager.IFrame = 0;
             EnemyManager.Enemies.Clear();
+            PickupManager.Pickups.Clear();
             //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
             wep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);

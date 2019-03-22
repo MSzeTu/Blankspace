@@ -110,7 +110,7 @@ namespace BlankspaceGame
                         ProjectileManager.RemoveProjAt(collidedIndex);
                     }
                 }
-                // Checks for health and deletes ones with no health, also creates explosion when an enemy dies
+                // Checks for health and deletes ones with no health, also creates explosion when an enemy dies and might drop pickup
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
                 {
                     for (int k = -1; k <= 1; k++)
@@ -119,7 +119,9 @@ namespace BlankspaceGame
                         {
                             if (p != 0 || k != 0)
                             {
-                                ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);                               
+                                ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);
+                                PickupManager.Drop(enemies[i]);
+                                
                             }
                         }
                     }
