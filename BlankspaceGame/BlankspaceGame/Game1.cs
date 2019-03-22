@@ -80,7 +80,7 @@ namespace BlankspaceGame
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
             ProjectileManager.Initialize();
-            WaveManager.Initialize(".\\Content\\Levels\\bad.wave");
+            WaveManager.Initialize(".\\Content\\Levels\\McWave.wave");
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 
@@ -136,9 +136,10 @@ namespace BlankspaceGame
                 case GameState.Game:
                     {
                         spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White);// add Health var
-                        spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White);// add Ammo Type var
+                        spriteBatch.DrawString(arial12, "Ammo Type: " + PlayerManager.WeaponType, new Vector2(10, 875), Color.White);// add Ammo Type var
+                        spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 835), Color.White);// add Current Score var
                         spriteBatch.DrawString(arial12, "Level: ", new Vector2(515, 855), Color.White);// add Current Level var
-                        spriteBatch.DrawString(arial12, "Score: "+PlayerManager.Score, new Vector2(515, 875), Color.White);// add Current Score var
+                        //spriteBatch.DrawString(arial12, "Wave #  " ++ "of" ++, new Vector2(515, 875), Color.White);// add Current Score var
                         break;
                     }
                 case GameState.GameOver:
