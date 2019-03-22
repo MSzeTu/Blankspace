@@ -14,7 +14,9 @@ namespace BlankspaceTool
     enum Tools
     {
         Space,
-        Enemy
+        Enemy,
+        Shotgun,
+        Tank
     }
 
     public partial class WavesEditor : Form
@@ -129,8 +131,18 @@ namespace BlankspaceTool
             }
             if(equipedTool == Tools.Enemy)
             {
-                waves[waveIndex].Objects[x, y].BackColor = Color.Red;
+                waves[waveIndex].Objects[x, y].BackColor = Color.Blue;
                 waves[waveIndex].SetTile(x, y, TileType.Enemy);
+            }
+            if (equipedTool == Tools.Shotgun)
+            {
+                waves[waveIndex].Objects[x, y].BackColor = Color.Red;
+                waves[waveIndex].SetTile(x, y, TileType.Shotgun);
+            }
+            if (equipedTool == Tools.Tank)
+            {
+                waves[waveIndex].Objects[x, y].BackColor = Color.Green;
+                waves[waveIndex].SetTile(x, y, TileType.Tank);
             }
         }
 
@@ -138,9 +150,17 @@ namespace BlankspaceTool
         {
             Color toolColor = ((Button)sender).BackColor;
 
-            if (toolColor == Color.Red)
+            if (toolColor == Color.Blue)
             {
                 equipedTool = Tools.Enemy;
+            }
+            if (toolColor == Color.Red)
+            {
+                equipedTool = Tools.Shotgun;
+            }
+            if (toolColor == Color.Green)
+            {
+                equipedTool = Tools.Tank;
             }
             if(toolColor == Color.LightGray)
             {

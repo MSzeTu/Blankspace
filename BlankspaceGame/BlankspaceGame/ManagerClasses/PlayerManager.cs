@@ -28,10 +28,16 @@ namespace BlankspaceGame
         static private int currentCD;
         static private int score;
         static private int highScore;
+        static private string weaponType;
 
         static public int HighScore
         {
             get { return highScore;}
+        }
+        static public string WeaponType
+        {
+            get { return weaponType; }
+            set { weaponType = value; }
         }
         static public int Score
         {
@@ -188,14 +194,17 @@ namespace BlankspaceGame
             if (kbState.IsKeyDown(Keys.D1))
             {
                 returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
+                weaponType = "Machine Gun";
             }
             if (kbState.IsKeyDown(Keys.D2))
             {
                 returnWep = new Weapon(Firetype.Shotgun, Firerate.Fast, Firecolor.Red);
+                weaponType = "Shotgun";
             }
             if (kbState.IsKeyDown(Keys.D3))
             {
                 returnWep = new Weapon(Firetype.Beam, Firerate.Fast, Firecolor.Red);
+                weaponType = "Beam";
             }
             pKbState = Keyboard.GetState();
             return returnWep;
@@ -254,6 +263,8 @@ namespace BlankspaceGame
         static public void LoadContent(Game game)
         {
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
+            player.HitSound = game.Content.Load<SoundEffect>("Sounds/Explosion");
+            player.ShootSound = game.Content.Load<SoundEffect>("Sounds/Laser_Sound");
         }
 
         //Saves high score 

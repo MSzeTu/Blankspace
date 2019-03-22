@@ -49,6 +49,7 @@
     <Compile Include="ManagerClasses\EnemyManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\Level.cs" />
     <Compile Include="Objects\Pickup.cs" />
     <Compile Include="ManagerClasses\PickupManager.cs" />
     <Compile Include="Objects\Player.cs" />
