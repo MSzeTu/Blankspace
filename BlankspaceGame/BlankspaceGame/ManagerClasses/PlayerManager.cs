@@ -24,6 +24,7 @@ namespace BlankspaceGame
         static Texture2D solidTexture;
         // Variables
         static private int iFrame;
+        static private int pickupFrame;
         static private int currentCD;
         static private int score;
         static private int highScore;
@@ -56,6 +57,11 @@ namespace BlankspaceGame
             get { return iFrame; }
             set { iFrame = value; }
         }
+        static public int PickupFrame
+        {
+            get { return pickupFrame; }
+            set { pickupFrame = value; }
+        }
         //Constructor
         static public void Initialize(Player initPlayer)
         {
@@ -64,6 +70,7 @@ namespace BlankspaceGame
             iFrame = 0;
             score = 0;
             highScore = 0;
+            pickupFrame = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -79,6 +86,10 @@ namespace BlankspaceGame
             {
                 iFrame -= 1;
                 player.Color = Color.Green;
+            }
+            if (pickupFrame > 0)
+            {
+                pickupFrame -= 1;
             }
             else
             {
@@ -119,6 +130,18 @@ namespace BlankspaceGame
                 player.DamageTick = 1;
                 iFrame = 5;
                 player.HitSound.Play();
+            }
+            //Triggers effect when colliding with Pickups
+            int collidedIndexPi = CheckPickupCollision();
+            if (collidedIndexPi != -1)
+            { 
+                if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi].PType) == 1)
+                {
+                    PickupManager.RemovePickAt(collidedIndexPi);
+                    player.Health++;                
+                }
+                pickupFrame = 20;
+                
             }
             pKbState = Keyboard.GetState();
         }
@@ -216,6 +239,19 @@ namespace BlankspaceGame
             return -1;
         }
 
+        //Checks for pickup collision
+        public static int CheckPickupCollision()
+        {
+            for (int i = PickupManager.Pickups.Count - 1; i >= 0; i--)
+            {
+                if (PickupManager.Pickups[i].Colliding(player))
+                {
+                    return i;
+                }    
+            }
+            return -1;
+        }
+
         //Loads Player Sound Effects
         static public void LoadSound(SoundEffect shoot, SoundEffect hit)
         {
@@ -227,6 +263,8 @@ namespace BlankspaceGame
         static public void LoadContent(Game game)
         {
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
+            player.HitSound = game.Content.Load<SoundEffect>("Sounds/Explosion");
+            player.ShootSound = game.Content.Load<SoundEffect>("Sounds/Laser_Sound");
         }
 
         //Saves high score 

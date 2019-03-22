@@ -39,6 +39,22 @@ namespace BlankspaceGame
                         case TileType.Enemy:
                             EnemyManager.AddEnemy
                                 (
+                                new Rectangle(x * 120 + 30, y * -100 - 100, 60, 60),
+                                EnemyType.Basic
+                                );
+                            break;
+                        case TileType.Shotgun:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Shotgun
+                                );
+                            break;
+                        case TileType.Tank:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Tank
                                 new Rectangle(x * 100 + 25, y * -100 - 100, 100, 100),
                                 EnemyManager.DefEnemy,
                                 5,

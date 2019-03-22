@@ -28,12 +28,12 @@ namespace BlankspaceGame
         }
 
         // Sprites and sounds
-        static Texture2D defEnemy;
+        static Texture2D enemyBasic;
+        static Texture2D enemyShotgun;
+        static Texture2D enemyTank;
         static Texture2D projectiles;
         static SoundEffect hitEnemy;
         static SoundEffect enemyShoots;
-
-        static public Texture2D DefEnemy { get { return defEnemy; } }
 
         // Initializes default values
         public static void Initialize()
@@ -42,12 +42,14 @@ namespace BlankspaceGame
         }
 
         // Loads enemy sprites to the manager
-        static public void LoadEnemyContent(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
+        static public void LoadEnemyContent(Game g)
         {
-            defEnemy = tex;
-            projectiles = projectile;
-            hitEnemy = hit;
-            enemyShoots = shoot;
+            enemyBasic = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
+            enemyShotgun = g.Content.Load<Texture2D>("Enemy/EnemyShotgun");
+            enemyTank = g.Content.Load<Texture2D>("Enemy/EnemyTank");
+            projectiles = g.Content.Load<Texture2D>("Projectiles/Projectile");
+            hitEnemy = g.Content.Load<SoundEffect>("Sounds/Explosion");
+            enemyShoots = g.Content.Load<SoundEffect>("Sounds/Laser_Sound");
         }
 
         // For adding an enemy to the list
@@ -58,9 +60,32 @@ namespace BlankspaceGame
         /// <param name="text">Texture of the enemy, use the saved textures in the EnemyManager</param>
         /// <param name="hp">Health value, should be a value between 10 and 100</param>
         /// <param name="speed">Speed of the enemy, should be a value between XXXXXXXX</param>
-        static public void AddEnemy(Rectangle rect, Texture2D text, int hp, int speed, EnemyType t)
+        static public void AddEnemy(Rectangle rect, EnemyType type)
         {
-            enemies.Add(new Enemy(rect, text, hp, new Vector2(0, 1), speed, t));
+            Texture2D text = enemyBasic;
+            int hp = 1;
+            int speed = 1;
+            // Determines stats based on enemy type
+            switch (type)
+            {
+                case EnemyType.Basic:
+                    text = enemyBasic;
+                    hp = 3;
+                    speed = 2;
+                    break;
+                case EnemyType.Shotgun:
+                    text = enemyShotgun;
+                    hp = 5;
+                    speed = 2;
+                    break;
+                case EnemyType.Tank:
+                    text = enemyTank;
+                    hp = 15;
+                    speed = 2;
+                    break;
+            }
+
+            enemies.Add(new Enemy(rect, text, hp, new Vector2(0, 1), speed, type));
         }
 
         // Called in update to move all enemies at the same time
@@ -89,6 +114,25 @@ namespace BlankspaceGame
                         // Fires one projectile at the player
                         ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y+27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
                         break;
+                    case 2:
+                        // Fires a cone of 3 projectiles at the player
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        break;
+                    case 3:
+                        // Fires a circle of projectiles around the enemy
+                        for (int k = -1; k <= 1; k++)
+                        {
+                            for (int p = -1; p <= 1; p++)
+                            {
+                                if (p != 0 || k != 0)
+                                {
+                                    ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                                }
+                            }
+                        }
+                        break;
                     default:
                         // Do nothing
                         break;
@@ -110,16 +154,21 @@ namespace BlankspaceGame
                         ProjectileManager.RemoveProjAt(collidedIndex);
                     }
                 }
-                // Checks for health and deletes ones with no health, also creates explosion when an enemy dies
+                // Checks for health and deletes ones with no health, also creates explosion when an enemy dies and might drop pickup
                 if (enemies[i].Health <= 0 || enemies[i].CheckDespawn())
                 {
-                    for (int k = -1; k <= 1; k++)
+                    // Creates explosion if enemy is a tank type
+                    if (enemies[i].Type == EnemyType.Tank)
                     {
-                        for (int p = -1; p <= 1; p++)
+                        for (int k = -1; k <= 1; k++)
                         {
-                            if (p != 0 || k != 0)
+                            for (int p = -1; p <= 1; p++)
                             {
-                                ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);                               
+                                if (p != 0 || k != 0)
+                                {
+                                    ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(enemies[i].X + 19, enemies[i].Y, 10, 10), projectiles, false, false);
+                                    PickupManager.Drop(enemies[i]);
+                                }
                             }
                         }
                     }

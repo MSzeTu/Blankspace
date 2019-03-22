@@ -106,6 +106,19 @@
 /processorParam:TextureFormat=Color
 /build:Images/pixilSpace.png
 
+#begin Pickups/heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pickups/heart.png
+
+#begin pixil-frame-0.png
 #begin Player/Ship.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -130,6 +143,19 @@
 /processorParam:TextureFormat=Color
 /build:Player/WIPshipPlayer.png
 
+#begin Projectiles/beam.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/beam.png
+
+#begin Projectiles/Projectile.png
 #begin Player/WIPshipTest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -255,4 +281,40 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Laser_Sound.wav
+
+#begin Enemy/EnemyBasic.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/EnemyBasic.png
+
+#begin Enemy/EnemyShotgun.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/EnemyShotgun.png
+
+#begin Enemy/EnemyTank.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/EnemyTank.png
 
