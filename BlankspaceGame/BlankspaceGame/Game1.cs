@@ -108,7 +108,6 @@ namespace BlankspaceGame
             //Loads Pickup content into manager
             PickupManager.LoadTextures(this);
             EnemyManager.LoadEnemyContent(this);
-            EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/WIPborgEnemy"), projectile, explosionSound, proSound);
             //enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
