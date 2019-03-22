@@ -80,7 +80,7 @@ namespace BlankspaceGame
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
             ProjectileManager.Initialize();
-            WaveManager.Initialize(".\\Content\\Levels\\McWave.wave");
+            WaveManager.Initialize(".\\Content\\Levels\\bad.wave");
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 

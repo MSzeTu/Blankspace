@@ -28,8 +28,6 @@ namespace BlankspaceGame
 
         public void SpawnEnemys()
         {
-            Random rand = new Random();
-            EnemyType randomEnemyType = EnemyType.Basic;
             int width = tiles.GetLength(0), height = tiles.GetLength(1);
 
             for (int x = 0; x < width; x++)
@@ -39,22 +37,24 @@ namespace BlankspaceGame
                     switch (tiles[x, y])
                     {
                         case TileType.Enemy:
-                            switch (rand.Next(0, 4))
-                            {
-                                case 0:
-                                    randomEnemyType = EnemyType.Basic;
-                                    break;
-                                case 1:
-                                    randomEnemyType = EnemyType.Shotgun;
-                                    break;
-                                case 2:
-                                    randomEnemyType = EnemyType.Tank;
-                                    break;
-                            }
                             EnemyManager.AddEnemy
                                 (
                                 new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
-                                randomEnemyType
+                                EnemyType.Basic
+                                );
+                            break;
+                        case TileType.Shotgun:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Shotgun
+                                );
+                            break;
+                        case TileType.Tank:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Tank
                                 );
                             break;
                     }
