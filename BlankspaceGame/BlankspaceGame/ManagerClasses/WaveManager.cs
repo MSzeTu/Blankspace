@@ -16,24 +16,54 @@ namespace BlankspaceGame
 
     static class WaveManager
     {
-        // Wave data
-        private static int waveCount;
-        private static int width, height;
 
-        // List for the waves
-        public static List<Wave> waves;
+        // Paths of the levels
+        private static string[] levelsToLoad =
+        {
+            ".\\Content\\Levels\\level1.wave",
+            ".\\Content\\Levels\\level2.wave",
+            ".\\Content\\Levels\\level3.wave",
+            ".\\Content\\Levels\\ouch.wave"
+        };
 
         // Timing
         private static float currentTime;
         private static int currentWave;
 
-        public static void Initialize(string path)
+        // Level stuff
+        private static int currentLevel;
+        private static List<Level> levels;
+        private static bool toNextLevel;
+
+        // Level Property
+        public static int CurrentLevel {
+            get {
+                return currentLevel;
+            }
+        }
+
+        // Level count property
+        public static int LevelCount
         {
-            waves = new List<Wave>();
+            get
+            {
+                return levelsToLoad.Length;
+            }
+        }
+
+        public static void Initialize()
+        {
+
+            levels = new List<Level>();
 
             currentWave = 0;
             currentTime = 0;
-            LoadWaves(path);
+            currentLevel = 0;
+
+            for (int i = 0; i < LevelCount; i++)
+            {
+                LoadWaves(levelsToLoad[i]);
+            }
         }
 
         // Updates the wave and delay
@@ -41,18 +71,34 @@ namespace BlankspaceGame
         {
             currentTime += (1f / 60f);
 
-            if (currentTime >= waves[currentWave].Delay)
+            if (currentLevel < LevelCount)
             {
-                waves[currentWave].SpawnEnemys();
-                currentTime = 0;
+                if (currentTime >= levels[currentLevel].Waves[currentWave].Delay)
+                {
+                    levels[currentLevel].Waves[currentWave].SpawnEnemys();
 
-                if (currentWave < waveCount - 1)
-                {
-                    currentWave++;
+                    currentTime = 0;
+
+                    if (currentWave < levels[currentLevel].WaveCount - 1)
+                    {
+                        currentWave++;
+                    }
+                    else
+                    {
+                        if (toNextLevel == false)
+                        {
+                            currentTime = -10;
+                            toNextLevel = true;
+                        }
+                    }
                 }
-                else
+
+                if (levels[currentLevel].Complete(currentWave) && currentTime >= 0 && toNextLevel == true)
                 {
+                    currentTime = 0;
                     currentWave = 0;
+                    currentLevel++;
+                    toNextLevel = false;
                 }
             }
         }
@@ -64,26 +110,30 @@ namespace BlankspaceGame
         /// <param name="path">The directory to the wave in question</param>
         public static void LoadWaves(string path)
         {
+            // List of waves
+            List<Wave> waves = new List<Wave>();
+            Level level = new Level(waves);
+
             // Open the bianary reader
             Stream reader = File.OpenRead(path);
             BinaryReader br = new BinaryReader(reader);
 
             // Read the wave count and the width and height of each wave
-            waveCount = br.ReadInt32();
-            width = br.ReadInt32();
-            height = br.ReadInt32();
+            level.WaveCount = br.ReadInt32();
+            level.Width = br.ReadInt32();
+            level.Height = br.ReadInt32();
 
             // Loop through the waves
-            for (int i = 0; i < waveCount; i++)
+            for (int i = 0; i < level.WaveCount; i++)
             {
                 // Read the delay and add a base wave
                 int delay = br.ReadInt32();
-                waves.Add(new Wave(delay, width, height));
+                waves.Add(new Wave(delay, level.Width, level.Height));
 
                 // Load in each tile
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < level.Width; x++)
                 {
-                    for (int y = 0; y < height; y++)
+                    for (int y = 0; y < level.Height; y++)
                     {
                         TileType type = (TileType)br.ReadInt32();
                         waves[i].SetType(type, x, y);
@@ -91,6 +141,7 @@ namespace BlankspaceGame
                 }
             }
 
+            levels.Add(level);
             br.Close();
         }
 
@@ -98,6 +149,8 @@ namespace BlankspaceGame
         {
             currentTime = 0;
             currentWave = 0;
+            currentLevel = 0;
+            toNextLevel = false;
         }
     }
 }
