@@ -47,7 +47,6 @@ namespace BlankspaceGame
         private Texture2D dual;
         private Texture2D shotgun;
         private Texture2D beam;
-
         // Constructor
         public Weapon(Firetype t, Firerate r, Firecolor c)
         {

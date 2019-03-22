@@ -24,7 +24,6 @@ namespace BlankspaceGame
         static Texture2D solidTexture;
         // Variables
         static private int iFrame;
-        static private int pickupFrame;
         static private int currentCD;
         static private int score;
         static private int highScore;
@@ -57,11 +56,6 @@ namespace BlankspaceGame
             get { return iFrame; }
             set { iFrame = value; }
         }
-        static public int PickupFrame
-        {
-            get { return pickupFrame; }
-            set { pickupFrame = value; }
-        }
         //Constructor
         static public void Initialize(Player initPlayer)
         {
@@ -70,7 +64,6 @@ namespace BlankspaceGame
             iFrame = 0;
             score = 0;
             highScore = 0;
-            pickupFrame = 0;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -86,10 +79,6 @@ namespace BlankspaceGame
             {
                 iFrame -= 1;
                 player.Color = Color.Green;
-            }
-            if (pickupFrame > 0)
-            {
-                pickupFrame -= 1;
             }
             else
             {
@@ -134,14 +123,12 @@ namespace BlankspaceGame
             //Triggers effect when colliding with Pickups
             int collidedIndexPi = CheckPickupCollision();
             if (collidedIndexPi != -1)
-            { 
-                if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi].PType) == 1)
-                {
-                    PickupManager.RemovePickAt(collidedIndexPi);
-                    player.Health++;                
+            {
+                if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 1)
+                {                    
+                    player.Health++;
                 }
-                pickupFrame = 20;
-                
+                PickupManager.RemovePickAt(collidedIndexPi);
             }
             pKbState = Keyboard.GetState();
         }

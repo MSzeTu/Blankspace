@@ -13,6 +13,7 @@ namespace BlankspaceGame
         static Texture2D bombs;
         static Texture2D pointT;
         static Texture2D fireBuff;
+        static Texture2D beam;
         static public Texture2D Heart
         {
             get
@@ -89,17 +90,26 @@ namespace BlankspaceGame
         }
 
         //Triggers pickup effect based on pickup type
-        public static int TriggerEffect(Type pType)
+        public static int TriggerEffect(Pickup p)
         {
-            switch (pType)
+            switch (p.PType)
             {
                 case Type.Health:
                     {
                         return 1;
-                        break;
                     }
                 case Type.Bomb:
                     {
+                        for (int k = -1; k <= 1; k++)
+                        {
+                            for (int i = -1; i <= 1; i++)
+                            {
+                                if (i != 0 || k != 0)
+                                {
+                                    ProjectileManager.AddProjectile(new Vector2(k, i), 10, 1, new Rectangle(p.X - 25, p.Y - 1500, 100, 1500), beam, true, false);
+                                }
+                            }
+                        }
                         break;
                     }
                 case Type.Points:
@@ -120,12 +130,16 @@ namespace BlankspaceGame
             Random roll = new Random();
             int chance = roll.Next(1,101);
             int typeChance;
-            if (chance <= 900)
+            if (chance <= 30)
             {
                 typeChance = roll.Next(1, 21);
-                if (typeChance <= 900)
+                if (typeChance <= 4)
                 {
                     AddPickup(Type.Health, source.Position, heart);
+                }
+                else if (typeChance > 4)
+                {
+                    AddPickup(Type.Bomb, source.Position, bombs);
                 }
             }
         }
@@ -134,6 +148,8 @@ namespace BlankspaceGame
         public static void LoadTextures(Game1 game)
         {
             heart = game.Content.Load<Texture2D>("Pickups/heart");
+            bombs = game.Content.Load<Texture2D>("Pickups/Laser");
+            beam = game.Content.Load<Texture2D>("Projectiles/beam");
         }
 
         //Draws pickups
