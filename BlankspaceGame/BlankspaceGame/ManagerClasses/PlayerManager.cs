@@ -207,17 +207,12 @@ namespace BlankspaceGame
             return -1;
         }
 
-        //Loads Player Sound Effects
-        static public void LoadSound(SoundEffect shoot, SoundEffect hit)
-        {
-            player.HitSound = hit;
-            player.ShootSound = shoot;
-        }
-
         // Loads playermanager content
         static public void LoadContent(Game game)
         {
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
+            player.HitSound = game.Content.Load<SoundEffect>("Sounds/Explosion");
+            player.ShootSound = game.Content.Load<SoundEffect>("Sounds/Laser_Sound");
         }
 
         //Saves high score 

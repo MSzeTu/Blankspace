@@ -36,35 +36,11 @@ namespace BlankspaceGame
         //Sprites and sound
         SoundEffect hitSound;
         SoundEffect shootSound;
-        Texture2D defEnemy;
         Texture2D projectiles;
-        public SoundEffect HitSound
+
+        public EnemyType Type
         {
-            get
-            {
-                return hitSound;
-            }
-        }
-        public SoundEffect ShootSound
-        {
-            get
-            {
-                return shootSound;
-            }
-        }
-        public Texture2D DefEnemy
-        {
-            get
-            {
-                return DefEnemy;
-            }
-        }
-        public Texture2D Projectiles
-        {
-            get
-            {
-                return Projectiles;
-            }
+            get { return type; }
         }
 
         // Despawns if the enemies get too far from the player
@@ -87,9 +63,9 @@ namespace BlankspaceGame
         }
 
         // Loads enemy sprites and sounds
-        public void LoadDefaultEnemy(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
+        public void LoadTextures(Texture2D tex, Texture2D projectile, SoundEffect hit, SoundEffect shoot)
         {
-            defEnemy = tex;
+            texture = tex;
             projectiles = projectile;
             hitSound = hit;
             shootSound = shoot;
@@ -134,7 +110,24 @@ namespace BlankspaceGame
                 case EnemyType.Basic:
                     if (value > 90)
                     {
+                        cooldown = 30;
                         return 1;
+                    }
+                    cooldown = 30;
+                    return 0;
+                case EnemyType.Shotgun:
+                    if (value > 90)
+                    {
+                        cooldown = 30;
+                        return 2;
+                    }
+                    cooldown = 30;
+                    return 0;
+                case EnemyType.Tank:
+                    if (value > 90)
+                    {
+                        cooldown = 50;
+                        return 3;
                     }
                     cooldown = 30;
                     return 0;

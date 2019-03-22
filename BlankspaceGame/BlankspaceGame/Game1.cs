@@ -100,14 +100,11 @@ namespace BlankspaceGame
             player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
-            proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
-            explosionSound = Content.Load<SoundEffect>("Sounds/Explosion");
-            PlayerManager.LoadSound(proSound, explosionSound);
             PlayerManager.LoadContent(this);
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
-            EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound, proSound);
+            EnemyManager.LoadEnemyContent(this);
             //enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
