@@ -60,15 +60,15 @@ namespace BlankspaceGame
         public void Fire()
         {
             // Sets the x and y to player position
-            int x = PlayerManager.X;
-            int y = PlayerManager.Y;
+            int x = PlayerManager.X+27;
+            int y = PlayerManager.Y+76;
 
             // Creates projectiles based on current firetype
             switch (this.type)
             {
                 case Firetype.Dual:
-                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 14, y, 10, 20), dual, true, false);
-                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 24, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 5/*8 5 16*/, y, 10, 20), dual, true, false);
+                    ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 31/*28 31 21*/, y, 10, 20), dual, true, false);
                     break;
                 case Firetype.Shotgun:
                     ProjectileManager.AddProjectile(new Vector2(0, -1), 10, GetDamage(), new Rectangle(x + 18, y, 10, 20), dual, true, false);

@@ -39,7 +39,7 @@ namespace BlankspaceGame
                         case TileType.Enemy:
                             EnemyManager.AddEnemy
                                 (
-                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 100, 100),
                                 EnemyManager.DefEnemy,
                                 5,
                                 3,

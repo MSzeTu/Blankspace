@@ -74,7 +74,7 @@ namespace BlankspaceGame
         {
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
-            playerObject = new Player(new Rectangle(300, 850, 55, 55), player);
+            playerObject = new Player(new Rectangle(275, 800, 100, 100), player);
 
             // Initializes the manager classes
             EnemyManager.Initialize();
@@ -97,7 +97,7 @@ namespace BlankspaceGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            player = Content.Load<Texture2D>("Player/Ship");
+            player = Content.Load<Texture2D>("Player/WIPshipTest6");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             proSound = Content.Load<SoundEffect>("Sounds/Laser_Sound");
@@ -107,7 +107,7 @@ namespace BlankspaceGame
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
             // Loads enemy content into manager
-            EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/Enemy"), projectile, explosionSound, proSound);
+            EnemyManager.LoadEnemyContent(Content.Load<Texture2D>("Enemy/WIPborgEnemy"), projectile, explosionSound, proSound);
             //enemyManager.DebugEnemyTest();
             //loads spritefont
             arial12 = Content.Load<SpriteFont>("Fonts/arial12");// load sprite font
@@ -292,8 +292,8 @@ namespace BlankspaceGame
         {
             playerObject.Health = 3; // player health reset for new game
             ProjectileManager.Clear();
-            playerObject.X = 300;
-            playerObject.Y = 850;
+            playerObject.X = 275;
+            playerObject.Y = 800;
             PlayerManager.Score = 0;
             PlayerManager.IFrame = 0;
             EnemyManager.Enemies.Clear();
