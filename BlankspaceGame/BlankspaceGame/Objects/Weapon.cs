@@ -19,7 +19,8 @@ namespace BlankspaceGame
     {
         Dual,
         Beam,
-        Shotgun
+        Shotgun,
+        Erin
     }
     // Defines the firerate, faster rates have less damage and slow rates have high damage
     enum Firerate
@@ -79,6 +80,10 @@ namespace BlankspaceGame
                 case Firetype.Beam:
                     ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 25, y - 1500, 100, 1500), beam, true, true);
                     break;
+                case Firetype.Erin:
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 75, y - 1500, 100, 1500), beam, true, true);
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x + 50, y - 1500, 100, 1500), beam, true, true);
+                    break;
             }
         }
 
@@ -98,6 +103,9 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Beam:
                     cd = 120;
+                    break;
+                case Firetype.Erin:
+                    cd = 0;
                     break;
             }
 
@@ -133,6 +141,9 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Beam:
                     dmg = 2;
+                    break;
+                case Firetype.Erin:
+                    dmg = 20;
                     break;
             }
 

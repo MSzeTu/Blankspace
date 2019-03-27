@@ -117,6 +117,7 @@ namespace BlankspaceGame
                     }
                 case Type.Points:
                     {
+                        PlayerManager.Score += 100;
                         break;
                     }
                 case Type.Buff:
@@ -140,9 +141,13 @@ namespace BlankspaceGame
                 {
                     AddPickup(Type.Health, source.Position, heart);
                 }
-                else if (typeChance > 4)
+                else if (typeChance > 4 && typeChance <8)
                 {
                     AddPickup(Type.Bomb, source.Position, bombs);
+                }
+                else if (typeChance > 8)
+                {
+                    AddPickup(Type.Points, source.Position, pointT);
                 }
             }
         }
@@ -152,6 +157,7 @@ namespace BlankspaceGame
         {
             heart = game.Content.Load<Texture2D>("Pickups/heart");
             bombs = game.Content.Load<Texture2D>("Pickups/Laser");
+            pointT = game.Content.Load<Texture2D>("Pickups/Coin");
             boom = game.Content.Load<Texture2D>("Projectiles/Explosion");
         }
 

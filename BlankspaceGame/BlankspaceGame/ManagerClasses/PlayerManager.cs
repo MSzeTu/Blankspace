@@ -166,7 +166,7 @@ namespace BlankspaceGame
         static public bool CheckSwitchWeapon()
         {
             kbState = Keyboard.GetState();
-            if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3))
+            if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3) || kbState.IsKeyDown(Keys.E))
             {
                 return true;
             }
@@ -189,9 +189,16 @@ namespace BlankspaceGame
                 weaponType = "Shotgun";
             }
             if (kbState.IsKeyDown(Keys.D3))
-            {
+            {   
                 returnWep = new Weapon(Firetype.Beam, Firerate.Fast, Firecolor.Red);
                 weaponType = "Beam";
+            }
+            //God Mode
+            if (kbState.IsKeyDown(Keys.E))
+            {
+                returnWep = new Weapon(Firetype.Erin, Firerate.Fast, Firecolor.Red);
+                weaponType = "Erin";
+                player.Health = 900;
             }
             pKbState = Keyboard.GetState();
             return returnWep;
