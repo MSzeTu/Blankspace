@@ -13,7 +13,7 @@ namespace BlankspaceGame
         static Texture2D bombs;
         static Texture2D pointT;
         static Texture2D fireBuff;
-        static Texture2D beam;
+        static Texture2D boom;
         static public Texture2D Heart
         {
             get
@@ -67,7 +67,7 @@ namespace BlankspaceGame
         //Adds pickups to list of pickups
         public static void AddPickup(Type pickupTy, Rectangle position, Texture2D text)
         {
-            Pickups.Add(new Pickup(pickupTy, new Rectangle(position.X, position.Y, 20,20), text));
+            Pickups.Add(new Pickup(pickupTy, new Rectangle(position.X, position.Y, 20, 20), text));
         }
 
         //Updates pickups
@@ -106,7 +106,10 @@ namespace BlankspaceGame
                             {
                                 if (i != 0 || k != 0)
                                 {
-                                    ProjectileManager.AddProjectile(new Vector2(k, i), 10, 1, new Rectangle(p.X - 25, p.Y - 1500, 100, 1500), beam, true, false);
+                                    for (int n = 0; n < 10; n++)
+                                    {
+                                        ProjectileManager.AddProjectile(new Vector2(k, i), 10, 1, new Rectangle(p.X - 25+(n*10), p.Y - 25+(n*10), 10, 10), boom, true, false);
+                                    }
                                 }
                             }
                         }
@@ -128,7 +131,7 @@ namespace BlankspaceGame
         public static void Drop(Enemy source)
         {
             Random roll = new Random();
-            int chance = roll.Next(1,101);
+            int chance = roll.Next(1, 101);
             int typeChance;
             if (chance <= 30)
             {
@@ -149,7 +152,7 @@ namespace BlankspaceGame
         {
             heart = game.Content.Load<Texture2D>("Pickups/heart");
             bombs = game.Content.Load<Texture2D>("Pickups/Laser");
-            beam = game.Content.Load<Texture2D>("Projectiles/beam");
+            boom = game.Content.Load<Texture2D>("Projectiles/Explosion");
         }
 
         //Draws pickups
