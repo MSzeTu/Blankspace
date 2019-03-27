@@ -46,8 +46,6 @@ namespace BlankspaceGame
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
-        SoundEffect proSound;
-        SoundEffect explosionSound;
         private SpriteFont arial18;// spritefont
         Texture2D BackDrop;
         Rectangle backLoc;

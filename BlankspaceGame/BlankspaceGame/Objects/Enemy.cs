@@ -33,10 +33,6 @@ namespace BlankspaceGame
         private int cooldown;
         private EnemyType type;
 
-        //Sprites and sound
-        SoundEffect hitSound;
-        SoundEffect shootSound;
-        Texture2D projectiles;
 
         public EnemyType Type
         {
