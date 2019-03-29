@@ -31,6 +31,7 @@ namespace BlankspaceGame
         static Texture2D enemyBasic;
         static Texture2D enemyShotgun;
         static Texture2D enemyTank;
+        static Texture2D enemyBoss;
         static Texture2D projectiles;
         static SoundEffect hitEnemy;
         static SoundEffect enemyShoots;
@@ -47,6 +48,7 @@ namespace BlankspaceGame
             enemyBasic = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
             enemyShotgun = g.Content.Load<Texture2D>("Enemy/EnemyShotgun");
             enemyTank = g.Content.Load<Texture2D>("Enemy/EnemyTank");
+            enemyBoss = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
             projectiles = g.Content.Load<Texture2D>("Projectiles/Projectile");
             hitEnemy = g.Content.Load<SoundEffect>("Sounds/Explosion");
             enemyShoots = g.Content.Load<SoundEffect>("Sounds/Laser_Sound");
@@ -82,6 +84,12 @@ namespace BlankspaceGame
                     text = enemyTank;
                     hp = 15;
                     speed = 2;
+                    break;
+                case EnemyType.Boss:
+                    text = enemyBoss;
+                    hp = 100;
+                    speed = 2;
+                    rect = new Rectangle(rect.X, rect.Y, 300, 100);
                     break;
             }
 
@@ -171,7 +179,7 @@ namespace BlankspaceGame
                             }
                         }
                     }
-                    PickupManager.Drop(enemies[i]);
+                    PickupManager.Drop(enemies[i], rand);
                     enemies.RemoveAt(i);
                     PlayerManager.Score += 100;
                 }
