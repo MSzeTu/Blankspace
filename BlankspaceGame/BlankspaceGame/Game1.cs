@@ -29,14 +29,16 @@ namespace BlankspaceGame
     {
         Menu,
         Game,
+        Pause,
         GameOver
     }
     public class Game1 : Game
     {
-        Boolean isPlaying = false;
+        Boolean isPlaying;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Song song;
+        Song pauseSong;
         //Keyboard objects to handle key presses
         KeyboardState kbState;
         KeyboardState pKbState;
@@ -50,7 +52,7 @@ namespace BlankspaceGame
         Texture2D BackDrop;
         Rectangle backLoc;
         Weapon wep;
-
+        int timer;
 
         public Game1()
         {
@@ -73,7 +75,7 @@ namespace BlankspaceGame
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
             playerObject = new Player(new Rectangle(275, 800, 100, 100), player);
-
+            isPlaying = false;
             // Initializes the manager classes
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
@@ -102,6 +104,7 @@ namespace BlankspaceGame
             PlayerManager.LoadContent(this);
             //Background music
             song = Content.Load<Song>("Sounds/BackGround_Music");
+            pauseSong = Content.Load<Song>("Sounds/Pause_Music");
             // Loads enemy content into manager
             //Loads Pickup content into manager
             PickupManager.LoadTextures(this);
@@ -193,7 +196,7 @@ namespace BlankspaceGame
                 case GameState.Game:
                     {
                         WaveManager.WaveUpdate();
-
+                        timer--;
                         kbState = Keyboard.GetState();
                         if (isPlaying == false)
                         {
@@ -216,10 +219,37 @@ namespace BlankspaceGame
                             PlayerManager.SetHighScore();
                             gState = GameState.GameOver;
                         }
+                        if (kbState.IsKeyDown(Keys.P) && timer <= 0)
+                        {
+                            timer = 10;
+                            MediaPlayer.Stop();
+                            isPlaying = false;
+                            gState = GameState.Pause;
+                        }
                         if (PlayerManager.CheckSwitchWeapon())
                         {
                             wep = PlayerManager.SwitchWeapon();
                             wep.LoadTextures(this);
+                        }
+                        pKbState = Keyboard.GetState();
+                        break;
+                    }
+                //Freezes game until P is pressed again
+                case GameState.Pause:
+                    {
+                        if (isPlaying == false)
+                        {
+                            MediaPlayer.Play(pauseSong);
+                            MediaPlayer.IsRepeating = true;
+                            isPlaying = true;
+                        }
+                        kbState = Keyboard.GetState();
+                        timer--;
+                        if (kbState.IsKeyDown(Keys.P) && timer <= 0)
+                        {
+                            timer = 10;
+                            isPlaying = false;
+                            gState = GameState.Game;
                         }
                         pKbState = Keyboard.GetState();
                         break;
@@ -296,6 +326,7 @@ namespace BlankspaceGame
             playerObject.Y = 800;
             PlayerManager.Score = 0;
             PlayerManager.IFrame = 0;
+            PlayerManager.RControls = false;
             EnemyManager.Enemies.Clear();
             PickupManager.Pickups.Clear();
             //enemyManager.DebugEnemyTest();
