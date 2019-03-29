@@ -290,7 +290,7 @@ namespace BlankspaceGame
 
         protected void GameReset()
         {
-            playerObject.Health = 3; // player health reset for new game
+            playerObject.Health = 5; // player health reset for new game
             ProjectileManager.Clear();
             playerObject.X = 275;
             playerObject.Y = 800;
