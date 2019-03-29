@@ -129,9 +129,8 @@ namespace BlankspaceGame
         }
 
         //Decides if Pickup should spawn 
-        public static void Drop(Enemy source)
+        public static void Drop(Enemy source, Random roll)
         {
-            Random roll = new Random();
             int chance = roll.Next(1, 101);
             int typeChance;
             if (chance <= 30)
