@@ -28,6 +28,7 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
+        static private float screenShake;
 
         static public int HighScore
         {
@@ -56,6 +57,19 @@ namespace BlankspaceGame
             get { return iFrame; }
             set { iFrame = value; }
         }
+
+        static public float ScreenShake
+        {
+            get
+            {
+                return screenShake;
+            }
+            set
+            {
+                screenShake = value;
+            }
+        }
+
         //Constructor
         static public void Initialize(Player initPlayer)
         {
@@ -204,6 +218,11 @@ namespace BlankspaceGame
             return returnWep;
         }
 
+        static public void ScreenShakeMethod(int amt)
+        {
+            screenShake += amt;
+        }
+
         //Lowers players health by 1 when shot
         static public int CheckBulletCollision()
         {
@@ -213,6 +232,7 @@ namespace BlankspaceGame
                 {
                     if (ProjectileManager.Projectiles[i].Colliding(player))
                     {
+                        ScreenShakeMethod(10);
                         return i;
                     }
                 }
@@ -227,6 +247,7 @@ namespace BlankspaceGame
             {
                 if (EnemyManager.Enemies[i].Colliding(player))
                 {
+                    ScreenShakeMethod(50);
                     return i;
                 }
             }

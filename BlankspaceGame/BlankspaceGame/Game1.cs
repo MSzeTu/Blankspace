@@ -242,6 +242,17 @@ namespace BlankspaceGame
                         break;
                     }
             }
+
+            // Reduce screenshake
+            if (PlayerManager.ScreenShake > 0)
+            {
+                PlayerManager.ScreenShake -= (PlayerManager.ScreenShake / 10f);
+            }
+            else
+            {
+                PlayerManager.ScreenShake = 0;
+            }
+
             base.Update(gameTime);
         }
 
@@ -254,8 +265,11 @@ namespace BlankspaceGame
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+            Random rng = new Random();
 
-            spriteBatch.Begin();
+            int shake = (int)PlayerManager.ScreenShake;
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0));
+
             //Draws based on the current Gamestate
             switch (gState)
             {
