@@ -12,36 +12,8 @@ namespace BlankspaceGame
         static Texture2D heart;
         static Texture2D bombs;
         static Texture2D pointT;
-        static Texture2D fireBuff;
         static Texture2D boom;
-        static public Texture2D Heart
-        {
-            get
-            {
-                return heart;
-            }
-        }
-        static public Texture2D Bombs
-        {
-            get
-            {
-                return bombs;
-            }
-        }
-        static public Texture2D PointT
-        {
-            get
-            {
-                return pointT;
-            }
-        }
-        static public Texture2D FireBuff
-        {
-            get
-            {
-                return fireBuff;
-            }
-        }
+        static Texture2D reverse;
 
         //Lists of pickups
         static private List<Pickup> pickups;
@@ -120,8 +92,9 @@ namespace BlankspaceGame
                         PlayerManager.Score += 100;
                         break;
                     }
-                case Type.Buff:
+                case Type.Reverse:
                     {
+                        return 2;
                         break;
                     }
             }
@@ -140,13 +113,17 @@ namespace BlankspaceGame
                 {
                     AddPickup(Type.Health, source.Position, heart);
                 }
-                else if (typeChance > 4 && typeChance <8)
+                else if (typeChance > 4 && typeChance < 8)
                 {
                     AddPickup(Type.Bomb, source.Position, bombs);
                 }
-                else if (typeChance > 8)
+                else if (typeChance > 8 && typeChance < 15)
                 {
                     AddPickup(Type.Points, source.Position, pointT);
+                }
+                else if (typeChance >= 15)
+                {
+                    AddPickup(Type.Reverse, source.Position, reverse);
                 }
             }
         }
@@ -157,6 +134,7 @@ namespace BlankspaceGame
             heart = game.Content.Load<Texture2D>("Pickups/heart");
             bombs = game.Content.Load<Texture2D>("Pickups/Laser");
             pointT = game.Content.Load<Texture2D>("Pickups/Coin");
+            reverse = game.Content.Load<Texture2D>("Pickups/Reverse");
             boom = game.Content.Load<Texture2D>("Projectiles/Explosion");
         }
 
