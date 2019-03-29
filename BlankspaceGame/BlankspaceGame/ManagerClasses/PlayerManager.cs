@@ -41,7 +41,6 @@ namespace BlankspaceGame
             }
         }
         static private float screenShake;
-        static Boolean rControls;
 
         static public int HighScore
         {
