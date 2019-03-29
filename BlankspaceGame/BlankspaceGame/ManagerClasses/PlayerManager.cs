@@ -28,6 +28,7 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
+        static Boolean rControls;
 
         static public int HighScore
         {
@@ -64,6 +65,7 @@ namespace BlankspaceGame
             iFrame = 0;
             score = 0;
             highScore = 0;
+            rControls = false;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -84,21 +86,44 @@ namespace BlankspaceGame
             {
                 player.Color = Color.White;
             }
-            if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
+            if (rControls)
             {
-                player.Y -= 6;
+                if (kbState.IsKeyDown(Keys.W) && player.Y <= 850)
+                {
+                    player.Y += 6;
+                }
+                if (kbState.IsKeyDown(Keys.S) && player.Y >= 0)
+                {
+                    player.Y -= 6;
+                }
+                if (kbState.IsKeyDown(Keys.A) && player.X <= 550)
+                {
+                    player.X += 6;
+                }
+                if (kbState.IsKeyDown(Keys.D) && player.X >= 0)
+                {
+                    player.X -= 6;
+                }
             }
-            if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
+            else
             {
-                player.Y += 6;
-            }
-            if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
-            {
-                player.X -= 6;
-            }
-            if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
-            {
-                player.X += 6;
+                if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
+                {
+                    player.Y -= 6;
+                }
+                if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
+                {
+                    player.Y += 6;
+                }
+                if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
+                {
+                    player.X -= 6;
+                }
+                if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
+                {
+                    player.X += 6;
+                }
+
             }
             // Removes health for colliding with projectiles
             int collidedIndex = CheckBulletCollision();
@@ -127,6 +152,18 @@ namespace BlankspaceGame
                 if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 1)
                 {                    
                     player.Health++;
+                }
+                else if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 2)
+                {
+                    if (rControls == false)
+                    {
+                        rControls = true;
+                    }
+                    else if (rControls)
+                    {
+                        rControls = false;
+                    }
+                    
                 }
                 PickupManager.RemovePickAt(collidedIndexPi);
             }
