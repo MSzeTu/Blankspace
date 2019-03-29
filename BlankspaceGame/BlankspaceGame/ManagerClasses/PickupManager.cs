@@ -85,6 +85,7 @@ namespace BlankspaceGame
                                 }
                             }
                         }
+                        PlayerManager.ScreenShakeMethod(25);
                         break;
                     }
                 case Type.Points:
