@@ -28,8 +28,19 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
+        static Boolean rControls;  
+        static public Boolean RControls
+        {
+            get
+            {
+                return rControls;
+            }
+            set
+            {
+                rControls = value;
+            }
+        }
         static private float screenShake;
-        static Boolean rControls;
 
         static public int HighScore
         {
