@@ -265,10 +265,19 @@ namespace BlankspaceGame
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+
             Random rng = new Random();
 
             int shake = (int)PlayerManager.ScreenShake;
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0));
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                null,
+                null,
+                null,
+                null,
+                null,
+                Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0)
+                );
 
             //Draws based on the current Gamestate
             switch (gState)

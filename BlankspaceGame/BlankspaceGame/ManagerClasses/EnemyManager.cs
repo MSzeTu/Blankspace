@@ -26,6 +26,13 @@ namespace BlankspaceGame
                 return enemies;
             }
         }
+        static public int EnemyCount
+        {
+            get
+            {
+                return enemies.Count;
+            }
+        }
 
         // Sprites and sounds
         static Texture2D enemyBasic;
