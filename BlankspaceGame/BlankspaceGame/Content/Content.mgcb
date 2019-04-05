@@ -382,3 +382,9 @@
 /processorParam:Quality=Best
 /build:Sounds/Pause_Music.mp3
 
+#begin Sounds/Pickup_Sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Pickup_Sound.wav
+
