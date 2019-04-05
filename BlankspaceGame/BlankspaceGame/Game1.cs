@@ -226,7 +226,6 @@ namespace BlankspaceGame
                         PickupManager.UpdatePickup();
                         ProjectileManager.UpdateProjectiles();
                         EnemyManager.UpdateEnemies();
-                        //enemyManager.DebugEnemyRespawn();
                         PlayerManager.UpdatePlayer();
                         if (PlayerManager.CheckFireWeapon(kbState, wep))
                         {
@@ -324,7 +323,7 @@ namespace BlankspaceGame
 
             Random rng = new Random();
 
-            int shake = (int)PlayerManager.ScreenShake;
+            int shake = (int)PlayerManager.ScreenShake + ((wep != null) ? (wep.FireType == Firetype.Erin) ? 2 : 0 : 0);
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 null,
