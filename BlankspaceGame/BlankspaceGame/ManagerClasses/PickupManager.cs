@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace BlankspaceGame
 {
@@ -14,7 +15,7 @@ namespace BlankspaceGame
         static Texture2D pointT;
         static Texture2D boom;
         static Texture2D reverse;
-
+        static SoundEffect powerSound;
         //Lists of pickups
         static private List<Pickup> pickups;
         static public List<Pickup> Pickups
@@ -64,6 +65,7 @@ namespace BlankspaceGame
         //Triggers pickup effect based on pickup type
         public static int TriggerEffect(Pickup p)
         {
+            powerSound.Play();
             switch (p.PType)
             {
                 case Type.Health:
@@ -96,7 +98,6 @@ namespace BlankspaceGame
                 case Type.Reverse:
                     {
                         return 2;
-                        break;
                     }
             }
             return 0;
@@ -137,6 +138,7 @@ namespace BlankspaceGame
             pointT = game.Content.Load<Texture2D>("Pickups/Coin");
             reverse = game.Content.Load<Texture2D>("Pickups/Reverse");
             boom = game.Content.Load<Texture2D>("Projectiles/Explosion");
+            powerSound = game.Content.Load<SoundEffect>("Sounds/Pickup_Sound");
         }
 
         //Draws pickups
