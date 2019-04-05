@@ -30,7 +30,8 @@ namespace BlankspaceGame
         Menu,
         Game,
         Pause,
-        GameOver
+        GameOver,
+        Win
     }
     public class Game1 : Game
     {
@@ -163,6 +164,9 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial18, "Press ENTER to retun to Main menu", new Vector2(122, 500), Color.White); // continue to menu instructions
                         break;
                     }
+                case GameState.Win:
+                    // Win UI
+                    break;
             }
         }
 
@@ -299,6 +303,13 @@ namespace BlankspaceGame
                 PlayerManager.ScreenShake = 0;
             }
 
+            // Winstate
+            if(WaveManager.GameWon == true)
+            {
+                gState = GameState.Win;
+                WaveManager.GameWon = false;
+            }
+
             base.Update(gameTime);
         }
 
@@ -311,10 +322,19 @@ namespace BlankspaceGame
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
+
             Random rng = new Random();
 
             int shake = (int)PlayerManager.ScreenShake;
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0));
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                null,
+                null,
+                null,
+                null,
+                null,
+                Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0)
+                );
 
             //Draws based on the current Gamestate
             switch (gState)
