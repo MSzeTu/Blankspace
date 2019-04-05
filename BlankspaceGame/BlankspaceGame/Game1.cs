@@ -136,27 +136,22 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        spriteBatch.DrawString(arial18, "Pause Menu", new Vector2(270, 300), Color.White); // pause screen 
-                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(235, 400), Color.White); // add High Score var
-                        spriteBatch.DrawString(arial18, "Press ENTER to Play", new Vector2(203, 525), Color.White); // continue to game instructions
-                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(010, 755), Color.White); // add Health var
-                        spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(100, 775), Color.White); // add Ammo Type var
-                        spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(615, 755), Color.White); // add Current Level var
-                        spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(615, 775), Color.White); // add Current Score var
-                        //spriteBatch.DrawString(arial12, "Wave #  " ++ "of" ++, new Vector2(515, 875), Color.White);// add Current Score var
-                        break;
-                    }
-                /*case GameState.Pause:
-                    {
                         spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White); // add Ammo Type var
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
                         spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
                         //spriteBatch.DrawString(arial12, "Wave #  " ++ "of" ++, new Vector2(515, 875), Color.White);// add Current Score var
                         break;
-                    }*/
+                    }
+                case GameState.Pause:
+                    {
+                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
+                        spriteBatch.DrawString(arial18, "Pause Menu", new Vector2(230, 300), Color.White); // pause screen 
+                        spriteBatch.DrawString(arial12, "Current Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
+                        spriteBatch.DrawString(arial12, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(235, 350), Color.White); // add Current Level var
+                        spriteBatch.DrawString(arial18, "Press P to resume", new Vector2(203, 525), Color.White); // continue to game instructions
+                        break;
+                    }
                 case GameState.GameOver:
                     {
                         spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(200, 175), Color.White); // Game over screen
@@ -217,6 +212,12 @@ namespace BlankspaceGame
                             MediaPlayer.Play(song);
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
+                        }
+                        if (kbState.IsKeyDown(Keys.M) && isPlaying == true)
+                        {
+                            MediaPlayer.Stop();
+                            MediaPlayer.Play(pauseSong);
+                            MediaPlayer.IsRepeating = true;
                         }
                         PickupManager.UpdatePickup();
                         ProjectileManager.UpdateProjectiles();
@@ -341,6 +342,12 @@ namespace BlankspaceGame
                         PickupManager.DrawPickups(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkSlateGray);
                         TextOnScreen(); // helper method to clean up Draw method
+                        break;
+                    }
+                case GameState.Pause:
+                    {
+                        GraphicsDevice.Clear(Color.DarkSlateBlue);
+                        TextOnScreen();
                         break;
                     }
                 case GameState.GameOver:
