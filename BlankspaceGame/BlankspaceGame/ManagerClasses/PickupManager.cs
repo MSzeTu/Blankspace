@@ -108,7 +108,7 @@ namespace BlankspaceGame
         {
             int chance = roll.Next(1, 101);
             int typeChance;
-            if (chance <= 30)
+            if (chance <= 20)
             {
                 typeChance = roll.Next(1, 21);
                 if (typeChance <= 4)
@@ -119,11 +119,11 @@ namespace BlankspaceGame
                 {
                     AddPickup(Type.Bomb, source.Position, bombs);
                 }
-                else if (typeChance > 8 && typeChance < 15)
+                else if (typeChance > 8 && typeChance < 17)
                 {
                     AddPickup(Type.Points, source.Position, pointT);
                 }
-                else if (typeChance >= 15)
+                else if (typeChance >= 17)
                 {
                     AddPickup(Type.Reverse, source.Position, reverse);
                 }
