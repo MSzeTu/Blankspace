@@ -113,7 +113,7 @@ namespace BlankspaceGame
             }
             if (rControls)
             {
-                if (kbState.IsKeyDown(Keys.W) && player.Y <= 850)
+                if (kbState.IsKeyDown(Keys.W) && player.Y <= 860)
                 {
                     player.Y += 6;
                 }
@@ -121,7 +121,7 @@ namespace BlankspaceGame
                 {
                     player.Y -= 6;
                 }
-                if (kbState.IsKeyDown(Keys.A) && player.X <= 550)
+                if (kbState.IsKeyDown(Keys.A) && player.X <= 560)
                 {
                     player.X += 6;
                 }
