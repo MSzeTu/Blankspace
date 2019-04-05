@@ -49,6 +49,20 @@ namespace BlankspaceGame
             return false;
         }
 
+        public bool Invincible
+        {
+            get
+            {
+                if(Y < -position.Height)
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            }
+        }
+
         public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, EnemyType type) : base(rect, text, hp)
         {
             unitVelocity = unitVelIn;
@@ -70,6 +84,10 @@ namespace BlankspaceGame
         //Checks if bullets have hit enemy
         public int CheckBulletCollision()
         {
+            if (Invincible == true)
+                return -1;
+            
+
             for (int i = 0; i < ProjectileManager.Projectiles.Count; i++)
             {
                 if (ProjectileManager.Projectiles[i].Colliding(this))
