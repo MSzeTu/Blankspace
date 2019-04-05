@@ -74,7 +74,7 @@ namespace BlankspaceGame
         {
             // TODO: Add your initialization logic here
             gState = GameState.Menu;
-            playerObject = new Player(new Rectangle(275, 800, 100, 100), player);
+            playerObject = new Player(new Rectangle(275, 800, 48, 40), player);
             isPlaying = false;
             // Initializes the manager classes
             EnemyManager.Initialize();
@@ -98,7 +98,7 @@ namespace BlankspaceGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            player = Content.Load<Texture2D>("Player/WIPshipTest6");
+            player = Content.Load<Texture2D>("Player/Ship");
             playerObject.SetTexture(player);
             projectile = Content.Load<Texture2D>("Projectiles/Projectile");
             PlayerManager.LoadContent(this);
@@ -131,7 +131,7 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
                         spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
                         spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
-                        spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(203, 525), Color.White); // continue to game instructions
+                        spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
                         break;
                     }
                 case GameState.Game:
@@ -218,6 +218,7 @@ namespace BlankspaceGame
                             MediaPlayer.Stop();
                             MediaPlayer.Play(pauseSong);
                             MediaPlayer.IsRepeating = true;
+
                         }
                         PickupManager.UpdatePickup();
                         ProjectileManager.UpdateProjectiles();

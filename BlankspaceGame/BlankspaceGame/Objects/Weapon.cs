@@ -60,8 +60,8 @@ namespace BlankspaceGame
         public void Fire()
         {
             // Sets the x and y to player position
-            int x = PlayerManager.X+27;
-            int y = PlayerManager.Y+76;
+            int x = PlayerManager.X;
+            int y = PlayerManager.Y+5;
 
             // Creates projectiles based on current firetype
             switch (this.type)
