@@ -54,7 +54,14 @@ namespace BlankspaceGame
                             EnemyManager.AddEnemy
                                 (
                                 new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
-                                EnemyType.Boss             
+                                EnemyType.Tank             
+                                );
+                            break;
+                        case TileType.Boss:
+                            EnemyManager.AddEnemy
+                                (
+                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                EnemyType.Boss
                                 );
                             break;
                     }

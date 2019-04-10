@@ -16,7 +16,8 @@ namespace BlankspaceTool
         Space,
         Enemy,
         Shotgun,
-        Tank
+        Tank,
+        Boss
     }
 
     public partial class WavesEditor : Form
@@ -144,6 +145,11 @@ namespace BlankspaceTool
                 waves[waveIndex].Objects[x, y].BackColor = Color.Green;
                 waves[waveIndex].SetTile(x, y, TileType.Tank);
             }
+            if (equipedTool == Tools.Boss)
+            {
+                waves[waveIndex].Objects[x, y].BackColor = Color.Cyan;
+                waves[waveIndex].SetTile(x, y, TileType.Boss);
+            }
         }
 
         private void ClickTool(object sender, EventArgs e)
@@ -162,7 +168,11 @@ namespace BlankspaceTool
             {
                 equipedTool = Tools.Tank;
             }
-            if(toolColor == Color.LightGray)
+            if (toolColor == Color.Cyan)
+            {
+                equipedTool = Tools.Boss;
+            }
+            if (toolColor == Color.LightGray)
             {
                 equipedTool = Tools.Space;
             }

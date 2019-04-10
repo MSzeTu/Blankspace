@@ -32,8 +32,10 @@
             this.NextWaveButton = new System.Windows.Forms.Button();
             this.PreviousWaveButton = new System.Windows.Forms.Button();
             this.toolGroupBox = new System.Windows.Forms.GroupBox();
-            this.emptySpaceButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.PlaceEnemyButton = new System.Windows.Forms.Button();
+            this.emptySpaceButton = new System.Windows.Forms.Button();
             this.totalWavesLabel = new System.Windows.Forms.Label();
             this.EquipedToolBox = new System.Windows.Forms.GroupBox();
             this.equipedToolPictureBox = new System.Windows.Forms.PictureBox();
@@ -42,8 +44,7 @@
             this.delayUpDown = new System.Windows.Forms.NumericUpDown();
             this.SaveButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.toolGroupBox.SuspendLayout();
             this.EquipedToolBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.equipedToolPictureBox)).BeginInit();
@@ -53,9 +54,9 @@
             // waveGroupBox
             // 
             this.waveGroupBox.Location = new System.Drawing.Point(240, 15);
-            this.waveGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.waveGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.waveGroupBox.Name = "waveGroupBox";
-            this.waveGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.waveGroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.waveGroupBox.Size = new System.Drawing.Size(675, 639);
             this.waveGroupBox.TabIndex = 0;
             this.waveGroupBox.TabStop = false;
@@ -64,7 +65,7 @@
             // NextWaveButton
             // 
             this.NextWaveButton.Location = new System.Drawing.Point(123, 620);
-            this.NextWaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NextWaveButton.Margin = new System.Windows.Forms.Padding(4);
             this.NextWaveButton.Name = "NextWaveButton";
             this.NextWaveButton.Size = new System.Drawing.Size(109, 28);
             this.NextWaveButton.TabIndex = 1;
@@ -75,7 +76,7 @@
             // PreviousWaveButton
             // 
             this.PreviousWaveButton.Location = new System.Drawing.Point(16, 620);
-            this.PreviousWaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PreviousWaveButton.Margin = new System.Windows.Forms.Padding(4);
             this.PreviousWaveButton.Name = "PreviousWaveButton";
             this.PreviousWaveButton.Size = new System.Drawing.Size(100, 28);
             this.PreviousWaveButton.TabIndex = 2;
@@ -85,42 +86,67 @@
             // 
             // toolGroupBox
             // 
+            this.toolGroupBox.Controls.Add(this.button3);
             this.toolGroupBox.Controls.Add(this.button2);
             this.toolGroupBox.Controls.Add(this.button1);
             this.toolGroupBox.Controls.Add(this.PlaceEnemyButton);
             this.toolGroupBox.Controls.Add(this.emptySpaceButton);
             this.toolGroupBox.Location = new System.Drawing.Point(16, 15);
-            this.toolGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.toolGroupBox.Name = "toolGroupBox";
-            this.toolGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolGroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.toolGroupBox.Size = new System.Drawing.Size(216, 186);
             this.toolGroupBox.TabIndex = 3;
             this.toolGroupBox.TabStop = false;
             this.toolGroupBox.Text = "Tools";
             // 
-            // emptySpaceButton
+            // button2
             // 
-            this.emptySpaceButton.BackColor = System.Drawing.Color.LightGray;
-            this.emptySpaceButton.Location = new System.Drawing.Point(8, 105);
-            this.emptySpaceButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.emptySpaceButton.Name = "emptySpaceButton";
-            this.emptySpaceButton.Size = new System.Drawing.Size(200, 74);
-            this.emptySpaceButton.TabIndex = 1;
-            this.emptySpaceButton.Text = "Empty Space";
-            this.emptySpaceButton.UseVisualStyleBackColor = false;
-            this.emptySpaceButton.Click += new System.EventHandler(this.ClickTool);
+            this.button2.BackColor = System.Drawing.Color.Green;
+            this.button2.Location = new System.Drawing.Point(144, 23);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(60, 74);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Place Tank";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.ClickTool);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.Location = new System.Drawing.Point(76, 23);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(60, 74);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Place Shot Gun";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.ClickTool);
             // 
             // PlaceEnemyButton
             // 
             this.PlaceEnemyButton.BackColor = System.Drawing.Color.Blue;
             this.PlaceEnemyButton.Location = new System.Drawing.Point(8, 23);
-            this.PlaceEnemyButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PlaceEnemyButton.Margin = new System.Windows.Forms.Padding(4);
             this.PlaceEnemyButton.Name = "PlaceEnemyButton";
             this.PlaceEnemyButton.Size = new System.Drawing.Size(60, 74);
             this.PlaceEnemyButton.TabIndex = 0;
             this.PlaceEnemyButton.Text = "Place Enemy";
             this.PlaceEnemyButton.UseVisualStyleBackColor = false;
             this.PlaceEnemyButton.Click += new System.EventHandler(this.ClickTool);
+            // 
+            // emptySpaceButton
+            // 
+            this.emptySpaceButton.BackColor = System.Drawing.Color.LightGray;
+            this.emptySpaceButton.Location = new System.Drawing.Point(144, 105);
+            this.emptySpaceButton.Margin = new System.Windows.Forms.Padding(4);
+            this.emptySpaceButton.Name = "emptySpaceButton";
+            this.emptySpaceButton.Size = new System.Drawing.Size(60, 74);
+            this.emptySpaceButton.TabIndex = 1;
+            this.emptySpaceButton.Text = "Empty Space";
+            this.emptySpaceButton.UseVisualStyleBackColor = false;
+            this.emptySpaceButton.Click += new System.EventHandler(this.ClickTool);
             // 
             // totalWavesLabel
             // 
@@ -136,9 +162,9 @@
             // 
             this.EquipedToolBox.Controls.Add(this.equipedToolPictureBox);
             this.EquipedToolBox.Location = new System.Drawing.Point(16, 208);
-            this.EquipedToolBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.EquipedToolBox.Margin = new System.Windows.Forms.Padding(4);
             this.EquipedToolBox.Name = "EquipedToolBox";
-            this.EquipedToolBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.EquipedToolBox.Padding = new System.Windows.Forms.Padding(4);
             this.EquipedToolBox.Size = new System.Drawing.Size(216, 186);
             this.EquipedToolBox.TabIndex = 4;
             this.EquipedToolBox.TabStop = false;
@@ -148,7 +174,7 @@
             // 
             this.equipedToolPictureBox.BackColor = System.Drawing.Color.LightGray;
             this.equipedToolPictureBox.Location = new System.Drawing.Point(8, 23);
-            this.equipedToolPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.equipedToolPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.equipedToolPictureBox.Name = "equipedToolPictureBox";
             this.equipedToolPictureBox.Size = new System.Drawing.Size(200, 155);
             this.equipedToolPictureBox.TabIndex = 0;
@@ -178,7 +204,7 @@
             // 
             this.delayUpDown.DecimalPlaces = 2;
             this.delayUpDown.Location = new System.Drawing.Point(72, 402);
-            this.delayUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.delayUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.delayUpDown.Name = "delayUpDown";
             this.delayUpDown.Size = new System.Drawing.Size(160, 22);
             this.delayUpDown.TabIndex = 7;
@@ -187,7 +213,7 @@
             // SaveButton
             // 
             this.SaveButton.Location = new System.Drawing.Point(28, 449);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SaveButton.Margin = new System.Windows.Forms.Padding(4);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(196, 28);
             this.SaveButton.TabIndex = 8;
@@ -198,7 +224,7 @@
             // LoadButton
             // 
             this.LoadButton.Location = new System.Drawing.Point(28, 485);
-            this.LoadButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LoadButton.Margin = new System.Windows.Forms.Padding(4);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(196, 28);
             this.LoadButton.TabIndex = 9;
@@ -206,29 +232,17 @@
             this.LoadButton.UseVisualStyleBackColor = true;
             this.LoadButton.Click += new System.EventHandler(this.ClickLoad);
             // 
-            // button1
+            // button3
             // 
-            this.button1.BackColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(76, 23);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 74);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Place Shot Gun";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.ClickTool);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Green;
-            this.button2.Location = new System.Drawing.Point(144, 23);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(60, 74);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Place Tank";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.ClickTool);
+            this.button3.BackColor = System.Drawing.Color.Cyan;
+            this.button3.Location = new System.Drawing.Point(8, 104);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(60, 74);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Place Boss";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.ClickTool);
             // 
             // WavesEditor
             // 
@@ -246,7 +260,7 @@
             this.Controls.Add(this.PreviousWaveButton);
             this.Controls.Add(this.NextWaveButton);
             this.Controls.Add(this.waveGroupBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "WavesEditor";
             this.Text = "WavesEditor";
             this.toolGroupBox.ResumeLayout(false);
@@ -276,5 +290,6 @@
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }

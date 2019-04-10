@@ -13,7 +13,8 @@ namespace BlankspaceGame
         Space,
         Enemy,
         Shotgun,
-        Tank
+        Tank,
+        Boss
     }
 
     static class WaveManager
