@@ -46,6 +46,7 @@ namespace BlankspaceGame
         GameState gState;
         Texture2D player;
         Texture2D projectile;
+        Texture2D mainMenu;
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
@@ -117,6 +118,7 @@ namespace BlankspaceGame
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
             //load Images
             BackDrop = Content.Load<Texture2D>("Images/pixilSpace");
+            mainMenu = Content.Load<Texture2D>("Menus/MainMenu");
         }
 
         //Draws all the gamescreen text to keep the draw method cleaner
@@ -126,13 +128,14 @@ namespace BlankspaceGame
             {
                 case GameState.Menu:
                     {
-                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White); // menu screen 
-                        spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White); // game play instructions
-                        spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
-                        spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
-                        spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
-                        spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
+                        spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
+                        //spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
+                        //spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White); // menu screen 
+                        //spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White); // game play instructions
+                        //spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
+                        //spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
+                        //spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
+                        //spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
                         break;
                     }
                 case GameState.Game:
@@ -285,6 +288,24 @@ namespace BlankspaceGame
                         }
                         if (SingleKeyPress(Keys.R) == true)
                         {
+                            GameReset();
+                            gState = GameState.Game;
+                        }
+                        pKbState = Keyboard.GetState();
+                        break;
+                    }
+                case GameState.Win:
+                    {
+                        WaveManager.ReloadWaves();
+
+                        kbState = Keyboard.GetState();
+                        if (SingleKeyPress(Keys.Enter) == true)
+                        {
+                            gState = GameState.Menu;
+                        }
+                        if (SingleKeyPress(Keys.R) == true)
+                        {
+                            GameReset();
                             gState = GameState.Game;
                         }
                         pKbState = Keyboard.GetState();
@@ -365,6 +386,11 @@ namespace BlankspaceGame
                     {
                         GraphicsDevice.Clear(Color.DarkSlateBlue);
                         TextOnScreen(); // helper method to clean up Draw method
+                        break;
+                    }
+                case GameState.Win:
+                    {
+
                         break;
                     }
             }
