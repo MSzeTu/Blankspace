@@ -136,6 +136,22 @@ namespace BlankspaceGame
                     }
                     cooldown = 30;
                     return 0;
+                case EnemyType.Boss:
+                    if (value > 80)
+                    {
+                        cooldown = 5;
+                        return 1;
+                    } else if (value > 60)
+                    {
+                        cooldown = 5;
+                        return 2;
+                    } else if (value > 50)
+                    {
+                        cooldown = 20;
+                        return 3;
+                    }
+                    cooldown = 50;
+                    return 0;
                 default:
                     return 0;
             }
