@@ -46,6 +46,9 @@ namespace BlankspaceGame
         GameState gState;
         Texture2D player;
         Texture2D projectile;
+        Texture2D mainMenu;
+        Texture2D win;
+        Texture2D pause;
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
@@ -117,6 +120,9 @@ namespace BlankspaceGame
             arial24 = Content.Load<SpriteFont>("Fonts/arial24");// load sprite font
             //load Images
             BackDrop = Content.Load<Texture2D>("Images/pixilSpace");
+            mainMenu = Content.Load<Texture2D>("Menus/MainMenu");
+            pause = Content.Load<Texture2D>("Menus/PauseMenu");
+            win = Content.Load<Texture2D>("Menus/Win");
         }
 
         //Draws all the gamescreen text to keep the draw method cleaner
@@ -126,19 +132,19 @@ namespace BlankspaceGame
             {
                 case GameState.Menu:
                     {
-                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White); // menu screen 
-                        spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White); // game play instructions
-                        spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
-                        spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
-                        spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
-                        spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
+                        spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
+                        //spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
+                        //spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White); // menu screen 
+                        //spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White); // game play instructions
+                        //spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
+                        //spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
+                        //spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
+                        //spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
                         break;
                     }
                 case GameState.Game:
                     {
-                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White); // add Health var
-                        spriteBatch.DrawString(arial12, "Ammo Type: ", new Vector2(10, 875), Color.White); // add Ammo Type var
+                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 875), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
                         spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
                         //spriteBatch.DrawString(arial12, "Wave #  " ++ "of" ++, new Vector2(515, 875), Color.White);// add Current Score var
@@ -146,27 +152,32 @@ namespace BlankspaceGame
                     }
                 case GameState.Pause:
                     {
-                        spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        spriteBatch.DrawString(arial18, "Pause Menu", new Vector2(230, 300), Color.White); // pause screen 
-                        spriteBatch.DrawString(arial12, "Current Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
-                        spriteBatch.DrawString(arial12, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(235, 350), Color.White); // add Current Level var
-                        spriteBatch.DrawString(arial18, "Press P to resume", new Vector2(203, 525), Color.White); // continue to game instructions
+                        spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
+                        //spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
+                        //spriteBatch.DrawString(arial18, "Pause Menu", new Vector2(230, 300), Color.White); // pause screen 
+                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 500), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 550), Color.Teal); // add Current Level var
+                        //spriteBatch.DrawString(arial18, "Press P to resume", new Vector2(203, 525), Color.White); // continue to game instructions
                         break;
                     }
                 case GameState.GameOver:
                     {
                         spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(200, 175), Color.White); // Game over screen
-                        spriteBatch.DrawString(arial18, "You have been WhIPed!", new Vector2(170, 275), Color.White); // funny? 
                         // last game stats
                         spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White); // add current level var\
-                        spriteBatch.DrawString(arial12, "Your Final Score: "+PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: "+PlayerManager.HighScore, new Vector2(235, 400), Color.White); // add High Score var
+                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(235, 400), Color.White); // add High Score var
                         spriteBatch.DrawString(arial18, "Press ENTER to retun to Main menu", new Vector2(122, 500), Color.White); // continue to menu instructions
                         break;
                     }
                 case GameState.Win:
-                    // Win UI
-                    break;
+                    {
+                        // Win UI
+                        spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
+                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 375), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 400), Color.Teal); // add High Score var
+                        break;
+                    }
             }
         }
 
@@ -285,6 +296,24 @@ namespace BlankspaceGame
                         }
                         if (SingleKeyPress(Keys.R) == true)
                         {
+                            GameReset();
+                            gState = GameState.Game;
+                        }
+                        pKbState = Keyboard.GetState();
+                        break;
+                    }
+                case GameState.Win:
+                    {
+                        WaveManager.ReloadWaves();
+
+                        kbState = Keyboard.GetState();
+                        if (SingleKeyPress(Keys.Enter) == true)
+                        {
+                            gState = GameState.Menu;
+                        }
+                        if (SingleKeyPress(Keys.R) == true)
+                        {
+                            GameReset();
                             gState = GameState.Game;
                         }
                         pKbState = Keyboard.GetState();
@@ -303,8 +332,9 @@ namespace BlankspaceGame
             }
 
             // Winstate
-            if(WaveManager.GameWon == true)
+            if (WaveManager.GameWon == true)
             {
+                PlayerManager.SetHighScore();
                 gState = GameState.Win;
                 WaveManager.GameWon = false;
             }
@@ -365,6 +395,11 @@ namespace BlankspaceGame
                     {
                         GraphicsDevice.Clear(Color.DarkSlateBlue);
                         TextOnScreen(); // helper method to clean up Draw method
+                        break;
+                    }
+                case GameState.Win:
+                    {
+                        TextOnScreen();
                         break;
                     }
             }

@@ -174,6 +174,11 @@ namespace BlankspaceGame
                 {
                     enemies[i].Damage(ProjectileManager.Projectiles[collidedIndex].Damage);
                     enemies[i].DamageTick = 1;
+                    if (enemies[i].Health <= 0)
+                    {
+                        PlayerManager.Score += 100;
+                        PickupManager.Drop(enemies[i], rand);
+                    }
                     // Removes bullet which hit enemy
                     if (ProjectileManager.Projectiles[collidedIndex].Beam == false)
                     {
@@ -197,9 +202,7 @@ namespace BlankspaceGame
                             }
                         }
                     }
-                    PickupManager.Drop(enemies[i], rand);
                     enemies.RemoveAt(i);
-                    PlayerManager.Score += 100;
                 }
             }
         }
