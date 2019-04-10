@@ -22,7 +22,7 @@ namespace BlankspaceGame
         // Paths of the levels
         private static string[] levelsToLoad =
         {
-            ".\\Content\\Levels\\level1.wave",
+            ".\\Content\\Levels\\Level1.wave",
             //".\\Content\\Levels\\level2.wave",
             //".\\Content\\Levels\\level3.wave",
             //".\\Content\\Levels\\ouch.wave"
@@ -37,6 +37,7 @@ namespace BlankspaceGame
         private static int currentLevel;
         private static List<Level> levels;
         private static bool toNextLevel;
+        private static bool gameWon;
 
         // Level Property
         public static int CurrentLevel {
@@ -54,6 +55,18 @@ namespace BlankspaceGame
             }
         }
 
+        public static bool GameWon
+        {
+            get
+            {
+                return gameWon;
+            }
+            set
+            {
+                gameWon = value;
+            }
+        }
+
         public static void Initialize()
         {
 
@@ -67,6 +80,7 @@ namespace BlankspaceGame
             {
                 LoadWaves(levelsToLoad[i]);
             }
+            gameWon = false;
         }
 
         // Updates the wave and delay
@@ -102,6 +116,19 @@ namespace BlankspaceGame
                     currentWave = 0;
                     currentLevel++;
                     toNextLevel = false;
+                }
+                gameWon = false;
+            } else
+            {
+                // All levels are complete
+                // Check if all enemies are defeated
+                if (EnemyManager.EnemyCount <= 0 && currentTime >= 0)
+                {
+                    // Now all waves have been complete YAY
+                    gameWon = true;
+                } else
+                {
+                    gameWon = false;
                 }
             }
         }
