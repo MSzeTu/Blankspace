@@ -192,7 +192,6 @@ namespace BlankspaceGame
                         }
                     }
                     enemies.RemoveAt(i);
-                    
                 }
             }
         }
