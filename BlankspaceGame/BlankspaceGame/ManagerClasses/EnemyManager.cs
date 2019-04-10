@@ -40,8 +40,18 @@ namespace BlankspaceGame
         static Texture2D enemyTank;
         static Texture2D enemyBoss;
         static Texture2D projectiles;
+        static Texture2D box;
         static SoundEffect hitEnemy;
         static SoundEffect enemyShoots;
+
+        // Reference for boss enemy
+        static private Enemy bossEnemy;
+
+        public static Enemy BossEnemy
+        {
+            get { return bossEnemy; }
+            set { bossEnemy = value; }
+        }
 
         // Initializes default values
         public static void Initialize()
@@ -56,6 +66,7 @@ namespace BlankspaceGame
             enemyShotgun = g.Content.Load<Texture2D>("Enemy/EnemyShotgun");
             enemyTank = g.Content.Load<Texture2D>("Enemy/EnemyTank");
             enemyBoss = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
+            box = g.Content.Load<Texture2D>("Effects/solidTexture");
             projectiles = g.Content.Load<Texture2D>("Projectiles/Projectile");
             hitEnemy = g.Content.Load<SoundEffect>("Sounds/Explosion");
             enemyShoots = g.Content.Load<SoundEffect>("Sounds/Laser_Sound");
@@ -94,7 +105,7 @@ namespace BlankspaceGame
                     break;
                 case EnemyType.Boss:
                     text = enemyBoss;
-                    hp = 100;
+                    hp = 400;
                     speed = 2;
                     rect = new Rectangle(rect.X, rect.Y, 300, 100);
                     break;
@@ -199,6 +210,17 @@ namespace BlankspaceGame
             foreach (Enemy i in enemies)
             {
                 i.Draw(sb);
+            }
+            DrawHealthBar(sb);
+        }
+
+        // Health Bar logic (Might break if more than one boss exists, idk yet lol)
+        static private void DrawHealthBar(SpriteBatch sb)
+        {
+            // Draws the health bar if the boss is not null
+            if (bossEnemy != null)
+            {
+                sb.Draw(box, new Rectangle(20, 50, 25, 2 * bossEnemy.Health), Color.Red);
             }
         }
 

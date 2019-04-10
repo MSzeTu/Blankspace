@@ -74,6 +74,6 @@ namespace BlankspaceGame
             texture = tex;
         }
 
-
+        
     }
 }

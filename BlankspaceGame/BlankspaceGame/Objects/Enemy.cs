@@ -32,7 +32,7 @@ namespace BlankspaceGame
         private int speed;
         private int cooldown;
         private EnemyType type;
-
+        private Queue<int> attackQueue;
 
         public EnemyType Type
         {
@@ -70,11 +70,18 @@ namespace BlankspaceGame
             unitVelocity.Normalize();
             this.type = type;
             cooldown = 0;
+            attackQueue = new Queue<int>();
         }
 
         // Move method for moving in target direction
         public void Move()
         {
+            if (type == EnemyType.Boss && Y >= 150)
+            {
+                EnemyManager.BossEnemy = this;
+                return;
+            }
+
             Vector2 dir = unitVelocity * speed;
 
             X += (int)dir.X;
@@ -107,6 +114,12 @@ namespace BlankspaceGame
                 cooldown -= 1;
                 return 0;
             }
+            // If queue is not empty, use that attack
+            if (attackQueue.Count > 0)
+            {
+                cooldown = 5;
+                return attackQueue.Dequeue();
+            }
             int value = rand.Next(0, 101);
             // Checks the type of enemy and then rolls to see if it will attack or not
             // Different enemies have different chances to attack and some have multiple attacks
@@ -115,42 +128,47 @@ namespace BlankspaceGame
                 case EnemyType.Basic:
                     if (value > 90)
                     {
-                        cooldown = 30;
-                        return 1;
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
                     }
-                    cooldown = 30;
+                    cooldown = 10;
                     return 0;
                 case EnemyType.Shotgun:
                     if (value > 90)
                     {
-                        cooldown = 30;
-                        return 2;
+                        attackQueue.Enqueue(2);
+                        attackQueue.Enqueue(2);
                     }
-                    cooldown = 30;
+                    cooldown = 20;
                     return 0;
                 case EnemyType.Tank:
                     if (value > 90)
                     {
-                        cooldown = 50;
-                        return 3;
+                        attackQueue.Enqueue(3);
                     }
                     cooldown = 30;
                     return 0;
                 case EnemyType.Boss:
                     if (value > 80)
                     {
-                        cooldown = 5;
-                        return 1;
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
+                        attackQueue.Enqueue(1);
                     } else if (value > 60)
                     {
-                        cooldown = 5;
-                        return 2;
+                        attackQueue.Enqueue(2);
+                        attackQueue.Enqueue(2);
+                        attackQueue.Enqueue(2);
                     } else if (value > 50)
                     {
-                        cooldown = 20;
-                        return 3;
+                        attackQueue.Enqueue(3);
+                        attackQueue.Enqueue(3);
                     }
-                    cooldown = 50;
+                    cooldown = 10;
                     return 0;
                 default:
                     return 0;
