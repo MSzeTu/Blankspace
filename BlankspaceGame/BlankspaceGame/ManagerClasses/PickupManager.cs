@@ -119,11 +119,11 @@ namespace BlankspaceGame
                 {
                     AddPickup(Type.Bomb, source.Position, bombs);
                 }
-                else if (typeChance > 8 && typeChance < 17)
+                else if (typeChance > 8 && typeChance < 18)
                 {
                     AddPickup(Type.Points, source.Position, pointT);
                 }
-                else if (typeChance >= 17)
+                else if (typeChance >= 18)
                 {
                     AddPickup(Type.Reverse, source.Position, reverse);
                 }

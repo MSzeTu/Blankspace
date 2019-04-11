@@ -227,23 +227,5 @@ namespace BlankspaceGame
             }
         }
 
-        // DEBUG test enemy spawns
-        //public void DebugEnemyTest()
-        //{
-        //    AddEnemy(new Rectangle(300, 200, 48, 40), defEnemy, 10, 2);
-        //    AddEnemy(new Rectangle(100, 200, 48, 40), defEnemy, 10, 2);
-        //    AddEnemy(new Rectangle(50, 300, 48, 40), defEnemy, 10, 2);
-        //    AddEnemy(new Rectangle(100, 300, 48, 40), defEnemy, 10, 2);
-        //}
-
-        // DEBUG auto enemy spawn
-        //public void DebugEnemyRespawn()
-        //{
-        //    if (enemies.Count < 4)
-        //    {
-        //        Random rand = new Random();
-        //        AddEnemy(new Rectangle(rand.Next(0, 560), 100, 48, 40), defEnemy, 10, 2);
-        //    }
-        //}
     }
 }
