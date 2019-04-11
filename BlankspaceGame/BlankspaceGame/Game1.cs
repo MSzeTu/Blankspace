@@ -125,62 +125,6 @@ namespace BlankspaceGame
             win = Content.Load<Texture2D>("Menus/Win");
         }
 
-        //Draws all the gamescreen text to keep the draw method cleaner
-        void TextOnScreen()
-        {
-            switch (gState)
-            {
-                case GameState.Menu:
-                    {
-                        spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
-                        //spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        //spriteBatch.DrawString(arial18, "Menu", new Vector2(270, 300), Color.White); // menu screen 
-                        //spriteBatch.DrawString(arial12, "Use W,A,S,D to move", new Vector2(225, 350), Color.White); // game play instructions
-                        //spriteBatch.DrawString(arial12, "Use SpaceBar to shoot", new Vector2(221, 375), Color.White);
-                        //spriteBatch.DrawString(arial12, "Use 1,2,3 to switch weapons.", new Vector2(210, 400), Color.White);
-                        //spriteBatch.DrawString(arial12, "Survive enemy attacks", new Vector2(224, 425), Color.White);
-                        //spriteBatch.DrawString(arial18, "Press ENTER to Continue", new Vector2(180, 525), Color.White); // continue to game instructions
-                        break;
-                    }
-                case GameState.Game:
-                    {
-                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 875), Color.White); // add Health var
-                        spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
-                        spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
-                        //spriteBatch.DrawString(arial12, "Wave #  " ++ "of" ++, new Vector2(515, 875), Color.White);// add Current Score var
-                        break;
-                    }
-                case GameState.Pause:
-                    {
-                        spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
-                        //spriteBatch.DrawString(arial24, "BLANKSPACE", new Vector2(200, 175), Color.White);
-                        //spriteBatch.DrawString(arial18, "Pause Menu", new Vector2(230, 300), Color.White); // pause screen 
-                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 500), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 550), Color.Teal); // add Current Level var
-                        //spriteBatch.DrawString(arial18, "Press P to resume", new Vector2(203, 525), Color.White); // continue to game instructions
-                        break;
-                    }
-                case GameState.GameOver:
-                    {
-                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(200, 175), Color.White); // Game over screen
-                        // last game stats
-                        spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White); // add current level var\
-                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(235, 400), Color.White); // add High Score var
-                        spriteBatch.DrawString(arial18, "Press ENTER to retun to Main menu", new Vector2(122, 500), Color.White); // continue to menu instructions
-                        break;
-                    }
-                case GameState.Win:
-                    {
-                        // Win UI
-                        spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
-                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 375), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 400), Color.Teal); // add High Score var
-                        break;
-                    }
-            }
-        }
-
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.
@@ -302,6 +246,7 @@ namespace BlankspaceGame
                         pKbState = Keyboard.GetState();
                         break;
                     }
+                //Does the same thing as the Game Over state
                 case GameState.Win:
                     {
                         WaveManager.ReloadWaves();
@@ -364,6 +309,7 @@ namespace BlankspaceGame
                 null,
                 Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0)
                 );
+            
 
             //Draws based on the current Gamestate
             switch (gState)
@@ -371,7 +317,7 @@ namespace BlankspaceGame
                 case GameState.Menu:
                     {
                         GraphicsDevice.Clear(Color.Navy);
-                        TextOnScreen(); // helper method to clean up Draw method
+                        spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
                         break;
                     }
                 case GameState.Game:
@@ -382,28 +328,40 @@ namespace BlankspaceGame
                         PlayerManager.DrawPlayer(spriteBatch);
                         PickupManager.DrawPickups(spriteBatch);
                         GraphicsDevice.Clear(Color.DarkSlateGray);
-                        TextOnScreen(); // helper method to clean up Draw method
+                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 875), Color.White); // add Health var
+                        spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
+                        spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
                         break;
                     }
                 case GameState.Pause:
                     {
                         GraphicsDevice.Clear(Color.DarkSlateBlue);
-                        TextOnScreen();
+                        spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
+                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 500), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 550), Color.Teal); // add Current Level var
                         break;
                     }
                 case GameState.GameOver:
                     {
                         GraphicsDevice.Clear(Color.DarkSlateBlue);
-                        TextOnScreen(); // helper method to clean up Draw method
+                        spriteBatch.DrawString(arial24, "GAME OVER!", new Vector2(200, 175), Color.White); // Game over screen
+                        // last game stats
+                        spriteBatch.DrawString(arial12, "You died on Level: ", new Vector2(235, 350), Color.White); // add current level var\
+                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(235, 375), Color.White); // add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(235, 400), Color.White); // add High Score var
+                        spriteBatch.DrawString(arial18, "Press ENTER to retun to Main menu", new Vector2(122, 500), Color.White); // continue to menu instructions
                         break;
                     }
                 case GameState.Win:
                     {
-                        TextOnScreen();
+                        // Win UI
+                        spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
+                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 375), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 400), Color.Teal); // add High Score var
                         break;
                     }
-            }
 
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
