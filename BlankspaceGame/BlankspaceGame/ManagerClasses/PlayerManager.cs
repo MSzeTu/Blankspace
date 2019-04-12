@@ -31,7 +31,7 @@ namespace BlankspaceGame
         static Boolean rControls;
 
         // Mouse control variables
-        static private bool mouseControl = true;
+        static private bool mouseControl = false;
         static private float mouseMoveSpeed = 10;
 
         static public bool MouseControl
@@ -130,36 +130,19 @@ namespace BlankspaceGame
             }
             if (rControls)
             {
-                if (kbState.IsKeyDown(Keys.W) && player.Y <= 860)
-                {
-                    player.Y += 6;
-                }
-                if (kbState.IsKeyDown(Keys.S) && player.Y >= 0)
-                {
-                    player.Y -= 6;
-                }
-                if (kbState.IsKeyDown(Keys.A) && player.X <= 560)
-                {
-                    player.X += 6;
-                }
-                if (kbState.IsKeyDown(Keys.D) && player.X >= 0)
-                {
-                    player.X -= 6;
-                }
-
                 // Mouse control
                 if (mouseControl)
                 {
                     // Set the player position to the mouse position
                     MouseState ms = Mouse.GetState();
-                    int mX = ms.Position.X;
-                    int mY = ms.Position.Y;
+                    int mX = ms.Position.Y;
+                    int mY = ms.Position.X;
                     int shipX = player.X;
                     int shipY = player.Y;
                     int width = player.Position.Width;
                     int height = player.Position.Height;
 
-                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed / 4 * (1f / 60f));
+                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
 
                     player.X = (int)playerPos.X;
                     player.Y = (int)playerPos.Y;
@@ -172,27 +155,28 @@ namespace BlankspaceGame
                         player.Y = 0;
                     if (player.Y > 850)
                         player.Y = 850;
+                } else
+                {
+                    if (kbState.IsKeyDown(Keys.W) && player.Y <= 860)
+                    {
+                        player.Y += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.S) && player.Y >= 0)
+                    {
+                        player.Y -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.A) && player.X <= 560)
+                    {
+                        player.X += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.D) && player.X >= 0)
+                    {
+                        player.X -= 6;
+                    }
                 }
             }
             else
             {
-                if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
-                {
-                    player.Y -= 6;
-                }
-                if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
-                {
-                    player.Y += 6;
-                }
-                if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
-                {
-                    player.X -= 6;
-                }
-                if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
-                {
-                    player.X += 6;
-                }
-
                 // Mouse control
                 if (mouseControl)
                 {
@@ -218,6 +202,25 @@ namespace BlankspaceGame
                         player.Y = 0;
                     if (player.Y > 850)
                         player.Y = 850;
+                } else
+                {
+                    if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
+                    {
+                        player.Y -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
+                    {
+                        player.Y += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
+                    {
+                        player.X -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
+                    {
+                        player.X += 6;
+                    }
+
                 }
             }
 

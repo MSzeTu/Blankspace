@@ -78,7 +78,6 @@ namespace BlankspaceGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            IsMouseVisible = true;
             gState = GameState.Menu;
             playerObject = new Player(new Rectangle(275, 800, 48, 40), player);
             isPlaying = false;
@@ -351,7 +350,6 @@ namespace BlankspaceGame
                         // last game stats
                         spriteBatch.DrawString(arial18, "Your Final Score: " + PlayerManager.Score, new Vector2(200, 375), Color.DarkRed); // add total score var
                         spriteBatch.DrawString(arial18, "The HighScore is: " + PlayerManager.HighScore, new Vector2(200, 400), Color.DarkRed); // add High Score var
-                        spriteBatch.DrawString(arial18, $"You died on Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 425), Color.DarkRed); // add Current Level var
                         break;
                     }
                 case GameState.Win:
