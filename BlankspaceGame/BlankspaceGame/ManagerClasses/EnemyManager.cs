@@ -88,6 +88,7 @@ namespace BlankspaceGame
             Texture2D text = enemyBasic;
             int hp = 1;
             int speed = 1;
+            Random rand = new Random();
             // Determines stats based on enemy type
             switch (type)
             {
@@ -110,11 +111,10 @@ namespace BlankspaceGame
                     text = enemyBoss;
                     hp = 400;
                     speed = 2;
-                    rect = new Rectangle(rect.X, rect.Y, 300, 100);
                     break;
             }
 
-            enemies.Add(new Enemy(rect, text, hp, new Vector2(0, 1), speed, type));
+            enemies.Add(new Enemy(rect, text, hp, new Vector2(0, 1), speed, rand.Next(5, 30), type));
         }
 
         // Called in update to move all enemies at the same time
@@ -124,6 +124,10 @@ namespace BlankspaceGame
             // Moves the enemies
             foreach (Enemy i in enemies)
             {
+                // Boss points for left and right attacks
+                Point left = new Point(i.X + i.Position.Width / 2 - 25, i.Y + i.Position.Height);
+                Point right = new Point(i.X + i.Position.Width / 2 + 25, i.Y + i.Position.Height);
+
                 i.Move();
                 // If damage tick is not 0, decrement and set colors
                 if (i.DamageTick > 0)
@@ -137,69 +141,50 @@ namespace BlankspaceGame
                     i.Color = Color.White;
                 }
                 // Does check for enemies to fire shots at player
-                if (i.Type != EnemyType.Boss)
+                switch (i.CheckForAttack(rand))
                 {
-                    switch (i.CheckForAttack(rand))
-                    {
-                        case 1:
-                            // Fires one projectile at the player
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                            break;
-                        case 2:
-                            // Fires a cone of 3 projectiles at the player
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                            break;
-                        case 3:
-                            // Fires a circle of projectiles around the enemy
-                            for (int k = -1; k <= 1; k++)
+                    case 1:
+                        // Fires one projectile at the player
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        break;
+                    case 2:
+                        // Fires a cone of 3 projectiles at the player
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        break;
+                    case 3:
+                        // Fires a circle of projectiles around the enemy
+                        for (int k = -1; k <= 1; k++)
+                        {
+                            for (int p = -1; p <= 1; p++)
                             {
-                                for (int p = -1; p <= 1; p++)
+                                if (p != 0 || k != 0)
                                 {
-                                    if (p != 0 || k != 0)
-                                    {
-                                        ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                                    }
+                                    ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
                                 }
                             }
-                            break;
-                        default:
-                            // Do nothing
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (i.CheckForAttack(rand))
-                    {
-                        case 1:
-                            // Fires one projectile at the player
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
-                            break;
-                        case 2:
-                            // Fires a cone of 3 projectiles at the player
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
-                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
-                            break;
-                        case 3:
-                            // Fires a circle of projectiles around the enemy
-                            for (int k = -1; k <= 1; k++)
-                            {
-                                for (int p = -1; p <= 1; p++)
-                                {
-                                    if (p != 0 || k != 0)
-                                    {
-                                        ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
-                                    }
-                                }
-                            }
-                            break;
-                        default:
-                            // Do nothing
-                            break;
-                    }
+                        }
+                        break;
+                    case 4:
+                        // BOSS version of case 1, firing one bullet
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        break;
+                    case 5:
+                        // BOSS version of case 2, shotgun attack
+                        // This section fires the left side
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        // This section fires the right side
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        break;
+                    default:
+                        // Do nothing
+                        break;
                 }
             }
             // Main loop for checking all enemies

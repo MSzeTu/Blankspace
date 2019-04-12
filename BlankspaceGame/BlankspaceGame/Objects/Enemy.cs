@@ -63,19 +63,20 @@ namespace BlankspaceGame
             }
         }
 
-        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, EnemyType type) : base(rect, text, hp)
+        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, int baseCd, EnemyType type) : base(rect, text, hp)
         {
             unitVelocity = unitVelIn;
             speed = spdIn;
             unitVelocity.Normalize();
             this.type = type;
-            cooldown = 0;
+            cooldown = baseCd;
             attackQueue = new Queue<int>();
         }
 
         // Move method for moving in target direction
         public void Move()
         {
+            // If enemy is boss, do not move and pass self to the enemymanager
             if (type == EnemyType.Boss && Y >= 150)
             {
                 EnemyManager.BossEnemy = this;
@@ -120,66 +121,49 @@ namespace BlankspaceGame
                 cooldown = 5;
                 return attackQueue.Dequeue();
             }
-            int value = rand.Next(0, 101);
-            // Checks the type of enemy and then rolls to see if it will attack or not
-            // Different enemies have different chances to attack and some have multiple attacks
-            if (!Invincible)
+            // Checks the type of enemy and then adds its attack to the queue
+            // Boss enemy has random object to decide which attack to use
+            switch (this.type)
             {
-                switch (this.type)
-                {
-                    case EnemyType.Basic:
-                        if (value > 90)
-                        {
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                        }
-                        cooldown = 10;
-                        return 0;
-                    case EnemyType.Shotgun:
-                        if (value > 90)
-                        {
-                            attackQueue.Enqueue(2);
-                            attackQueue.Enqueue(2);
-                        }
-                        cooldown = 20;
-                        return 0;
-                    case EnemyType.Tank:
-                        if (value > 90)
-                        {
-                            attackQueue.Enqueue(3);
-                        }
-                        cooldown = 30;
-                        return 0;
-                    case EnemyType.Boss:
-                        if (value > 80)
-                        {
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                            attackQueue.Enqueue(1);
-                        }
-                        else if (value > 60)
-                        {
-                            attackQueue.Enqueue(2);
-                            attackQueue.Enqueue(2);
-                            attackQueue.Enqueue(2);
-                        }
-                        else if (value > 50)
-                        {
-                            attackQueue.Enqueue(3);
-                            attackQueue.Enqueue(3);
-                        }
-                        cooldown = 10;
-                        return 0;
-                    default:
-                        return 0;
-                }
-            } else
-            {
-                return 0;
+                case EnemyType.Basic:
+                    attackQueue.Enqueue(1);
+                    attackQueue.Enqueue(1);
+                    attackQueue.Enqueue(1);
+                    cooldown = rand.Next(50, 150);
+                    return 0;
+                case EnemyType.Shotgun:
+                    attackQueue.Enqueue(2);
+                    attackQueue.Enqueue(2);
+                    cooldown = rand.Next(50, 150);
+                    return 0;
+                case EnemyType.Tank:
+                    attackQueue.Enqueue(3);
+                    cooldown = rand.Next(100, 200);
+                    return 0;
+                case EnemyType.Boss:
+                    int value = rand.Next(0, 3);
+                    if (value == 0)
+                    {
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                    } else if (value == 2)
+                    {
+                        attackQueue.Enqueue(5);
+                        attackQueue.Enqueue(5);
+                        attackQueue.Enqueue(5);
+                    } else if (value == 3)
+                    {
+                        attackQueue.Enqueue(3);
+                        attackQueue.Enqueue(3);
+                    }
+                    cooldown = 20;
+                    return 0;
+                default:
+                    return 0;
             }
         }
     }

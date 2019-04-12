@@ -60,7 +60,7 @@ namespace BlankspaceGame
                         case TileType.Boss:
                             EnemyManager.AddEnemy
                                 (
-                                new Rectangle(x * 100 + 25, y * -100 - 100, 60, 60),
+                                new Rectangle(200, y * -100 - 100, 200, 100),
                                 EnemyType.Boss
                                 );
                             break;

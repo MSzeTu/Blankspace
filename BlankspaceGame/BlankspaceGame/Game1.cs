@@ -377,6 +377,7 @@ namespace BlankspaceGame
             PlayerManager.IFrame = 0;
             PlayerManager.RControls = false;
             EnemyManager.Enemies.Clear();
+            EnemyManager.BossEnemy = null;
             PickupManager.Pickups.Clear();
             //enemyManager.DebugEnemyTest();
             // Creates weapon and loads content
