@@ -123,55 +123,63 @@ namespace BlankspaceGame
             int value = rand.Next(0, 101);
             // Checks the type of enemy and then rolls to see if it will attack or not
             // Different enemies have different chances to attack and some have multiple attacks
-            switch (this.type)
+            if (!Invincible)
             {
-                case EnemyType.Basic:
-                    if (value > 90)
-                    {
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                    }
-                    cooldown = 10;
-                    return 0;
-                case EnemyType.Shotgun:
-                    if (value > 90)
-                    {
-                        attackQueue.Enqueue(2);
-                        attackQueue.Enqueue(2);
-                    }
-                    cooldown = 20;
-                    return 0;
-                case EnemyType.Tank:
-                    if (value > 90)
-                    {
-                        attackQueue.Enqueue(3);
-                    }
-                    cooldown = 30;
-                    return 0;
-                case EnemyType.Boss:
-                    if (value > 80)
-                    {
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                        attackQueue.Enqueue(1);
-                    } else if (value > 60)
-                    {
-                        attackQueue.Enqueue(2);
-                        attackQueue.Enqueue(2);
-                        attackQueue.Enqueue(2);
-                    } else if (value > 50)
-                    {
-                        attackQueue.Enqueue(3);
-                        attackQueue.Enqueue(3);
-                    }
-                    cooldown = 10;
-                    return 0;
-                default:
-                    return 0;
+                switch (this.type)
+                {
+                    case EnemyType.Basic:
+                        if (value > 90)
+                        {
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                        }
+                        cooldown = 10;
+                        return 0;
+                    case EnemyType.Shotgun:
+                        if (value > 90)
+                        {
+                            attackQueue.Enqueue(2);
+                            attackQueue.Enqueue(2);
+                        }
+                        cooldown = 20;
+                        return 0;
+                    case EnemyType.Tank:
+                        if (value > 90)
+                        {
+                            attackQueue.Enqueue(3);
+                        }
+                        cooldown = 30;
+                        return 0;
+                    case EnemyType.Boss:
+                        if (value > 80)
+                        {
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                            attackQueue.Enqueue(1);
+                        }
+                        else if (value > 60)
+                        {
+                            attackQueue.Enqueue(2);
+                            attackQueue.Enqueue(2);
+                            attackQueue.Enqueue(2);
+                        }
+                        else if (value > 50)
+                        {
+                            attackQueue.Enqueue(3);
+                            attackQueue.Enqueue(3);
+                        }
+                        cooldown = 10;
+                        return 0;
+                    default:
+                        return 0;
+                }
+            } else
+            {
+                return 0;
             }
         }
     }

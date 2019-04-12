@@ -77,6 +77,7 @@ namespace BlankspaceGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
             gState = GameState.Menu;
             playerObject = new Player(new Rectangle(275, 800, 48, 40), player);
             isPlaying = false;

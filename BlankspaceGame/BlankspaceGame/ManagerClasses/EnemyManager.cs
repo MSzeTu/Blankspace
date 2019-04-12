@@ -17,6 +17,9 @@ namespace BlankspaceGame
 {
     static class EnemyManager
     {
+        // CONST
+        const int BULLET_SPEED = 7;
+
         // List of enemies
         static private List<Enemy> enemies;
         static public List<Enemy> Enemies
@@ -138,13 +141,13 @@ namespace BlankspaceGame
                 {
                     case 1:
                         // Fires one projectile at the player
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y+27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y+27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
                         break;
                     case 2:
                         // Fires a cone of 3 projectiles at the player
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
                         break;
                     case 3:
                         // Fires a circle of projectiles around the enemy
@@ -154,7 +157,7 @@ namespace BlankspaceGame
                             {
                                 if (p != 0 || k != 0)
                                 {
-                                    ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                                    ProjectileManager.AddProjectile(new Vector2(k, p), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
                                 }
                             }
                         }
