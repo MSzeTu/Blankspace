@@ -137,34 +137,69 @@ namespace BlankspaceGame
                     i.Color = Color.White;
                 }
                 // Does check for enemies to fire shots at player
-                switch (i.CheckForAttack(rand))
+                if (i.Type != EnemyType.Boss)
                 {
-                    case 1:
-                        // Fires one projectile at the player
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y+27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        break;
-                    case 2:
-                        // Fires a cone of 3 projectiles at the player
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
-                        break;
-                    case 3:
-                        // Fires a circle of projectiles around the enemy
-                        for (int k = -1; k <= 1; k++)
-                        {
-                            for (int p = -1; p <= 1; p++)
+                    switch (i.CheckForAttack(rand))
+                    {
+                        case 1:
+                            // Fires one projectile at the player
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                            break;
+                        case 2:
+                            // Fires a cone of 3 projectiles at the player
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                            break;
+                        case 3:
+                            // Fires a circle of projectiles around the enemy
+                            for (int k = -1; k <= 1; k++)
                             {
-                                if (p != 0 || k != 0)
+                                for (int p = -1; p <= 1; p++)
                                 {
-                                    ProjectileManager.AddProjectile(new Vector2(k, p), BULLET_SPEED, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                                    if (p != 0 || k != 0)
+                                    {
+                                        ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 19, i.Y, 10, 10), projectiles, false, false);
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    default:
-                        // Do nothing
-                        break;
+                            break;
+                        default:
+                            // Do nothing
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (i.CheckForAttack(rand))
+                    {
+                        case 1:
+                            // Fires one projectile at the player
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
+                            break;
+                        case 2:
+                            // Fires a cone of 3 projectiles at the player
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
+                            ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
+                            break;
+                        case 3:
+                            // Fires a circle of projectiles around the enemy
+                            for (int k = -1; k <= 1; k++)
+                            {
+                                for (int p = -1; p <= 1; p++)
+                                {
+                                    if (p != 0 || k != 0)
+                                    {
+                                        ProjectileManager.AddProjectile(new Vector2(k, p), 10, 1, new Rectangle(i.X + 150, i.Y+50, 10, 10), projectiles, false, false);
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            // Do nothing
+                            break;
+                    }
                 }
             }
             // Main loop for checking all enemies
