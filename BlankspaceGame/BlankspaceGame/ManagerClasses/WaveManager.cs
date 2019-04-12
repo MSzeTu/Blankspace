@@ -24,8 +24,8 @@ namespace BlankspaceGame
         private static string[] levelsToLoad =
         {
             ".\\Content\\Levels\\Level1.wave",
-            //".\\Content\\Levels\\level2.wave",
-            //".\\Content\\Levels\\level3.wave",
+            ".\\Content\\Levels\\level2.wave",
+            ".\\Content\\Levels\\level3.wave",
             //".\\Content\\Levels\\ouch.wave"
 
         };

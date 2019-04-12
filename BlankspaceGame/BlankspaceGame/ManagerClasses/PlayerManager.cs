@@ -28,7 +28,24 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
-        static Boolean rControls;  
+        static Boolean rControls;
+
+        // Mouse control variables
+        static private bool mouseControl = true;
+        static private float mouseMoveSpeed = 10;
+
+        static public bool MouseControl
+        {
+            get
+            {
+                return mouseControl;
+            }
+            set
+            {
+                mouseControl = value;
+            }
+        }
+
         static public Boolean RControls
         {
             get
@@ -129,6 +146,33 @@ namespace BlankspaceGame
                 {
                     player.X -= 6;
                 }
+
+                // Mouse control
+                if (mouseControl)
+                {
+                    // Set the player position to the mouse position
+                    MouseState ms = Mouse.GetState();
+                    int mX = ms.Position.X;
+                    int mY = ms.Position.Y;
+                    int shipX = player.X;
+                    int shipY = player.Y;
+                    int width = player.Position.Width;
+                    int height = player.Position.Height;
+
+                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed / 4 * (1f / 60f));
+
+                    player.X = (int)playerPos.X;
+                    player.Y = (int)playerPos.Y;
+
+                    if (player.X < 0)
+                        player.X = 0;
+                    if (player.X > 550)
+                        player.X = 550;
+                    if (player.Y < 0)
+                        player.Y = 0;
+                    if (player.Y > 850)
+                        player.Y = 850;
+                }
             }
             else
             {
@@ -149,7 +193,34 @@ namespace BlankspaceGame
                     player.X += 6;
                 }
 
+                // Mouse control
+                if (mouseControl)
+                {
+                    // Set the player position to the mouse position
+                    MouseState ms = Mouse.GetState();
+                    int mX = ms.Position.X;
+                    int mY = ms.Position.Y;
+                    int shipX = player.X;
+                    int shipY = player.Y;
+                    int width = player.Position.Width;
+                    int height = player.Position.Height;
+
+                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
+
+                    player.X = (int)playerPos.X;
+                    player.Y = (int)playerPos.Y;
+
+                    if (player.X < 0)
+                        player.X = 0;
+                    if (player.X > 550)
+                        player.X = 550;
+                    if (player.Y < 0)
+                        player.Y = 0;
+                    if (player.Y > 850)
+                        player.Y = 850;
+                }
             }
+
             // Removes health for colliding with projectiles
             int collidedIndex = CheckBulletCollision();
             if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)

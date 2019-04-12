@@ -17,6 +17,9 @@ namespace BlankspaceGame
 {
     static class EnemyManager
     {
+        // CONST
+        const int BULLET_SPEED = 7;
+
         // List of enemies
         static private List<Enemy> enemies;
         static public List<Enemy> Enemies
