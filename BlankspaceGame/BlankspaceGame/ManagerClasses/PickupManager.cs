@@ -106,7 +106,7 @@ namespace BlankspaceGame
                             {
                                 if (i != 0 || k != 0)
                                 {
-                                    ProjectileManager.AddProjectile(new Vector2(k, i), 10, 1, new Rectangle(p.X - 25, p.Y - 1500, 100, 1500), beam, true, false);
+                                    ProjectileManager.AddProjectile(new Vector2(k, i), 10, 1, new Rectangle(p.X - 25, p.Y - 1500, 100, 1500), beam, true, true);
                                 }
                             }
                         }
