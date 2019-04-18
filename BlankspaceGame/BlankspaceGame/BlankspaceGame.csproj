@@ -45,6 +45,7 @@
     <Compile Include="ManagerClasses\WaveManager.cs" />
     <Compile Include="Objects\Actor.cs" />
     <Compile Include="ManagerClasses\BackgroundManager.cs" />
+    <Compile Include="Objects\Button.cs" />
     <Compile Include="Objects\Enemy.cs" />
     <Compile Include="ManagerClasses\EnemyManager.cs" />
     <Compile Include="Game1.cs" />
