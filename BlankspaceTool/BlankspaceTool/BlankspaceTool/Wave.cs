@@ -16,7 +16,8 @@ namespace BlankspaceTool
         Space,
         Enemy,
         Shotgun,
-        Tank
+        Tank,
+        Boss
     }
 
     class Wave
@@ -57,6 +58,10 @@ namespace BlankspaceTool
             if (type == TileType.Tank)
             {
                 objects[x, y].BackColor = Color.Green;
+            }
+            if (type == TileType.Boss)
+            {
+                objects[x, y].BackColor = Color.Cyan;
             }
         }
 

@@ -32,11 +32,7 @@ namespace BlankspaceGame
         private int speed;
         private int cooldown;
         private EnemyType type;
-
-        //Sprites and sound
-        SoundEffect hitSound;
-        SoundEffect shootSound;
-        Texture2D projectiles;
+        private Queue<int> attackQueue;
 
         public EnemyType Type
         {
@@ -53,18 +49,40 @@ namespace BlankspaceGame
             return false;
         }
 
-        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, EnemyType type) : base(rect, text, hp)
+        public bool Invincible
+        {
+            get
+            {
+                if(Y < -position.Height)
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, int baseCd, EnemyType type) : base(rect, text, hp)
         {
             unitVelocity = unitVelIn;
             speed = spdIn;
             unitVelocity.Normalize();
             this.type = type;
-            cooldown = 0;
+            cooldown = baseCd;
+            attackQueue = new Queue<int>();
         }
 
         // Move method for moving in target direction
         public void Move()
         {
+            // If enemy is boss, do not move and pass self to the enemymanager
+            if (type == EnemyType.Boss && Y >= 150)
+            {
+                EnemyManager.BossEnemy = this;
+                return;
+            }
+
             Vector2 dir = unitVelocity * speed;
 
             X += (int)dir.X;
@@ -74,6 +92,10 @@ namespace BlankspaceGame
         //Checks if bullets have hit enemy
         public int CheckBulletCollision()
         {
+            if (Invincible == true)
+                return -1;
+            
+
             for (int i = 0; i < ProjectileManager.Projectiles.Count; i++)
             {
                 if (ProjectileManager.Projectiles[i].Colliding(this))
@@ -93,34 +115,52 @@ namespace BlankspaceGame
                 cooldown -= 1;
                 return 0;
             }
-            int value = rand.Next(0, 101);
-            // Checks the type of enemy and then rolls to see if it will attack or not
-            // Different enemies have different chances to attack and some have multiple attacks
+            // If queue is not empty, use that attack
+            if (attackQueue.Count > 0)
+            {
+                cooldown = 5;
+                return attackQueue.Dequeue();
+            }
+            // Checks the type of enemy and then adds its attack to the queue
+            // Boss enemy has random object to decide which attack to use
             switch (this.type)
             {
                 case EnemyType.Basic:
-                    if (value > 90)
-                    {
-                        cooldown = 30;
-                        return 1;
-                    }
-                    cooldown = 30;
+                    attackQueue.Enqueue(1);
+                    attackQueue.Enqueue(1);
+                    attackQueue.Enqueue(1);
+                    cooldown = rand.Next(50, 150);
                     return 0;
                 case EnemyType.Shotgun:
-                    if (value > 90)
-                    {
-                        cooldown = 30;
-                        return 2;
-                    }
-                    cooldown = 30;
+                    attackQueue.Enqueue(2);
+                    attackQueue.Enqueue(2);
+                    cooldown = rand.Next(50, 150);
                     return 0;
                 case EnemyType.Tank:
-                    if (value > 90)
+                    attackQueue.Enqueue(3);
+                    cooldown = rand.Next(100, 200);
+                    return 0;
+                case EnemyType.Boss:
+                    int value = rand.Next(0, 3);
+                    if (value == 0)
                     {
-                        cooldown = 50;
-                        return 3;
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                        attackQueue.Enqueue(4);
+                    } else if (value == 2)
+                    {
+                        attackQueue.Enqueue(5);
+                        attackQueue.Enqueue(5);
+                        attackQueue.Enqueue(5);
+                    } else if (value == 3)
+                    {
+                        attackQueue.Enqueue(3);
+                        attackQueue.Enqueue(3);
                     }
-                    cooldown = 30;
+                    cooldown = 20;
                     return 0;
                 default:
                     return 0;

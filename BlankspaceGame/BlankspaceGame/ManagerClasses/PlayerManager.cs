@@ -28,6 +28,36 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
+        static Boolean rControls;
+
+        // Mouse control variables
+        static private bool mouseControl = false;
+        static private float mouseMoveSpeed = 10;
+
+        static public bool MouseControl
+        {
+            get
+            {
+                return mouseControl;
+            }
+            set
+            {
+                mouseControl = value;
+            }
+        }
+
+        static public Boolean RControls
+        {
+            get
+            {
+                return rControls;
+            }
+            set
+            {
+                rControls = value;
+            }
+        }
+        static private float screenShake;
 
         static public int HighScore
         {
@@ -56,6 +86,19 @@ namespace BlankspaceGame
             get { return iFrame; }
             set { iFrame = value; }
         }
+
+        static public float ScreenShake
+        {
+            get
+            {
+                return screenShake;
+            }
+            set
+            {
+                screenShake = value;
+            }
+        }
+
         //Constructor
         static public void Initialize(Player initPlayer)
         {
@@ -64,6 +107,7 @@ namespace BlankspaceGame
             iFrame = 0;
             score = 0;
             highScore = 0;
+            rControls = false;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -84,22 +128,102 @@ namespace BlankspaceGame
             {
                 player.Color = Color.White;
             }
-            if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
+            if (rControls)
             {
-                player.Y -= 6;
+                // Mouse control
+                if (mouseControl)
+                {
+                    // Set the player position to the mouse position
+                    MouseState ms = Mouse.GetState();
+                    int mX = ms.Position.Y;
+                    int mY = ms.Position.X;
+                    int shipX = player.X;
+                    int shipY = player.Y;
+                    int width = player.Position.Width;
+                    int height = player.Position.Height;
+
+                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
+
+                    player.X = (int)playerPos.X;
+                    player.Y = (int)playerPos.Y;
+
+                    if (player.X < 0)
+                        player.X = 0;
+                    if (player.X > 550)
+                        player.X = 550;
+                    if (player.Y < 0)
+                        player.Y = 0;
+                    if (player.Y > 850)
+                        player.Y = 850;
+                } else
+                {
+                    if (kbState.IsKeyDown(Keys.W) && player.Y <= 860)
+                    {
+                        player.Y += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.S) && player.Y >= 0)
+                    {
+                        player.Y -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.A) && player.X <= 560)
+                    {
+                        player.X += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.D) && player.X >= 0)
+                    {
+                        player.X -= 6;
+                    }
+                }
             }
-            if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
+            else
             {
-                player.Y += 6;
+                // Mouse control
+                if (mouseControl)
+                {
+                    // Set the player position to the mouse position
+                    MouseState ms = Mouse.GetState();
+                    int mX = ms.Position.X;
+                    int mY = ms.Position.Y;
+                    int shipX = player.X;
+                    int shipY = player.Y;
+                    int width = player.Position.Width;
+                    int height = player.Position.Height;
+
+                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
+
+                    player.X = (int)playerPos.X;
+                    player.Y = (int)playerPos.Y;
+
+                    if (player.X < 0)
+                        player.X = 0;
+                    if (player.X > 550)
+                        player.X = 550;
+                    if (player.Y < 0)
+                        player.Y = 0;
+                    if (player.Y > 850)
+                        player.Y = 850;
+                } else
+                {
+                    if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
+                    {
+                        player.Y -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
+                    {
+                        player.Y += 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
+                    {
+                        player.X -= 6;
+                    }
+                    if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
+                    {
+                        player.X += 6;
+                    }
+
+                }
             }
-            if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
-            {
-                player.X -= 6;
-            }
-            if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
-            {
-                player.X += 6;
-            }
+
             // Removes health for colliding with projectiles
             int collidedIndex = CheckBulletCollision();
             if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
@@ -127,6 +251,18 @@ namespace BlankspaceGame
                 if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 1)
                 {                    
                     player.Health++;
+                }
+                else if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 2)
+                {
+                    if (rControls == false)
+                    {
+                        rControls = true;
+                    }
+                    else if (rControls)
+                    {
+                        rControls = false;
+                    }
+                    
                 }
                 PickupManager.RemovePickAt(collidedIndexPi);
             }
@@ -166,7 +302,7 @@ namespace BlankspaceGame
         static public bool CheckSwitchWeapon()
         {
             kbState = Keyboard.GetState();
-            if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3))
+            if (kbState.IsKeyDown(Keys.D1) || kbState.IsKeyDown(Keys.D2) || kbState.IsKeyDown(Keys.D3) || kbState.IsKeyDown(Keys.E))
             {
                 return true;
             }
@@ -189,12 +325,24 @@ namespace BlankspaceGame
                 weaponType = "Shotgun";
             }
             if (kbState.IsKeyDown(Keys.D3))
-            {
+            {   
                 returnWep = new Weapon(Firetype.Beam, Firerate.Fast, Firecolor.Red);
                 weaponType = "Beam";
             }
+            //God Mode
+            if (kbState.IsKeyDown(Keys.E))
+            {
+                returnWep = new Weapon(Firetype.Erin, Firerate.Fast, Firecolor.Red);
+                weaponType = "Erin";
+                player.Health = 900;
+            }
             pKbState = Keyboard.GetState();
             return returnWep;
+        }
+
+        static public void ScreenShakeMethod(int amt)
+        {
+            screenShake += amt;
         }
 
         //Lowers players health by 1 when shot
@@ -206,6 +354,7 @@ namespace BlankspaceGame
                 {
                     if (ProjectileManager.Projectiles[i].Colliding(player))
                     {
+                        ScreenShakeMethod(10);
                         return i;
                     }
                 }
@@ -220,6 +369,7 @@ namespace BlankspaceGame
             {
                 if (EnemyManager.Enemies[i].Colliding(player))
                 {
+                    ScreenShakeMethod(50);
                     return i;
                 }
             }

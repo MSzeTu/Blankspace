@@ -19,7 +19,8 @@ namespace BlankspaceGame
     {
         Dual,
         Beam,
-        Shotgun
+        Shotgun,
+        Erin
     }
     // Defines the firerate, faster rates have less damage and slow rates have high damage
     enum Firerate
@@ -47,6 +48,15 @@ namespace BlankspaceGame
         private Texture2D dual;
         private Texture2D shotgun;
         private Texture2D beam;
+
+        public Firetype FireType
+        {
+            get
+            {
+                return type;
+            }
+        }
+
         // Constructor
         public Weapon(Firetype t, Firerate r, Firecolor c)
         {
@@ -59,8 +69,8 @@ namespace BlankspaceGame
         public void Fire()
         {
             // Sets the x and y to player position
-            int x = PlayerManager.X+27;
-            int y = PlayerManager.Y+76;
+            int x = PlayerManager.X;
+            int y = PlayerManager.Y+5;
 
             // Creates projectiles based on current firetype
             switch (this.type)
@@ -78,6 +88,11 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Beam:
                     ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 25, y - 1500, 100, 1500), beam, true, true);
+                    break;
+                case Firetype.Erin:
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 75, y - 1500, 100, 1500), beam, true, true);
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x + 75, y - 1500, 100, 1500), beam, true, true);
+                    PlayerManager.ScreenShake += (PlayerManager.ScreenShake < 40) ? 5 : 0;
                     break;
             }
         }
@@ -98,6 +113,9 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Beam:
                     cd = 120;
+                    break;
+                case Firetype.Erin:
+                    cd = 0;
                     break;
             }
 
@@ -133,6 +151,9 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Beam:
                     dmg = 2;
+                    break;
+                case Firetype.Erin:
+                    dmg = 20;
                     break;
             }
 
