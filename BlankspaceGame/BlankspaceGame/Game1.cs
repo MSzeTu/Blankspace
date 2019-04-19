@@ -57,7 +57,11 @@ namespace BlankspaceGame
         Texture2D BackDrop;
         Rectangle backLoc;
         Weapon wep;
-        int timer;
+        // Buttons
+        Button buttonStart;
+        Button buttionInstructions;
+        Button buttonResume;
+        Button buttonBack;
 
         public Game1()
         {
@@ -81,6 +85,7 @@ namespace BlankspaceGame
             gState = GameState.Menu;
             playerObject = new Player(new Rectangle(275, 800, 48, 40), player);
             isPlaying = false;
+            InitializeButtons(this);
             // Initializes the manager classes
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
@@ -153,8 +158,10 @@ namespace BlankspaceGame
                 //Switches off Menu when Start(Enter) is pressed 
                 case GameState.Menu:
                     {
+                        buttonStart.Position = new Rectangle(150, 400, 300, 100);
+                        buttionInstructions.Position = new Rectangle(150, 550, 300, 100);
                         kbState = Keyboard.GetState();
-                        if (SingleKeyPress(Keys.Enter) == true)
+                        if (buttonStart.Clicked)
                         {
                             GameReset();// player stats reset for new game
                             gState = GameState.Game;
@@ -166,7 +173,6 @@ namespace BlankspaceGame
                 case GameState.Game:
                     {
                         WaveManager.WaveUpdate();
-                        timer--;
                         kbState = Keyboard.GetState();
                         if (isPlaying == false)
                         {
@@ -195,9 +201,8 @@ namespace BlankspaceGame
                             PlayerManager.SetHighScore();
                             gState = GameState.GameOver;
                         }
-                        if (kbState.IsKeyDown(Keys.P) && timer <= 0)
+                        if (kbState.IsKeyDown(Keys.P))
                         {
-                            timer = 10;
                             MediaPlayer.Stop();
                             isPlaying = false;
                             gState = GameState.Pause;
@@ -213,39 +218,36 @@ namespace BlankspaceGame
                 //Freezes game until P is pressed again
                 case GameState.Pause:
                     {
+                        buttonResume.Position = new Rectangle(150, 600, 300, 100);
                         if (isPlaying == false)
                         {
                             MediaPlayer.Play(pauseSong);
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
+
                         }
-                        kbState = Keyboard.GetState();
-                        timer--;
-                        if (kbState.IsKeyDown(Keys.P) && timer <= 0)
+                        if (buttonResume.Clicked)
                         {
-                            timer = 10;
                             isPlaying = false;
                             gState = GameState.Game;
                         }
-                        pKbState = Keyboard.GetState();
                         break;
                     }
                 //Moves back to menu if button is pressed, or restarts if chosen.
                 case GameState.GameOver:
                     {
                         WaveManager.ReloadWaves();
-
-                        kbState = Keyboard.GetState();
-                        if (SingleKeyPress(Keys.Enter) == true)
+                        buttonBack.Position = new Rectangle(150, 700, 300, 100);
+                        
+                        if (buttonBack.Clicked)
                         {
                             gState = GameState.Menu;
                         }
-                        if (SingleKeyPress(Keys.R) == true)
-                        {
-                            GameReset();
-                            gState = GameState.Game;
-                        }
-                        pKbState = Keyboard.GetState();
+                        //if (SingleKeyPress(Keys.R) == true)
+                        //{
+                        //    GameReset();
+                        //    gState = GameState.Game;
+                        //}
                         break;
                     }
                 //Does the same thing as the Game Over state
@@ -318,12 +320,17 @@ namespace BlankspaceGame
             {
                 case GameState.Menu:
                     {
+                        IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
+                        // Buttons
+                        buttonStart.Draw(spriteBatch);
+                        buttionInstructions.Draw(spriteBatch);
                         break;
                     }
                 case GameState.Game:
                     {
+                        IsMouseVisible = false;
                         spriteBatch.Draw(BackDrop, backLoc, Color.White);
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
@@ -337,10 +344,12 @@ namespace BlankspaceGame
                     }
                 case GameState.Pause:
                     {
+                        IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
-                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 500), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 550), Color.Teal); // add Current Level var
+                        buttonResume.Draw(spriteBatch);
+                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 400), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 475), Color.Teal); // add Current Level var
                         break;
                     }
                 case GameState.GameOver:
@@ -348,8 +357,9 @@ namespace BlankspaceGame
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(lose, new Rectangle(0, 0, 600, 900), Color.White);
                         // last game stats
-                        spriteBatch.DrawString(arial18, "Your Final Score: " + PlayerManager.Score, new Vector2(200, 375), Color.DarkRed); // add total score var
-                        spriteBatch.DrawString(arial18, "The HighScore is: " + PlayerManager.HighScore, new Vector2(200, 400), Color.DarkRed); // add High Score var
+                        spriteBatch.DrawString(arial18, "Your Final Score: " + PlayerManager.Score, new Vector2(200, 400), Color.DarkRed); // add total score var
+                        spriteBatch.DrawString(arial18, "The HighScore is: " + PlayerManager.HighScore, new Vector2(200, 475), Color.DarkRed); // add High Score var
+                        buttonBack.Draw(spriteBatch);
                         break;
                     }
                 case GameState.Win:
@@ -357,8 +367,8 @@ namespace BlankspaceGame
                         // Win UI
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
-                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 375), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 400), Color.Teal); // add High Score var
+                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 475), Color.Teal); // add High Score var
                         break;
                     }
 
@@ -397,6 +407,15 @@ namespace BlankspaceGame
             {
                 return false;
             }
+        }
+
+        // Creates the buttons, edit the positions here!
+        protected void InitializeButtons(Game1 g)
+        {
+            buttonStart = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/startButton"));
+            buttonBack = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/backButton"));
+            buttonResume = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/resumeButton"));
+            buttionInstructions = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/instructionsButton"));
         }
     }
 }
