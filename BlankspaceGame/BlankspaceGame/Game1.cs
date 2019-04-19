@@ -92,6 +92,7 @@ namespace BlankspaceGame
             ProjectileManager.Initialize();
             WaveManager.Initialize();
             PickupManager.Intialize();
+            ParalaxManager.Initialize();
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 
@@ -130,6 +131,8 @@ namespace BlankspaceGame
             pause = Content.Load<Texture2D>("Menus/PauseMenu");
             win = Content.Load<Texture2D>("Menus/Win");
             lose = Content.Load<Texture2D>("Menus/Lose");
+
+            ParalaxManager.SetTexture(BackDrop);
         }
 
         /// <summary>
@@ -194,7 +197,7 @@ namespace BlankspaceGame
                         if (PlayerManager.CheckFireWeapon(kbState, wep))
                         {
                             wep.Fire();
-                            playerObject.ShootSound.Play();
+                            playerObject.ShootSound.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
                         }
                         if (playerObject.Health <= 0)
                         {
@@ -313,7 +316,7 @@ namespace BlankspaceGame
                 null,
                 Matrix.CreateTranslation(rng.Next(-shake, shake), rng.Next(-shake, shake), 0)
                 );
-            
+
 
             //Draws based on the current Gamestate
             switch (gState)
@@ -332,12 +335,14 @@ namespace BlankspaceGame
                     {
                         IsMouseVisible = false;
                         spriteBatch.Draw(BackDrop, backLoc, Color.White);
+                        ParalaxManager.Update(spriteBatch);
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
                         PlayerManager.DrawPlayer(spriteBatch);
                         PickupManager.DrawPickups(spriteBatch);
                         GraphicsDevice.Clear(Color.Black);
-                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 875), Color.White); // add Health var
+                        spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White); // add Health var
+                        spriteBatch.DrawString(arial12, "BlankSpaces: " + PlayerManager.BlankSpace, new Vector2(10, 875), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
                         spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
                         break;
@@ -379,6 +384,7 @@ namespace BlankspaceGame
 
         protected void GameReset()
         {
+            PlayerManager.BlankSpace = 2;
             playerObject.Health = 5; // player health reset for new game
             ProjectileManager.Clear();
             playerObject.X = 275;

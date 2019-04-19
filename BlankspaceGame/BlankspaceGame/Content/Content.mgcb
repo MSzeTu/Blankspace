@@ -226,6 +226,30 @@
 /processorParam:TextureFormat=Color
 /build:Player/Ship.png
 
+#begin Player/Ship_MoveLeft.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/Ship_MoveLeft.png
+
+#begin Player/Ship_MoveRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/Ship_MoveRight.png
+
 #begin Player/WIPshipPlayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -363,6 +387,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/BackGround_Music.mp3
+
+#begin Sounds/blankBomb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/blankBomb.wav
+
+#begin Sounds/EnemyShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/EnemyShot.wav
 
 #begin Sounds/Explosion.wav
 /importer:WavImporter

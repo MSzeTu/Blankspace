@@ -20,6 +20,11 @@ namespace BlankspaceGame
         //Sets up players sound effects
         SoundEffect hitSound;
         SoundEffect shootSound;
+        SoundEffect blankSound;
+        public SoundEffect BlankSound
+        { get { return blankSound; }
+            set { blankSound = value; }
+        }
         public SoundEffect HitSound
         {
             get
