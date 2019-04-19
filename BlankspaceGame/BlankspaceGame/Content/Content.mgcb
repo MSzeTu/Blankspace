@@ -412,6 +412,18 @@
 /processorParam:Quality=Best
 /build:Sounds/BackGround_Music.mp3
 
+#begin Sounds/blankBomb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/blankBomb.wav
+
+#begin Sounds/EnemyShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/EnemyShot.wav
+
 #begin Sounds/Explosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

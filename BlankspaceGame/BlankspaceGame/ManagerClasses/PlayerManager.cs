@@ -23,7 +23,9 @@ namespace BlankspaceGame
         static Player player;
         static Texture2D solidTexture;
         // Variables
+        static private int blankSpace;
         static private int iFrame;
+        static private int flashFrame;
         static private int currentCD;
         static private int score;
         static private int highScore;
@@ -58,6 +60,12 @@ namespace BlankspaceGame
             }
         }
         static private float screenShake;
+        static public int BlankSpace
+        {
+            get { return blankSpace; }
+            set { blankSpace = value; }
+
+        }
 
         static public int HighScore
         {
@@ -107,6 +115,7 @@ namespace BlankspaceGame
             iFrame = 0;
             score = 0;
             highScore = 0;
+            flashFrame = 0;
             rControls = false;
         }
 
@@ -114,6 +123,10 @@ namespace BlankspaceGame
         static public void UpdatePlayer()
         {
             kbState = Keyboard.GetState();
+            if (flashFrame > 0)
+            {
+                flashFrame--;
+            }
             if (player.DamageTick > 0)
             {
                 player.DamageTick -= 1;
@@ -223,7 +236,7 @@ namespace BlankspaceGame
 
                 }
             }
-
+            blankSpaceBomb();
             // Removes health for colliding with projectiles
             int collidedIndex = CheckBulletCollision();
             if (collidedIndex != -1 && ProjectileManager.Projectiles[collidedIndex].PlayerShot == false && iFrame == 0)
@@ -280,6 +293,10 @@ namespace BlankspaceGame
             if (iFrame > 0)
             {
                 sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(50, 0, 0, iFrame * 4));
+            }
+            if (flashFrame > 0)
+            {
+                sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(100, 100, 100, flashFrame*2));
             }
         }
 
@@ -339,6 +356,19 @@ namespace BlankspaceGame
             pKbState = Keyboard.GetState();
             return returnWep;
         }
+        //Triggers BlankSpace bomb with q, cleaing projectiles
+        static public void blankSpaceBomb()
+        {
+            kbState = Keyboard.GetState();
+            if ((pKbState.IsKeyDown(Keys.Q) == false && kbState.IsKeyDown(Keys.Q) == true) && blankSpace>0)
+            {
+                player.BlankSound.Play();
+                flashFrame = 20;
+                blankSpace--;
+                ProjectileManager.Projectiles.Clear();
+            }
+            pKbState = Keyboard.GetState();
+        }
 
         static public void ScreenShakeMethod(int amt)
         {
@@ -389,19 +419,13 @@ namespace BlankspaceGame
             return -1;
         }
 
-        //Loads Player Sound Effects
-        static public void LoadSound(SoundEffect shoot, SoundEffect hit)
-        {
-            player.HitSound = hit;
-            player.ShootSound = shoot;
-        }
-
         // Loads playermanager content
         static public void LoadContent(Game game)
         {
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
             player.HitSound = game.Content.Load<SoundEffect>("Sounds/Explosion");
             player.ShootSound = game.Content.Load<SoundEffect>("Sounds/Laser_Sound");
+            player.BlankSound = game.Content.Load<SoundEffect>("Sounds/blankBomb");
         }
 
         //Saves high score 
