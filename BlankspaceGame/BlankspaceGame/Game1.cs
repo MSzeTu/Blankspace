@@ -87,6 +87,7 @@ namespace BlankspaceGame
             ProjectileManager.Initialize();
             WaveManager.Initialize();
             PickupManager.Intialize();
+            ParalaxManager.Initialize();
 
             backLoc = new Rectangle(0, 0, 600, 1250);
 
@@ -125,6 +126,8 @@ namespace BlankspaceGame
             pause = Content.Load<Texture2D>("Menus/PauseMenu");
             win = Content.Load<Texture2D>("Menus/Win");
             lose = Content.Load<Texture2D>("Menus/Lose");
+
+            ParalaxManager.SetTexture(BackDrop);
         }
 
         /// <summary>
@@ -324,7 +327,7 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
-                        spriteBatch.Draw(BackDrop, backLoc, Color.White);
+                        ParalaxManager.Update(spriteBatch);
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
                         PlayerManager.DrawPlayer(spriteBatch);
