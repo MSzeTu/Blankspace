@@ -73,7 +73,5 @@ namespace BlankspaceGame
         {
             texture = tex;
         }
-
-        
     }
 }

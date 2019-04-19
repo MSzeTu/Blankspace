@@ -33,8 +33,15 @@ namespace BlankspaceGame
         static Boolean rControls;
 
         // Mouse control variables
-        static private bool mouseControl = false;
+        static private bool mouseControl = true;
         static private float mouseMoveSpeed = 10;
+
+        // Player animation thingy
+        static private Texture2D idle;
+        static private Texture2D moveRight;
+        static private Texture2D moveLeft;
+
+        static private int lastX;
 
         static public bool MouseControl
         {
@@ -279,16 +286,31 @@ namespace BlankspaceGame
                 }
                 PickupManager.RemovePickAt(collidedIndexPi);
             }
+
             pKbState = Keyboard.GetState();
         }
 
         // Draw method for player and effects
         public static void DrawPlayer(SpriteBatch sb)
         {
+            // handle the texture first
+            if (X > lastX)
+            {
+                player.SetTexture(moveRight);
+            }
+            else if (X < lastX)
+            {
+                player.SetTexture(moveLeft);
+            } else
+            {
+                player.SetTexture(idle);
+            }
+
             if (player.Health > 0)
             {
                 player.Draw(sb);
             }
+
             // Draws red overlay when damaged
             if (iFrame > 0)
             {
@@ -298,6 +320,9 @@ namespace BlankspaceGame
             {
                 sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(100, 100, 100, flashFrame*2));
             }
+
+            // last x
+            lastX = X;
         }
 
         // Weapon firing code
@@ -425,6 +450,10 @@ namespace BlankspaceGame
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
             player.HitSound = game.Content.Load<SoundEffect>("Sounds/Explosion");
             player.ShootSound = game.Content.Load<SoundEffect>("Sounds/Laser_Sound");
+
+            idle = game.Content.Load<Texture2D>("Player/Ship");
+            moveLeft = game.Content.Load<Texture2D>("Player/Ship_MoveLeft");
+            moveRight = game.Content.Load<Texture2D>("Player/Ship_MoveRight");
             player.BlankSound = game.Content.Load<SoundEffect>("Sounds/blankBomb");
         }
 
