@@ -12,7 +12,7 @@ using System.Threading.Tasks;
  * Class: IGME106
  * Author: WIP
  * Purpose: Main Method
- * Recent Changes: Created header
+ * Recent Changes: Added Instruction State
  */
 namespace BlankspaceGame
 {
@@ -28,6 +28,7 @@ namespace BlankspaceGame
     public enum GameState
     {
         Menu,
+        Instructions,
         Game,
         Pause,
         GameOver,
@@ -59,7 +60,7 @@ namespace BlankspaceGame
         Weapon wep;
         // Buttons
         Button buttonStart;
-        Button buttionInstructions;
+        Button buttonInstructions;
         Button buttonResume;
         Button buttonBack;
 
@@ -162,14 +163,22 @@ namespace BlankspaceGame
                 case GameState.Menu:
                     {
                         buttonStart.Position = new Rectangle(150, 400, 300, 100);
-                        buttionInstructions.Position = new Rectangle(150, 550, 300, 100);
+                        buttonInstructions.Position = new Rectangle(150, 550, 300, 100);
                         kbState = Keyboard.GetState();
                         if (buttonStart.Clicked)
                         {
                             GameReset();// player stats reset for new game
                             gState = GameState.Game;
                         }
+                        if (buttonInstructions.Clicked)
+                        {
+                            gState = GameState.Instructions;
+                        }
                         pKbState = Keyboard.GetState();
+                        break;
+                    }
+                case GameState.Instructions:
+                    {
                         break;
                     }
                 //Sets up enemies, players, and fires projectiles when space is pressed. 
@@ -328,7 +337,12 @@ namespace BlankspaceGame
                         spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
                         // Buttons
                         buttonStart.Draw(spriteBatch);
-                        buttionInstructions.Draw(spriteBatch);
+                        buttonInstructions.Draw(spriteBatch);
+                        break;
+                    }
+                case GameState.Instructions:
+                    {
+                        IsMouseVisible = true;
                         break;
                     }
                 case GameState.Game:
@@ -359,6 +373,7 @@ namespace BlankspaceGame
                     }
                 case GameState.GameOver:
                     {
+                        IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(lose, new Rectangle(0, 0, 600, 900), Color.White);
                         // last game stats
@@ -370,6 +385,7 @@ namespace BlankspaceGame
                 case GameState.Win:
                     {
                         // Win UI
+                        IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
                         spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
@@ -421,7 +437,7 @@ namespace BlankspaceGame
             buttonStart = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/startButton"));
             buttonBack = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/backButton"));
             buttonResume = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/resumeButton"));
-            buttionInstructions = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/instructionsButton"));
+            buttonInstructions = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/instructionsButton"));
         }
     }
 }
