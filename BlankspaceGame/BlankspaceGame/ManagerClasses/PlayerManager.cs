@@ -30,7 +30,6 @@ namespace BlankspaceGame
         static private int score;
         static private int highScore;
         static private string weaponType;
-        static Boolean rControls;
 
         // Mouse control variables
         static private bool mouseControl = true;
@@ -55,17 +54,6 @@ namespace BlankspaceGame
             }
         }
 
-        static public Boolean RControls
-        {
-            get
-            {
-                return rControls;
-            }
-            set
-            {
-                rControls = value;
-            }
-        }
         static private float screenShake;
         static public int BlankSpace
         {
@@ -123,7 +111,6 @@ namespace BlankspaceGame
             score = 0;
             highScore = 0;
             flashFrame = 0;
-            rControls = false;
         }
 
         //Moves the player using wasd, prevents moving off screen
@@ -148,55 +135,7 @@ namespace BlankspaceGame
             {
                 player.Color = Color.White;
             }
-            if (rControls)
-            {
-                // Mouse control
-                if (mouseControl)
-                {
-                    // Set the player position to the mouse position
-                    MouseState ms = Mouse.GetState();
-                    int mX = ms.Position.Y;
-                    int mY = ms.Position.X;
-                    int shipX = player.X;
-                    int shipY = player.Y;
-                    int width = player.Position.Width;
-                    int height = player.Position.Height;
 
-                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
-
-                    player.X = (int)playerPos.X;
-                    player.Y = (int)playerPos.Y;
-
-                    if (player.X < 0)
-                        player.X = 0;
-                    if (player.X > 550)
-                        player.X = 550;
-                    if (player.Y < 0)
-                        player.Y = 0;
-                    if (player.Y > 850)
-                        player.Y = 850;
-                } else
-                {
-                    if (kbState.IsKeyDown(Keys.W) && player.Y <= 860)
-                    {
-                        player.Y += 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.S) && player.Y >= 0)
-                    {
-                        player.Y -= 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.A) && player.X <= 560)
-                    {
-                        player.X += 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.D) && player.X >= 0)
-                    {
-                        player.X -= 6;
-                    }
-                }
-            }
-            else
-            {
                 // Mouse control
                 if (mouseControl)
                 {
@@ -240,8 +179,6 @@ namespace BlankspaceGame
                     {
                         player.X += 6;
                     }
-
-                }
             }
             blankSpaceBomb();
             // Removes health for colliding with projectiles
@@ -274,14 +211,7 @@ namespace BlankspaceGame
                 }
                 else if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 2)
                 {
-                    if (rControls == false)
-                    {
-                        rControls = true;
-                    }
-                    else if (rControls)
-                    {
-                        rControls = false;
-                    }
+                    player.Health--;
                     
                 }
                 PickupManager.RemovePickAt(collidedIndexPi);
@@ -377,6 +307,7 @@ namespace BlankspaceGame
                 returnWep = new Weapon(Firetype.Erin, Firerate.Fast, Firecolor.Red);
                 weaponType = "Erin";
                 player.Health = 900;
+                BlankSpace = 900;
             }
             pKbState = Keyboard.GetState();
             return returnWep;

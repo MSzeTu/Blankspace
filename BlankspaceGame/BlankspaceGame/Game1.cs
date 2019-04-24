@@ -407,7 +407,6 @@ namespace BlankspaceGame
             playerObject.Y = 800;
             PlayerManager.Score = 0;
             PlayerManager.IFrame = 0;
-            PlayerManager.RControls = false;
             EnemyManager.Enemies.Clear();
             EnemyManager.BossEnemy = null;
             PickupManager.Pickups.Clear();
