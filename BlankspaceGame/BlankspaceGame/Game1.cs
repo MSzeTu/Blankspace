@@ -257,17 +257,18 @@ namespace BlankspaceGame
                 case GameState.Win:
                     {
                         WaveManager.ReloadWaves();
+                        buttonBack.Position = new Rectangle(150, 700, 300, 100);
 
                         kbState = Keyboard.GetState();
-                        if (SingleKeyPress(Keys.Enter) == true)
+                        if (buttonBack.Clicked)
                         {
                             gState = GameState.Menu;
                         }
-                        if (SingleKeyPress(Keys.R) == true)
-                        {
-                            GameReset();
-                            gState = GameState.Game;
-                        }
+                        //if (SingleKeyPress(Keys.R) == true)
+                        //{
+                        //    GameReset();
+                        //    gState = GameState.Game;
+                        //}
                         pKbState = Keyboard.GetState();
                         break;
                     }
@@ -359,6 +360,7 @@ namespace BlankspaceGame
                     }
                 case GameState.GameOver:
                     {
+                        IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(lose, new Rectangle(0, 0, 600, 900), Color.White);
                         // last game stats
@@ -369,11 +371,13 @@ namespace BlankspaceGame
                     }
                 case GameState.Win:
                     {
+                        IsMouseVisible = true;
                         // Win UI
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
                         spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
                         spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 475), Color.Teal); // add High Score var
+                        buttonBack.Draw(spriteBatch);
                         break;
                     }
 
