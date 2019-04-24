@@ -14,7 +14,7 @@ namespace BlankspaceGame
         static Texture2D bombs;
         static Texture2D pointT;
         static Texture2D boom;
-        static Texture2D reverse;
+        static Texture2D mine;
         static SoundEffect powerSound;
         //Lists of pickups
         static private List<Pickup> pickups;
@@ -95,7 +95,7 @@ namespace BlankspaceGame
                         PlayerManager.Score += 100;
                         break;
                     }
-                case Type.Reverse:
+                case Type.Mine:
                     {
                         return 2;
                     }
@@ -108,7 +108,15 @@ namespace BlankspaceGame
         {
             int chance = roll.Next(1, 101);
             int typeChance;
-            if (chance <= 20)
+            if (source.Type == EnemyType.Boss)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    AddPickup(Type.Points, new Rectangle(source.X+roll.Next(0,50) + (source.Position.Width / 2), source.Y + roll.Next(0, 50), 20,20), pointT);
+                    AddPickup(Type.Points, new Rectangle(source.X+(source.Position.Width / 2)-roll.Next(0, 50), source.Y - roll.Next(0, 50), 20, 20), pointT);
+                }
+            }
+            else if (chance <= 20)
             {
                 typeChance = roll.Next(1, 21);
                 if (typeChance <= 4)
@@ -125,7 +133,7 @@ namespace BlankspaceGame
                 }
                 else if (typeChance >= 18)
                 {
-                    AddPickup(Type.Reverse, source.Position, reverse);
+                    AddPickup(Type.Mine, source.Position, mine);
                 }
             }
         }
@@ -136,7 +144,7 @@ namespace BlankspaceGame
             heart = game.Content.Load<Texture2D>("Pickups/heart");
             bombs = game.Content.Load<Texture2D>("Pickups/Laser");
             pointT = game.Content.Load<Texture2D>("Pickups/Coin");
-            reverse = game.Content.Load<Texture2D>("Pickups/Reverse");
+            mine = game.Content.Load<Texture2D>("Pickups/Reverse");
             boom = game.Content.Load<Texture2D>("Projectiles/Explosion");
             powerSound = game.Content.Load<SoundEffect>("Sounds/Pickup_Sound");
         }

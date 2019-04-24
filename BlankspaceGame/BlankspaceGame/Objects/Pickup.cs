@@ -19,7 +19,7 @@ namespace BlankspaceGame
         Health,
         Bomb,
         Points,
-        Reverse
+        Mine
     }
     class Pickup : GameObject
     {   
