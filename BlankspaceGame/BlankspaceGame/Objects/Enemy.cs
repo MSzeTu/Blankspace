@@ -63,6 +63,9 @@ namespace BlankspaceGame
             }
         }
 
+        /*
+         * Constructor
+         */ 
         public Enemy(Rectangle rect, Texture2D text, int hp, Vector2 unitVelIn, int spdIn, int baseCd, EnemyType type) : base(rect, text, hp)
         {
             unitVelocity = unitVelIn;
@@ -73,7 +76,9 @@ namespace BlankspaceGame
             attackQueue = new Queue<int>();
         }
 
-        // Move method for moving in target direction
+        /*
+         * Move method for moving in target direction
+         */
         public void Move()
         {
             // If enemy is boss, do not move and pass self to the enemymanager
@@ -82,21 +87,20 @@ namespace BlankspaceGame
                 EnemyManager.BossEnemy = this;
                 return;
             }
-
             Vector2 dir = unitVelocity * speed;
-
             X += (int)dir.X;
             Y += (int)dir.Y;
         }
 
-        //Checks if bullets have hit enemy
+        /*
+         * Checks if bullets have hit enemy
+         */
         public int CheckBulletCollision()
         {
             if (Invincible == true)
                 return -1;
             
-
-            for (int i = 0; i < ProjectileManager.Projectiles.Count; i++)
+            for (int i = 0; i < ProjectileManager.Projectiles.Count; i++) //Loops through bullets to find the one hitting
             {
                 if (ProjectileManager.Projectiles[i].Colliding(this))
                 {
@@ -106,7 +110,9 @@ namespace BlankspaceGame
             return -1;
         }
 
-        // Returns an int that determines the attack, will add code here for alternate enemy attacks
+        /*
+         * Returns an int that determines the attack, will add code here for alternate enemy attacks
+         */
         public int CheckForAttack(Random rand)
         {
             // Decrements cooldown if it is nonzero
@@ -121,8 +127,7 @@ namespace BlankspaceGame
                 cooldown = 5;
                 return attackQueue.Dequeue();
             }
-            // Checks the type of enemy and then adds its attack to the queue
-            // Boss enemy has random object to decide which attack to use
+            // Checks the type of enemy and then adds its attack to the queue         
             switch (this.type)
             {
                 case EnemyType.Basic:
@@ -140,7 +145,7 @@ namespace BlankspaceGame
                     attackQueue.Enqueue(3);
                     cooldown = rand.Next(100, 200);
                     return 0;
-                case EnemyType.Boss:
+                case EnemyType.Boss: // Boss enemy has random object to decide which attack to use
                     int value = rand.Next(0, 3);
                     if (value == 0)
                     {

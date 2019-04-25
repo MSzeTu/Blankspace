@@ -40,7 +40,9 @@ namespace BlankspaceGame
             pType = type;
         }
 
-        //Moves the pickups down the screen
+        /*
+         * Moves the pickups down the screen
+         */
         public void Move()
         {
             this.Y++;

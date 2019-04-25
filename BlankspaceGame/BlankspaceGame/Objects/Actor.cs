@@ -54,6 +54,9 @@ namespace BlankspaceGame
             color = Color.White;
         }
 
+        /*
+         * Draws actor
+         */ 
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, color);
