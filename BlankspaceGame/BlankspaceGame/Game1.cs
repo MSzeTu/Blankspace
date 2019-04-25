@@ -368,8 +368,8 @@ namespace BlankspaceGame
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
                         buttonResume.Draw(spriteBatch);
-                        spriteBatch.DrawString(arial18, "Current Score: " + PlayerManager.Score, new Vector2(200, 400), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial18, $"Current Level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 475), Color.Teal); // add Current Level var
+                        spriteBatch.DrawString(arial18, "Current score: " + PlayerManager.Score, new Vector2(200, 400), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial18, $"Current level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 475), Color.Teal); // add Current Level var
                         break;
                     }
                 case GameState.GameOver:
@@ -378,8 +378,8 @@ namespace BlankspaceGame
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(lose, new Rectangle(0, 0, 600, 900), Color.White);
                         // last game stats
-                        spriteBatch.DrawString(arial18, "Your Final Score: " + PlayerManager.Score, new Vector2(200, 400), Color.DarkRed); // add total score var
-                        spriteBatch.DrawString(arial18, "The HighScore is: " + PlayerManager.HighScore, new Vector2(200, 475), Color.DarkRed); // add High Score var
+                        spriteBatch.DrawString(arial18, "Your final score: " + PlayerManager.Score, new Vector2(200, 400), Color.DarkRed); // add total score var
+                        spriteBatch.DrawString(arial18, "The highscore is: " + PlayerManager.HighScore, new Vector2(200, 475), Color.DarkRed); // add High Score var
                         buttonBack.Draw(spriteBatch);
                         break;
                     }
@@ -390,8 +390,8 @@ namespace BlankspaceGame
                         IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
-                        spriteBatch.DrawString(arial12, "Your Final Score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
-                        spriteBatch.DrawString(arial12, "The HighScore is: " + PlayerManager.HighScore, new Vector2(220, 475), Color.Teal); // add High Score var
+                        spriteBatch.DrawString(arial12, "Your final score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
+                        spriteBatch.DrawString(arial12, "The highscore is: " + PlayerManager.HighScore, new Vector2(220, 475), Color.Teal); // add High Score var
                         buttonBack.Draw(spriteBatch);
                         break;
                     }

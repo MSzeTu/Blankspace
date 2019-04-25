@@ -68,6 +68,17 @@ namespace BlankspaceGame
             }
         }
 
+        public static bool IsChangingLevel
+        {
+            get
+            {
+                if (currentTime < 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
         public static void Initialize()
         {
 
