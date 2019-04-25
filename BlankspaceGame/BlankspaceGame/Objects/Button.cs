@@ -60,7 +60,9 @@ namespace BlankspaceGame
             }
         }
 
-        // Overrides draw to draw differently if the button is hovered
+        /*
+         * Overrides draw to draw differently if the button is hovered
+         */
         public override void Draw(SpriteBatch sb)
         {
             if (Hovered)

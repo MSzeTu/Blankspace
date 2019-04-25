@@ -52,13 +52,17 @@ namespace BlankspaceGame
             texture = text;
         }
 
-        // Draw method, virtual so that children can override it if needed (ie player)
+        /*
+         *Draw method, virtual so that children can override it if needed (ie player)
+         */
         public virtual void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Color.White);
         }
 
-        // Collide method, so all objects can detect collisions with others
+        /*
+         * Collide method, so all objects can detect collisions with others
+         */
         public bool Colliding(GameObject obj)
         {
             if (this.position.Intersects(obj.position))
@@ -68,7 +72,9 @@ namespace BlankspaceGame
             return false;
         }
 
-        //Sends the texture to prevent null errors when drawing
+        /*
+         * Sends the texture to prevent null errors when drawing
+         */
         public void SetTexture(Texture2D tex)
         {
             texture = tex;

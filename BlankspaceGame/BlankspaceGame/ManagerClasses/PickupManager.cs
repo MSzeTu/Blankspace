@@ -26,24 +26,33 @@ namespace BlankspaceGame
             }
         }
 
+        /*
+         * Intializes the manager
+         */ 
         static public void Intialize()
         {
             pickups = new List<Pickup>();
         }
 
-        //Removes Pickup at target position
+        /*
+         * Removes Pickup at target position
+         */
         public static void RemovePickAt(int index)
         {
             pickups.RemoveAt(index);
         }
 
-        //Adds pickups to list of pickups
+        /*
+         * Adds pickups to list of pickups
+         */
         public static void AddPickup(Type pickupTy, Rectangle position, Texture2D text)
         {
             Pickups.Add(new Pickup(pickupTy, new Rectangle(position.X, position.Y, 20, 20), text));
         }
 
-        //Updates pickups
+        /*
+         * Updates pickups
+         */
         public static void UpdatePickup()
         {
             //Test if list is empty
@@ -62,10 +71,16 @@ namespace BlankspaceGame
             }
         }
 
-        //Triggers pickup effect based on pickup type
+        /*
+         * Triggers pickup effect based on pickup type
+         */
         public static int TriggerEffect(Pickup p)
         {
-            powerSound.Play();
+            if (p.PType != Type.Mine)
+            {
+                powerSound.Play();
+            } 
+            //Checks pickup type for effects
             switch (p.PType)
             {
                 case Type.Health:
@@ -103,12 +118,14 @@ namespace BlankspaceGame
             return 0;
         }
 
-        //Decides if Pickup should spawn 
+        /*
+         * Decides if Pickup should spawn 
+         */
         public static void Drop(Enemy source, Random roll)
         {
             int chance = roll.Next(1, 101);
             int typeChance;
-            if (source.Type == EnemyType.Boss)
+            if (source.Type == EnemyType.Boss) //Places coins if Boss dies
             {
                 for (int j = 0; j < 5; j++)
                 {
@@ -116,6 +133,7 @@ namespace BlankspaceGame
                     AddPickup(Type.Points, new Rectangle(source.X+(source.Position.Width / 2)-roll.Next(0, 50), source.Y - roll.Next(0, 50), 20, 20), pointT);
                 }
             }
+            //Randomly chooses pickup type
             else if (chance <= 20)
             {
                 typeChance = roll.Next(1, 21);
@@ -138,7 +156,9 @@ namespace BlankspaceGame
             }
         }
 
-        //Loads pickups textures
+        /*
+         * Loads pickups textures
+         */
         public static void LoadTextures(Game1 game)
         {
             heart = game.Content.Load<Texture2D>("Pickups/heart");
@@ -149,7 +169,9 @@ namespace BlankspaceGame
             powerSound = game.Content.Load<SoundEffect>("Sounds/Pickup_Sound");
         }
 
-        //Draws pickups
+        /*
+         * Draws pickups
+         */
         public static void DrawPickups(SpriteBatch sb)
         {
             if (!(pickups.Count < 0))

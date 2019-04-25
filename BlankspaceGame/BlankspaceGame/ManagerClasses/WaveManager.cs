@@ -25,7 +25,7 @@ namespace BlankspaceGame
         {
             ".\\Content\\Levels\\Level1.wave",
             ".\\Content\\Levels\\level2.wave",
-            //".\\Content\\Levels\\level3.wave",
+            ".\\Content\\Levels\\level3.wave",
             //".\\Content\\Levels\\ouch.wave"
 
         };
@@ -68,6 +68,17 @@ namespace BlankspaceGame
             }
         }
 
+        public static bool IsChangingLevel
+        {
+            get
+            {
+                if (currentTime < 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
         public static void Initialize()
         {
 
@@ -76,15 +87,18 @@ namespace BlankspaceGame
             currentWave = 0;
             currentTime = 0;
             currentLevel = 0;
+            levelsToLoad = GetLevelsInFolder();
 
-            for (int i = 0; i < LevelCount; i++)
+            for (int i = 0; i < levelsToLoad.Length; i++)
             {
                 LoadWaves(levelsToLoad[i]);
             }
             gameWon = false;
         }
 
-        // Updates the wave and delay
+        /*
+         * Updates the wave and delay
+         */
         public static void WaveUpdate()
         {
             currentTime += (1f / 60f);
@@ -176,12 +190,43 @@ namespace BlankspaceGame
             br.Close();
         }
 
+        /*
+         * Reloads waves after game
+         */ 
         public static void ReloadWaves()
         {
             currentTime = 0;
             currentWave = 0;
             currentLevel = 0;
             toNextLevel = false;
+        }
+
+        static string[] GetLevelsInFolder()
+        {
+
+            // Check if the levels folder exists
+            if (Directory.Exists(".\\Content\\Levels\\"))
+            {
+                // Get the directory
+                DirectoryInfo levelsFolder = new DirectoryInfo(".\\Content\\Levels\\");
+
+                // Get the level files
+                FileInfo[] files = levelsFolder.GetFiles();
+
+                // Get the length of the level name string
+                int levelCount = files.Length;
+                string[] lvlsToLoad = new string[levelCount];
+
+                for (int i = 0; i < files.Length; i++)
+                {
+                    lvlsToLoad[i] = $".\\Content\\Levels\\{files[i].Name}";
+                }
+
+                return lvlsToLoad;
+            } else
+            {
+                throw new Exception("The level folder does not exist!");
+            }
         }
     }
 }

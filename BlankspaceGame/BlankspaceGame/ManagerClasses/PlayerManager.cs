@@ -64,7 +64,7 @@ namespace BlankspaceGame
 
         static public int HighScore
         {
-            get { return highScore;}
+            get { return highScore; }
         }
         static public string WeaponType
         {
@@ -113,7 +113,9 @@ namespace BlankspaceGame
             flashFrame = 0;
         }
 
-        //Moves the player using wasd, prevents moving off screen
+        /*
+         * Moves the player using wasd, prevents moving off screen
+         */
         static public void UpdatePlayer()
         {
             kbState = Keyboard.GetState();
@@ -136,49 +138,50 @@ namespace BlankspaceGame
                 player.Color = Color.White;
             }
 
-                // Mouse control
-                if (mouseControl)
+            // Mouse control
+            if (mouseControl)
+            {
+                // Set the player position to the mouse position
+                MouseState ms = Mouse.GetState();
+                int mX = ms.Position.X;
+                int mY = ms.Position.Y;
+                int shipX = player.X;
+                int shipY = player.Y;
+                int width = player.Position.Width;
+                int height = player.Position.Height;
+
+                Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
+
+                player.X = (int)playerPos.X;
+                player.Y = (int)playerPos.Y;
+
+                if (player.X < 0)
+                    player.X = 0;
+                if (player.X > 550)
+                    player.X = 550;
+                if (player.Y < 0)
+                    player.Y = 0;
+                if (player.Y > 850)
+                    player.Y = 850;
+            }
+            else //Keyboard controls
+            {
+                if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
                 {
-                    // Set the player position to the mouse position
-                    MouseState ms = Mouse.GetState();
-                    int mX = ms.Position.X;
-                    int mY = ms.Position.Y;
-                    int shipX = player.X;
-                    int shipY = player.Y;
-                    int width = player.Position.Width;
-                    int height = player.Position.Height;
-
-                    Vector2 playerPos = Vector2.Lerp(new Vector2(shipX, shipY), new Vector2(mX - width / 2, mY - height / 2), mouseMoveSpeed * (1f / 60f));
-
-                    player.X = (int)playerPos.X;
-                    player.Y = (int)playerPos.Y;
-
-                    if (player.X < 0)
-                        player.X = 0;
-                    if (player.X > 550)
-                        player.X = 550;
-                    if (player.Y < 0)
-                        player.Y = 0;
-                    if (player.Y > 850)
-                        player.Y = 850;
-                } else
+                    player.Y -= 6;
+                }
+                if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
                 {
-                    if (kbState.IsKeyDown(Keys.W) && player.Y >= 0)
-                    {
-                        player.Y -= 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.S) && player.Y <= 850)
-                    {
-                        player.Y += 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
-                    {
-                        player.X -= 6;
-                    }
-                    if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
-                    {
-                        player.X += 6;
-                    }
+                    player.Y += 6;
+                }
+                if (kbState.IsKeyDown(Keys.A) && player.X >= 0)
+                {
+                    player.X -= 6;
+                }
+                if (kbState.IsKeyDown(Keys.D) && player.X <= 550)
+                {
+                    player.X += 6;
+                }
             }
             blankSpaceBomb();
             // Removes health for colliding with projectiles
@@ -195,7 +198,10 @@ namespace BlankspaceGame
             int collidedIndexE = CheckEnemyCollision();
             if (collidedIndexE != -1 && iFrame == 0)
             {
-                EnemyManager.Enemies.RemoveAt(collidedIndexE);
+                if (EnemyManager.Enemies[collidedIndexE].Type != EnemyType.Boss)
+                {
+                    EnemyManager.Enemies.RemoveAt(collidedIndexE);
+                }
                 player.Damage(1);
                 player.DamageTick = 1;
                 iFrame = 5;
@@ -206,21 +212,23 @@ namespace BlankspaceGame
             if (collidedIndexPi != -1)
             {
                 if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 1)
-                {                    
+                {
                     player.Health++;
                 }
                 else if (PickupManager.TriggerEffect(PickupManager.Pickups[collidedIndexPi]) == 2)
                 {
-                    player.Health--;
-                    
+                    player.Damage(1);
+                    iFrame = 5;
+                    player.HitSound.Play();
                 }
                 PickupManager.RemovePickAt(collidedIndexPi);
             }
-
             pKbState = Keyboard.GetState();
         }
 
-        // Draw method for player and effects
+        /*
+         * Draw method for player and effects
+         */
         public static void DrawPlayer(SpriteBatch sb)
         {
             // handle the texture first
@@ -231,7 +239,8 @@ namespace BlankspaceGame
             else if (X < lastX)
             {
                 player.SetTexture(moveLeft);
-            } else
+            }
+            else
             {
                 player.SetTexture(idle);
             }
@@ -248,14 +257,16 @@ namespace BlankspaceGame
             }
             if (flashFrame > 0)
             {
-                sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(100, 100, 100, flashFrame*2));
+                sb.Draw(solidTexture, new Rectangle(0, 0, 600, 900), new Color(100, 100, 100, flashFrame * 2));
             }
 
             // last x
             lastX = X;
         }
 
-        // Weapon firing code
+        /*
+         * Weapon firing code
+         */
         static public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
         {
             if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
@@ -270,7 +281,9 @@ namespace BlankspaceGame
             return false;
         }
 
-        //Checks if player is trying to switch weapon 
+        /*
+         * Checks if player is trying to switch weapon 
+         */
         static public bool CheckSwitchWeapon()
         {
             kbState = Keyboard.GetState();
@@ -281,7 +294,10 @@ namespace BlankspaceGame
             pKbState = Keyboard.GetState();
             return false;
         }
-        //Changes weapon type by pressing 1 2 or 3
+
+        /*
+         * Changes weapon type by pressing 1 2 or 3
+         */
         static public Weapon SwitchWeapon()
         {
             Weapon returnWep = new Weapon(Firetype.Dual, Firerate.Fast, Firecolor.Red);
@@ -297,7 +313,7 @@ namespace BlankspaceGame
                 weaponType = "Shotgun";
             }
             if (kbState.IsKeyDown(Keys.D3))
-            {   
+            {
                 returnWep = new Weapon(Firetype.Beam, Firerate.Fast, Firecolor.Red);
                 weaponType = "Beam";
             }
@@ -312,11 +328,14 @@ namespace BlankspaceGame
             pKbState = Keyboard.GetState();
             return returnWep;
         }
-        //Triggers BlankSpace bomb with q, cleaing projectiles
+
+        /*
+         * Triggers BlankSpace bomb with q, clearing projectiles
+         */
         static public void blankSpaceBomb()
         {
             kbState = Keyboard.GetState();
-            if ((pKbState.IsKeyDown(Keys.Q) == false && kbState.IsKeyDown(Keys.Q) == true) && blankSpace>0)
+            if ((pKbState.IsKeyDown(Keys.Q) == false && kbState.IsKeyDown(Keys.Q) == true) && blankSpace > 0)
             {
                 player.BlankSound.Play();
                 flashFrame = 20;
@@ -326,12 +345,17 @@ namespace BlankspaceGame
             pKbState = Keyboard.GetState();
         }
 
+        /*
+         * Shakes the screen when necessary
+         */ 
         static public void ScreenShakeMethod(int amt)
         {
             screenShake += amt;
         }
 
-        //Lowers players health by 1 when shot
+        /*
+         * Lowers players health by 1 when shot
+         */
         static public int CheckBulletCollision()
         {
             for (int i = ProjectileManager.Projectiles.Count - 1; i >= 0; i--)
@@ -348,7 +372,9 @@ namespace BlankspaceGame
             return -1;
         }
 
-        //Lowers players health by 1 when colliding with enemy
+        /*
+        * Lowers players health by 1 when colliding with enemy
+        */
         static public int CheckEnemyCollision()
         {
             for (int i = EnemyManager.Enemies.Count - 1; i >= 0; i--)
@@ -362,7 +388,9 @@ namespace BlankspaceGame
             return -1;
         }
 
-        //Checks for pickup collision
+        /*
+         * Checks for pickup collision
+         */
         public static int CheckPickupCollision()
         {
             for (int i = PickupManager.Pickups.Count - 1; i >= 0; i--)
@@ -370,12 +398,14 @@ namespace BlankspaceGame
                 if (PickupManager.Pickups[i].Colliding(player))
                 {
                     return i;
-                }    
+                }
             }
             return -1;
         }
 
-        // Loads playermanager content
+        /*
+         * Loads playermanager content
+         */
         static public void LoadContent(Game game)
         {
             solidTexture = game.Content.Load<Texture2D>("Effects/solidTexture");
@@ -388,7 +418,9 @@ namespace BlankspaceGame
             player.BlankSound = game.Content.Load<SoundEffect>("Sounds/blankBomb");
         }
 
-        //Saves high score 
+        /*
+         * Saves High Score
+         */ 
         static public void SetHighScore()
         {
             if (score > highScore)

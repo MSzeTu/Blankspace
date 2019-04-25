@@ -68,7 +68,7 @@ namespace BlankspaceGame
             enemyBasic = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
             enemyShotgun = g.Content.Load<Texture2D>("Enemy/EnemyShotgun");
             enemyTank = g.Content.Load<Texture2D>("Enemy/EnemyTank");
-            enemyBoss = g.Content.Load<Texture2D>("Enemy/EnemyBasic");
+            enemyBoss = g.Content.Load<Texture2D>("Enemy/Boss");
             box = g.Content.Load<Texture2D>("Effects/solidTexture");
             projectiles = g.Content.Load<Texture2D>("Projectiles/Projectile");
             hitEnemy = g.Content.Load<SoundEffect>("Sounds/Explosion");

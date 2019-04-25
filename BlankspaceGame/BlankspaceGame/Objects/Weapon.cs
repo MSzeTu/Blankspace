@@ -57,7 +57,9 @@ namespace BlankspaceGame
             }
         }
 
-        // Constructor
+        /*
+         * Constructor
+         */
         public Weapon(Firetype t, Firerate r, Firecolor c)
         {
             type = t;
@@ -65,7 +67,9 @@ namespace BlankspaceGame
             color = c;
         }
 
-        // Fire method, called when space is pressed and will create bullets according to the components
+        /*
+         * Fire method, called when space is pressed and will create bullets according to the components
+         */
         public void Fire()
         {
             // Sets the x and y to player position
@@ -97,7 +101,9 @@ namespace BlankspaceGame
             }
         }
 
-        // Returns the cooldown in ticks of the weapon
+        /*
+         *  Returns the Cooldown of the weapon
+         */
         public int GetCooldown()
         {
             int cd = 0;
@@ -136,7 +142,9 @@ namespace BlankspaceGame
             return cd;
         }
 
-        // Returns the damage of the weapon
+        /*
+         * Returns the damage of the weapon
+         */
         public int GetDamage()
         {
             int dmg = 0;
@@ -174,7 +182,9 @@ namespace BlankspaceGame
             return dmg;
         }
 
-        // Loads the textures into the object
+        /*
+         * Loads the textures into the object
+         */
         public void LoadTextures(Game1 game)
         {
             dual = game.Content.Load<Texture2D>("Projectiles/redlaser");
