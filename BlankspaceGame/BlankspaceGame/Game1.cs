@@ -36,28 +36,38 @@ namespace BlankspaceGame
     }
     public class Game1 : Game
     {
+        // Holds if music is playing
         Boolean isPlaying;
+        // Graphics objects
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        // Songs
         Song song;
         Song pauseSong;
         //Keyboard objects to handle key presses
         KeyboardState kbState;
         KeyboardState pKbState;
+        // The game state
         GameState gState;
+        // Player textures
         Texture2D player;
         Texture2D projectile;
+        // Menu textures
         Texture2D mainMenu;
         Texture2D win;
         Texture2D pause;
         Texture2D lose;
         Texture2D instructions;
+        // Player which will be passed into player manager
         Player playerObject;
-        private SpriteFont arial12;// spritefont
-        private SpriteFont arial24;// spritefont
-        private SpriteFont arial18;// spritefont
+        // Fonts
+        private SpriteFont arial12;
+        private SpriteFont arial24;
+        private SpriteFont arial18;
+        // Background
         Texture2D BackDrop;
         Rectangle backLoc;
+        // Current weapon
         Weapon wep;
         // Buttons
         Button buttonStart;
@@ -84,11 +94,14 @@ namespace BlankspaceGame
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Sets gamestate and initial player vars
             gState = GameState.Menu;
             playerObject = new Player(new Rectangle(275, 800, 48, 40), player);
             isPlaying = false;
+
+            // Sets up the buttons
             InitializeButtons(this);
+
             // Initializes the manager classes
             EnemyManager.Initialize();
             PlayerManager.Initialize(playerObject);
@@ -97,6 +110,7 @@ namespace BlankspaceGame
             PickupManager.Intialize();
             ParalaxManager.Initialize();
 
+            // Sets the position of the background
             backLoc = new Rectangle(0, 0, 600, 1250);
 
             base.Initialize();
@@ -157,55 +171,62 @@ namespace BlankspaceGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
+            
             //Switch Statement to control screen based on current gamestate
             switch (gState)
             {
-                //Switches off Menu when Start(Enter) is pressed 
+                // Main menu, goes to instructions and game
                 case GameState.Menu:
                     {
+                        // Button positions
                         buttonStart.Position = new Rectangle(150, 400, 300, 100);
                         buttonInstructions.Position = new Rectangle(150, 550, 300, 100);
-                        kbState = Keyboard.GetState();
+                        // Goes to the game
                         if (buttonStart.Clicked)
                         {
-                            GameReset();// player stats reset for new game
+                            GameReset();
                             gState = GameState.Game;
                         }
+                        // Goes to instructions
                         if (buttonInstructions.Clicked)
                         {
                             gState = GameState.Instructions;
                         }
-                        pKbState = Keyboard.GetState();
                         break;
                     }
+                    // Instruction menu
                 case GameState.Instructions:
                     {
+                        // Sets button positions
                         buttonSwap.Position = new Rectangle(350, 720, 200, 67);
                         buttonBack.Position = new Rectangle(350, 800, 200, 67);
                         
+                        // Back button goes to menu
                         if (buttonBack.Clicked)
                         {
                             gState = GameState.Menu;
                         }
+                        // Changes control scheme
                         if (buttonSwap.Clicked)
                         {
                             PlayerManager.MouseControl = !PlayerManager.MouseControl;
                         }
                         break;
                     }
-                //Sets up enemies, players, and fires projectiles when space is pressed. 
+                // All the game logic, most is handled by managers
                 case GameState.Game:
                     {
+                        // Updates the wavemanager and the keyboard state
                         WaveManager.WaveUpdate();
                         kbState = Keyboard.GetState();
+                        // Updates the music
                         if (isPlaying == false)
                         {
                             MediaPlayer.Play(song);
                             MediaPlayer.IsRepeating = true;
                             isPlaying = true;
                         }
+                        // Changes music if M key is pressed
                         if (kbState.IsKeyDown(Keys.M) && isPlaying == true)
                         {
                             MediaPlayer.Stop();
@@ -213,26 +234,31 @@ namespace BlankspaceGame
                             MediaPlayer.IsRepeating = true;
 
                         }
+                        // Updates each manager
                         PickupManager.UpdatePickup();
                         ProjectileManager.UpdateProjectiles();
                         EnemyManager.UpdateEnemies();
                         PlayerManager.UpdatePlayer();
+                        // If the space key is pressed, fire
                         if (PlayerManager.CheckFireWeapon(kbState, wep))
                         {
                             wep.Fire();
                             playerObject.ShootSound.Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
                         }
+                        // Checks if player is dead
                         if (playerObject.Health <= 0)
                         {
                             PlayerManager.SetHighScore();
                             gState = GameState.GameOver;
                         }
+                        // Pauses if P pressed
                         if (kbState.IsKeyDown(Keys.P))
                         {
                             MediaPlayer.Stop();
                             isPlaying = false;
                             gState = GameState.Pause;
                         }
+                        // Checks if weapon should be swapped
                         if (PlayerManager.CheckSwitchWeapon())
                         {
                             wep = PlayerManager.SwitchWeapon();
@@ -241,10 +267,12 @@ namespace BlankspaceGame
                         pKbState = Keyboard.GetState();
                         break;
                     }
-                //Freezes game until P is pressed again
+                // Freezes game until unpause button is pressed
                 case GameState.Pause:
                     {
+                        // Sets button position
                         buttonResume.Position = new Rectangle(150, 600, 300, 100);
+                        // Changes the music
                         if (isPlaying == false)
                         {
                             MediaPlayer.Play(pauseSong);
@@ -252,6 +280,7 @@ namespace BlankspaceGame
                             isPlaying = true;
 
                         }
+                        // Resumes if the button is pressed
                         if (buttonResume.Clicked)
                         {
                             isPlaying = false;
@@ -259,40 +288,33 @@ namespace BlankspaceGame
                         }
                         break;
                     }
-                //Moves back to menu if button is pressed, or restarts if chosen.
+                // Shows score and allows player to return to mainmenu
                 case GameState.GameOver:
                     {
+                        // Sets button and resets wavemanager
                         WaveManager.ReloadWaves();
                         buttonBack.Position = new Rectangle(150, 700, 300, 100);
                         
+                        // When back button clicked, go to menu
                         if (buttonBack.Clicked)
                         {
                             gState = GameState.Menu;
                         }
-                        //if (SingleKeyPress(Keys.R) == true)
-                        //{
-                        //    GameReset();
-                        //    gState = GameState.Game;
-                        //}
                         break;
                     }
                 //Does the same thing as the Game Over state
                 case GameState.Win:
                     {
+                        // Sets the position of the button and resets wavemanager
                         WaveManager.ReloadWaves();
                         buttonBack.Position = new Rectangle(150, 700, 300, 100);
 
+                        // When back button clicked, go to menu
                         kbState = Keyboard.GetState();
                         if (buttonBack.Clicked)
                         {
                             gState = GameState.Menu;
                         }
-                        //if (SingleKeyPress(Keys.R) == true)
-                        //{
-                        //    GameReset();
-                        //    gState = GameState.Game;
-                        //}
-                        pKbState = Keyboard.GetState();
                         break;
                     }
             }
@@ -326,11 +348,10 @@ namespace BlankspaceGame
         {
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
-
             Random rng = new Random();
 
             int shake = (int)PlayerManager.ScreenShake + ((wep != null) ? (wep.FireType == Firetype.Erin) ? 2 : 0 : 0);
+            // Spritebatch with the screenshake matrix passed in
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 null,
@@ -342,11 +363,12 @@ namespace BlankspaceGame
                 );
 
 
-            //Draws based on the current Gamestate
+            // Draws based on the current Gamestate
             switch (gState)
             {
                 case GameState.Menu:
                     {
+                        // Background and mouse
                         IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(mainMenu, new Rectangle(0, 0, 600, 900), Color.White);
@@ -357,8 +379,10 @@ namespace BlankspaceGame
                     }
                 case GameState.Instructions:
                     {
+                        // Background and mouse
                         IsMouseVisible = true;
                         spriteBatch.Draw(instructions, new Rectangle(0, 0, 600, 900), Color.White);
+                        // Draws buttons
                         buttonBack.Draw(spriteBatch);
                         buttonSwap.Draw(spriteBatch);
                         // Draws the current control method
@@ -373,14 +397,17 @@ namespace BlankspaceGame
                     }
                 case GameState.Game:
                     {
+                        // Background and mouse
                         IsMouseVisible = false;
+                        GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(BackDrop, backLoc, Color.White);
+                        // Draws each manager
                         ParalaxManager.Update(spriteBatch);
                         ProjectileManager.DrawProjectiles(spriteBatch);
                         EnemyManager.DrawEnemies(spriteBatch);
                         PlayerManager.DrawPlayer(spriteBatch);
                         PickupManager.DrawPickups(spriteBatch);
-                        GraphicsDevice.Clear(Color.Black);
+                        // Drawing UI elements
                         spriteBatch.DrawString(arial12, "Health: " + playerObject.Health, new Vector2(10, 855), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, "BlankSpaces: " + PlayerManager.BlankSpace, new Vector2(10, 875), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
@@ -394,9 +421,11 @@ namespace BlankspaceGame
                     }
                 case GameState.Pause:
                     {
+                        // Mouse and background
                         IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(pause, new Rectangle(0, 0, 600, 900), Color.White);
+                        // Draws button and current scores
                         buttonResume.Draw(spriteBatch);
                         spriteBatch.DrawString(arial18, "Current score: " + PlayerManager.Score, new Vector2(200, 400), Color.Teal); // add total score var
                         spriteBatch.DrawString(arial18, $"Current level: {WaveManager.CurrentLevel + 1}", new Vector2(200, 475), Color.Teal); // add Current Level var
@@ -404,10 +433,11 @@ namespace BlankspaceGame
                     }
                 case GameState.GameOver:
                     {
+                        // Mouse and background
                         IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(lose, new Rectangle(0, 0, 600, 900), Color.White);
-                        // last game stats
+                        // Draws button and final score
                         spriteBatch.DrawString(arial18, "Your final score: " + PlayerManager.Score, new Vector2(200, 400), Color.DarkRed); // add total score var
                         spriteBatch.DrawString(arial18, "The highscore is: " + PlayerManager.HighScore, new Vector2(200, 475), Color.DarkRed); // add High Score var
                         buttonBack.Draw(spriteBatch);
@@ -415,11 +445,11 @@ namespace BlankspaceGame
                     }
                 case GameState.Win:
                     {
-                        IsMouseVisible = true;
-                        // Win UI
+                        // Mouse and background
                         IsMouseVisible = true;
                         GraphicsDevice.Clear(Color.Black);
                         spriteBatch.Draw(win, new Rectangle(0, 0, 600, 900), Color.White);
+                        // Draws button and final score
                         spriteBatch.DrawString(arial12, "Your final score: " + PlayerManager.Score, new Vector2(220, 400), Color.Teal); // add total score var
                         spriteBatch.DrawString(arial12, "The highscore is: " + PlayerManager.HighScore, new Vector2(220, 475), Color.Teal); // add High Score var
                         buttonBack.Draw(spriteBatch);
@@ -463,7 +493,7 @@ namespace BlankspaceGame
             }
         }
 
-        // Creates the buttons, edit the positions here!
+        // Creates the buttons, edit the textures here!
         protected void InitializeButtons(Game1 g)
         {
             buttonStart = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/startButton"));
