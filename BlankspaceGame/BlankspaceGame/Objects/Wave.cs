@@ -5,7 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+/*Name: Blank Space
+ * Class: IGME106
+ * Author: WIP
+ * Purpose: Base class for individual waves
+ * Recent Changes: Created header
+ */
 namespace BlankspaceGame
 {
     class Wave
@@ -26,6 +31,9 @@ namespace BlankspaceGame
             tiles[x, y] = type;
         }
 
+        /*
+         * Spawns the enemies in the wave
+         */ 
         public void SpawnEnemys()
         {
             int width = tiles.GetLength(0), height = tiles.GetLength(1);

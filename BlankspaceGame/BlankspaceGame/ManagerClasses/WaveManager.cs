@@ -96,7 +96,9 @@ namespace BlankspaceGame
             gameWon = false;
         }
 
-        // Updates the wave and delay
+        /*
+         * Updates the wave and delay
+         */
         public static void WaveUpdate()
         {
             currentTime += (1f / 60f);
@@ -188,6 +190,9 @@ namespace BlankspaceGame
             br.Close();
         }
 
+        /*
+         * Reloads waves after game
+         */ 
         public static void ReloadWaves()
         {
             currentTime = 0;
