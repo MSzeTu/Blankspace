@@ -11,6 +11,9 @@ namespace BlankspaceGame
 {
     class Button : GameObject
     {
+        // Mousestate trackers
+        MouseState mState;
+        MouseState prevState;
         // Constructor
         public Button(Rectangle rect, Texture2D text) : base(rect, text)
         { }
@@ -20,12 +23,15 @@ namespace BlankspaceGame
         {
             get
             {
-                MouseState mState = Mouse.GetState();
+                prevState = mState;
+                mState = Mouse.GetState();
                 if (
                     // Checks if location is valid
                     mState.X > Position.X && mState.X < Position.X + Position.Width && mState.Y > Position.Y && mState.Y < Position.Y + Position.Height
                     // Checks if the mouse is down
                     && mState.LeftButton == ButtonState.Pressed
+                    // Checks if it was not already pressed
+                    && prevState.LeftButton == ButtonState.Released
                     )
                 {
                     return true;

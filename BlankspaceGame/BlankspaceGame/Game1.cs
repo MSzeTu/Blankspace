@@ -51,6 +51,7 @@ namespace BlankspaceGame
         Texture2D win;
         Texture2D pause;
         Texture2D lose;
+        Texture2D instructions;
         Player playerObject;
         private SpriteFont arial12;// spritefont
         private SpriteFont arial24;// spritefont
@@ -63,6 +64,7 @@ namespace BlankspaceGame
         Button buttonInstructions;
         Button buttonResume;
         Button buttonBack;
+        Button buttonSwap;
 
         public Game1()
         {
@@ -132,6 +134,7 @@ namespace BlankspaceGame
             pause = Content.Load<Texture2D>("Menus/PauseMenu");
             win = Content.Load<Texture2D>("Menus/Win");
             lose = Content.Load<Texture2D>("Menus/Lose");
+            instructions = Content.Load<Texture2D>("Menus/Instructions");
 
             ParalaxManager.SetTexture(BackDrop);
         }
@@ -179,6 +182,17 @@ namespace BlankspaceGame
                     }
                 case GameState.Instructions:
                     {
+                        buttonSwap.Position = new Rectangle(350, 720, 200, 67);
+                        buttonBack.Position = new Rectangle(350, 800, 200, 67);
+                        
+                        if (buttonBack.Clicked)
+                        {
+                            gState = GameState.Menu;
+                        }
+                        if (buttonSwap.Clicked)
+                        {
+                            PlayerManager.MouseControl = !PlayerManager.MouseControl;
+                        }
                         break;
                     }
                 //Sets up enemies, players, and fires projectiles when space is pressed. 
@@ -344,6 +358,17 @@ namespace BlankspaceGame
                 case GameState.Instructions:
                     {
                         IsMouseVisible = true;
+                        spriteBatch.Draw(instructions, new Rectangle(0, 0, 600, 900), Color.White);
+                        buttonBack.Draw(spriteBatch);
+                        buttonSwap.Draw(spriteBatch);
+                        // Draws the current control method
+                        if (PlayerManager.MouseControl == true)
+                        {
+                            spriteBatch.DrawString(arial12, "Using mouse controls", new Vector2(400, 680), Color.White);
+                        } else
+                        {
+                            spriteBatch.DrawString(arial12, "Using keyboard controls", new Vector2(400, 680), Color.White);
+                        }
                         break;
                     }
                 case GameState.Game:
@@ -360,6 +385,8 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial12, "BlankSpaces: " + PlayerManager.BlankSpace, new Vector2(10, 875), Color.White); // add Health var
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
                         spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
+                        // Draws the wave incoming alert
+                        if (true)
                         break;
                     }
                 case GameState.Pause:
@@ -440,6 +467,7 @@ namespace BlankspaceGame
             buttonBack = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/backButton"));
             buttonResume = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/resumeButton"));
             buttonInstructions = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/instructionsButton"));
+            buttonSwap = new Button(new Rectangle(0, 0, 300, 100), g.Content.Load<Texture2D>("Buttons/buttonSwap"));
         }
     }
 }
