@@ -386,7 +386,10 @@ namespace BlankspaceGame
                         spriteBatch.DrawString(arial12, $"Level: {WaveManager.CurrentLevel + 1}", new Vector2(515, 855), Color.White); // add Current Level var
                         spriteBatch.DrawString(arial12, "Score: " + PlayerManager.Score, new Vector2(515, 875), Color.White); // add Current Score var
                         // Draws the wave incoming alert
-                        if (true)
+                        if (WaveManager.IsChangingLevel)
+                        {
+                            spriteBatch.DrawString(arial24, "INCOMING WAVE!!!", new Vector2(200, 400), Color.Red);
+                        }
                         break;
                     }
                 case GameState.Pause:

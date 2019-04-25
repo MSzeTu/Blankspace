@@ -21,14 +21,7 @@ namespace BlankspaceGame
     {
 
         // Paths of the levels
-        private static string[] levelsToLoad =
-        {
-            ".\\Content\\Levels\\Level1.wave",
-            ".\\Content\\Levels\\level2.wave",
-            ".\\Content\\Levels\\level3.wave",
-            //".\\Content\\Levels\\ouch.wave"
-
-        };
+        private static string[] levelsToLoad;
 
         // Timing
         private static float currentTime;
@@ -72,10 +65,7 @@ namespace BlankspaceGame
         {
             get
             {
-                if (currentTime < 0)
-                    return true;
-                else
-                    return false;
+                return toNextLevel;
             }
         }
 
