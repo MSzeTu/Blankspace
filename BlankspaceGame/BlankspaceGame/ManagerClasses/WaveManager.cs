@@ -65,7 +65,10 @@ namespace BlankspaceGame
         {
             get
             {
-                return toNextLevel;
+                if (EnemyManager.EnemyCount <= 0 && currentTime <= 0)
+                    return true;
+                else
+                    return false;
             }
         }
 
@@ -91,14 +94,14 @@ namespace BlankspaceGame
          */
         public static void WaveUpdate()
         {
+            if(!toNextLevel)
             currentTime += (1f / 60f);
 
             if (currentLevel < LevelCount)
             {
-                if (currentTime >= levels[currentLevel].Waves[currentWave].Delay)
+                if (currentTime >= levels[currentLevel].Waves[currentWave].Delay && !toNextLevel)
                 {
                     levels[currentLevel].Waves[currentWave].SpawnEnemys();
-
                     currentTime = 0;
 
                     if (currentWave < levels[currentLevel].WaveCount - 1)
@@ -115,9 +118,8 @@ namespace BlankspaceGame
                     }
                 }
 
-                if (levels[currentLevel].Complete(currentWave) && currentTime >= 0 && toNextLevel == true)
+                if (levels[currentLevel].Complete(currentWave) && toNextLevel == true && EnemyManager.EnemyCount <= 0)
                 {
-                    currentTime = 0;
                     currentWave = 0;
                     currentLevel++;
                     toNextLevel = false;
