@@ -95,7 +95,7 @@ namespace BlankspaceGame
                     break;
                 case Firetype.Erin:
                     ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x - 75, y - 1500, 100, 1500), beam, true, true);
-                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x + 75, y - 1500, 100, 1500), beam, true, true);
+                    ProjectileManager.AddProjectile(new Vector2(0, 1), 0, GetDamage(), new Rectangle(x + 50, y - 1500, 100, 1500), beam, true, true);
                     PlayerManager.ScreenShake += (PlayerManager.ScreenShake < 40) ? 5 : 0;
                     break;
             }
