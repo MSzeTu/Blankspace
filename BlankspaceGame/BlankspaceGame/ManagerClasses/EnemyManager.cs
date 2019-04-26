@@ -128,8 +128,14 @@ namespace BlankspaceGame
                 Point left = new Point(i.X + i.Position.Width / 2 - 25, i.Y + i.Position.Height);
                 Point right = new Point(i.X + i.Position.Width / 2 + 25, i.Y + i.Position.Height);
 
+                // Normal enemy firing point
+                Point center = new Point(i.X + i.Position.Width / 2, i.Y + i.Position.Height);
+
+                // Target for the shots (Center of the player)
+                Point playerTarget = new Point(PlayerManager.X + PlayerManager.Position.Width / 2, PlayerManager.Y + PlayerManager.Position.Height / 2);
+
                 i.Move();
-                // If damage tick is not 0, decrement and set colors
+                // If damage tick is not 0, decrement and set colors (This means the enemy is recovering from being hit)
                 if (i.DamageTick > 0)
                 {
                     i.DamageTick -= 1;
@@ -146,14 +152,14 @@ namespace BlankspaceGame
                     case 1:
                         // Fires one projectile at the player
                         enemyShoots.Play(volume: 0.3f, pitch: 0.0f, pan: 0.0f);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - center.X, playerTarget.Y - center.Y), 10, 1, new Rectangle(center, new Point(10, 10)), projectiles, false, false);
                         break;
                     case 2:
                         // Fires a cone of 3 projectiles at the player
                         enemyShoots.Play(volume: 0.3f, pitch: 0.0f, pan: 0.0f);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(i.X + i.Position.Width / 2, i.Y + i.Position.Height, 10, 10), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - center.X + 50, playerTarget.Y - center.Y), 10, 1, new Rectangle(center, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - center.X, playerTarget.Y - center.Y), 10, 1, new Rectangle(center, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - center.X - 50, playerTarget.Y - center.Y), 10, 1, new Rectangle(center, new Point(10, 10)), projectiles, false, false);
                         break;
                     case 3:
                         // Fires a circle of projectiles around the enemy
@@ -172,20 +178,20 @@ namespace BlankspaceGame
                     case 4:
                         // BOSS version of case 1, firing one bullet
                         enemyShoots.Play(volume: 0.3f, pitch: 0.0f, pan: 0.0f);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - left.X, playerTarget.Y - left.Y), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - right.X, playerTarget.Y - right.Y), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
                         break;
                     case 5:
                         // BOSS version of case 2, shotgun attack
                         enemyShoots.Play(volume: 0.3f, pitch: 0.0f, pan: 0.0f);
                         // This section fires the left side
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - left.X + 50, playerTarget.Y - left.Y), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - left.X, playerTarget.Y - left.Y), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - left.X - 50, playerTarget.Y - left.Y), 10, 1, new Rectangle(left, new Point(10, 10)), projectiles, false, false);
                         // This section fires the right side
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X + 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
-                        ProjectileManager.AddProjectile(new Vector2(PlayerManager.X - i.X - 50, PlayerManager.Y - i.Y + 27), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - right.X + 50, playerTarget.Y - right.Y), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - right.X, playerTarget.Y - right.Y), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
+                        ProjectileManager.AddProjectile(new Vector2(playerTarget.X - right.X - 50, playerTarget.Y - right.Y), 10, 1, new Rectangle(right, new Point(10, 10)), projectiles, false, false);
                         break;
                     default:
                         // Do nothing

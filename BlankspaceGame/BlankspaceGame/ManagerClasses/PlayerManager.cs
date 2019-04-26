@@ -84,6 +84,10 @@ namespace BlankspaceGame
         {
             get { return player.Y; }
         }
+        static public Rectangle Position
+        {
+            get { return player.Position; }
+        }
         static public int IFrame
         {
             get { return iFrame; }
