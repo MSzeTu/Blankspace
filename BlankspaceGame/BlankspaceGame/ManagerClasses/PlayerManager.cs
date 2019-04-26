@@ -269,7 +269,7 @@ namespace BlankspaceGame
          */
         static public bool CheckFireWeapon(KeyboardState kbState, Weapon wep)
         {
-            if (kbState.IsKeyDown(Keys.Space) && currentCD == 0)
+            if ((kbState.IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed) && currentCD == 0)
             {
                 currentCD = wep.GetCooldown();
                 return true;

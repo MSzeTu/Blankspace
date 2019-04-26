@@ -65,7 +65,7 @@ namespace BlankspaceGame
         {
             get
             {
-                if (EnemyManager.EnemyCount <= 0 && currentTime <= 0)
+                if (EnemyManager.EnemyCount <= 0 && currentTime <= 0 && currentLevel < LevelCount)
                     return true;
                 else
                     return false;
@@ -94,8 +94,8 @@ namespace BlankspaceGame
          */
         public static void WaveUpdate()
         {
-            if(!toNextLevel)
-            currentTime += (1f / 60f);
+            if (!toNextLevel)
+                currentTime += (1f / 60f);
 
             if (currentLevel < LevelCount)
             {
