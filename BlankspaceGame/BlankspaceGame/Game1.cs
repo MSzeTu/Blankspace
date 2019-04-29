@@ -388,10 +388,10 @@ namespace BlankspaceGame
                         // Draws the current control method
                         if (PlayerManager.MouseControl == true)
                         {
-                            spriteBatch.DrawString(arial12, "Using mouse controls", new Vector2(400, 680), Color.White);
+                            spriteBatch.DrawString(arial12, "Using mouse controls", new Vector2(390, 680), Color.White);
                         } else
                         {
-                            spriteBatch.DrawString(arial12, "Using keyboard controls", new Vector2(400, 680), Color.White);
+                            spriteBatch.DrawString(arial12, "Using keyboard controls", new Vector2(390, 680), Color.White);
                         }
                         break;
                     }
@@ -415,7 +415,7 @@ namespace BlankspaceGame
                         // Draws the wave incoming alert
                         if (WaveManager.IsChangingLevel)
                         {
-                            spriteBatch.DrawString(arial24, "INCOMING WAVE!!!", new Vector2(200, 400), Color.Red);
+                            spriteBatch.DrawString(arial24, "WAVE COMPLETE!!!", new Vector2(150, 400), Color.Red);
                         }
                         break;
                     }
